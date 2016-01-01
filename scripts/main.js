@@ -5,6 +5,9 @@ $(function () {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').hide().fadeIn('slow', function () {
+				if ($('#conversation-box > .conversation').length > 2) {
+					$('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+				}
 				app(y);
 			});
 		}
@@ -24,10 +27,6 @@ $(function () {
 		}
 	}
 	function say (r) {
-		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').hide().fadeIn('slow', function () {
-			if ($('#conversation-box > .conversation').length > 2) {
-				$('html, body').animate({ scrollTop: $(document).height() }, 'slow');
-			}
-		});
+		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').hide().fadeIn('slow');
 	}
 });
