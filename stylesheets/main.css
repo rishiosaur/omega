@@ -1,0 +1,40 @@
+body,
+html {
+	font-family: Roboto, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 2.5vh;
+	height: 100%;
+	width: 100%;
+}
+input {
+	display: block;
+	height: 20%;
+	vertical-align: middle;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	padding: 0.75%;
+}
+#container {
+	background-color: #fff;
+	bottom: 0;
+	border-top: 1px solid #566473;
+	height: 15%;
+	position: fixed;
+	width: 100%;
+}
+#conversation-box {
+	margin: 0 10%;
+	padding-top: 5%;
+}
+.conversation {
+	padding: 2%;
+}
+.you {
+	border-left: 0.5vw solid #566473;
+}
+.fuchsia {
+	float: right;
+	border-right: 0.5vw solid #566473;
+}
