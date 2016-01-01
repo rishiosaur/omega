@@ -39,9 +39,17 @@ $(function () {
 			}
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
-			say('Searching Google for "' + newtab + '"');
+			say('Searching Google for "' + newtab + '"...');
 			setTimeout(function () {
 				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
+			}, 1000);
+		} else {
+			say('I apologize, but I wasn\'t sure what you were asking of me.');
+			setTimeout(function () {
+				say('Searching Google for "' + y + '"...');
+				setTimeout(function () {
+					window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
+				}, 1000);
 			}, 1000);
 		}
 	}
