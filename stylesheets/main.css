@@ -3,6 +3,9 @@ body {
 	font-size: 2vh;
 	font-weight: 300;
 }
+b {
+	font-weight: 500;
+}
 input {
 	display: block;
 	height: 20%;
@@ -53,4 +56,8 @@ a:hover {
 }
 .box .rated, .box .reviews {
 	font-weight: 500;
+}
+
+.conversation, .box {
+	display: none;
 }

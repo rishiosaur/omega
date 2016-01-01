@@ -22,6 +22,10 @@ You can ask Fuchsia if you should watch something using the key phrase, "should 
 
 Search the web for tickets to the movie you think is perfect for you from the comfort of the Fuchsia UI (which isn't actually fuchsia, oddly). Use the key phrase, "search for".
 
+### ~~Where~~ When Am I?
+
+Find out what time it is easily, along with the date, which features the day of the week as well. Always unsure what day it is? It's more fun to find out from your virtual personal assistant!
+
 ### Clear the Log
 
-You've been talking to Fuchsia for so long that the page is totally cluttered! You have to much conversation that you won't ever look at again. Just say "clear log" or "clear logs" and start fresh again!
+You've been talking to Fuchsia for so long that the page is totally cluttered! You have to much conversation that you won't ever look at again. Just say "clear", "clear log", or "clear logs" and start fresh again!
