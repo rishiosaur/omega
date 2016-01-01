@@ -29,14 +29,20 @@ $(function () {
 			if (newtab.indexOf('.') === -1) {
 				say('Opening ' + newtab + '.com');
 				setTimeout(function () {
-					window.open('http://' + newtab + '.com', '_blank');
+					window.open('https://' + newtab + '.com', '_blank');
 				}, 1000);
 			} else {
 				say('Opening ' + newtab);
 				setTimeout(function () {
-					window.open('http://' + newtab, '_blank');
+					window.open('https://' + newtab, '_blank');
 				}, 1000);
 			}
+		} else if (y.startsWith('search for ')){
+			newtab = y.slice(11);
+			say('Searching Google for "' + newtab + '"');
+			setTimeout(function () {
+				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
+			}, 1000);
 		}
 	}
 	function say (r) {
