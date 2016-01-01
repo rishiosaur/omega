@@ -1,9 +1,6 @@
-body,
-html {
+body {
 	font-family: Roboto, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 2vh;
-	height: 100%;
-	width: 100%;
 }
 input {
 	display: block;
@@ -32,6 +29,7 @@ input {
 	width: 100%;
 }
 #conversation-box {
+	color: #566473;
 	margin: 0 10%;
 	margin-top: 5%;
 	padding-bottom: 15vw;
@@ -46,4 +44,11 @@ input {
 .fuchsia {
 	text-align: right;
 	border-right: 0.4vw solid #566473;
+}
+a {
+	color: #566473;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
 }
