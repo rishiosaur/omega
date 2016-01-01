@@ -1,5 +1,5 @@
 $(function () {
-	var y, r;
+	var y, r, newtab;
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== "") {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
@@ -24,6 +24,19 @@ $(function () {
 			}, 1000);
 		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
 			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)]);
+		} else if (y.startsWith('go to ')) {
+			newtab = y.slice(6);
+			if (newtab.indexOf('.') === -1) {
+				say('Opening ' + newtab + '.com');
+				setTimeout(function () {
+					window.open('http://' + newtab + '.com', '_blank');
+				}, 1000);
+			} else {
+				say('Opening ' + newtab);
+				setTimeout(function () {
+					window.open('http://' + newtab, '_blank');
+				}, 1000);
+			}
 		}
 	}
 	function say (r) {
