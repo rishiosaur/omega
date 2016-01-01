@@ -12,12 +12,16 @@ You can greet Fuchsia with any of the four key words (hi, hello, hey, and greeti
 
 ### Open Websites
 
-Have one large address bar to go to the website you want.
+Have one large address bar to go to the website you want. Use the key phrase, "go to".
+
+### See What's Good
+
+You can ask Fuchsia if you should watch something using the key phrase, "should I watch", and see what you should, shouldn't, and might watch.
 
 ### Search the Web
 
-Search the web for something from the comfort of the Fuchsia UI (which isn't actually fuchsia, oddly).
+Search the web for tickets to the movie you think is perfect for you from the comfort of the Fuchsia UI (which isn't actually fuchsia, oddly). Use the key phrase, "search for".
 
 ### Clear the Log
 
-You've been talking to Fuchsia for so long that the page is totally cluttered! You have to much conversation that you won't ever look at again. Well just say "clear log" or "clear logs" and start fresh!
+You've been talking to Fuchsia for so long that the page is totally cluttered! You have to much conversation that you won't ever look at again. Just say "clear log" or "clear logs" and start fresh again!
