@@ -22,7 +22,7 @@ $(function () {
 					$('#conversation-box').empty().show();
 				});
 			}, 1000);
-		} else if (y === 'hi' || y === 'hello' || y === 'hey') {
+		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
 			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)]);
 		}
 	}
