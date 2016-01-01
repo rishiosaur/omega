@@ -1,7 +1,7 @@
 body,
 html {
 	font-family: Roboto, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 2.5vh;
+	font-size: 2vh;
 	height: 100%;
 	width: 100%;
 }
@@ -32,9 +32,9 @@ input {
 	padding: 2%;
 }
 .you {
-	border-left: 0.5vw solid #566473;
+	border-left: 0.4vw solid #566473;
 }
 .fuchsia {
 	float: right;
-	border-right: 0.5vw solid #566473;
+	border-right: 0.4vw solid #566473;
 }
