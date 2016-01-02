@@ -2,6 +2,7 @@ body {
 	font-family: Roboto, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 1.5vmax;
 	font-weight: 300;
+	background-color: white;
 }
 b {
 	font-weight: 500;
@@ -21,6 +22,10 @@ input {
 }
 input:focus {
 	outline: none;
+}
+img {
+	display: none;
+	max-width: 100%;
 }
 #container {
 	bottom: 0;
@@ -50,6 +55,8 @@ input:focus {
 a {
 	color: #566473;
 	text-decoration: none;
+	cursor: hand;
+	cursor: pointer;
 }
 a:hover {
 	text-decoration: underline;
