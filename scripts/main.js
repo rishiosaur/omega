@@ -117,7 +117,7 @@ $(function () {
 			} else {
 				say('The date is <b>' + date + '</b>.');
 			}
-		} else if (y === 'toggle goodnight') {
+		} else if (y === 'toggle goodnight' || y === 'flip goodnight' || y === 'switch goodnight') {
 			say('Toggling Goodnight&mdash;brace yourself&hellip;');
 			setTimeout(function () {
 				Goodnight.toggle();
