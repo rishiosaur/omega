@@ -1,6 +1,7 @@
 $(function () {
+	'use strict';
 	FastClick.attach(document.body);
-	var y, r, newtab;
+	var y, newtab;
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== "") {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
@@ -55,8 +56,8 @@ $(function () {
 			}, 1000);
 		} else if (y.startsWith('should i watch ')) {
 			$.getJSON('https://www.omdbapi.com/?t=' + y.slice(15) + '&y=&plot=full&r=json&tomatoes=true', function (d) {
-				if (d.Reponse !== "False") {
-					var reviews = "", sum = 0, count = 0;
+				if (d.Reponse !== 'False') {
+					var reviews = '', sum = 0, count = 0;
 					if (d.Type === 'movie') {
 						d.Type = 'Film';
 					} else if (d.Type === 'series') {
@@ -86,10 +87,11 @@ $(function () {
 			});
 		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y === 'what is the date' || y === 'what date is it' || y === 'give me the date' || y === 'what is the time and date' || y === 'what is the date and time' || y === 'what is the time and the date' || y === 'what is the date and the time' || y === 'what time and date is it' || y === 'what date and time is it' || y === 'give me the time and date' || y === 'give me the date and time' || y === 'give me the time and the date' || y === 'give me the date and the time' || y === 'when am i') {
 			var now = new Date();
+			var date, time, suffix;
 			y = (y === 'when am i') ? 'time date' : y;
 			if (y.indexOf('time') !== -1) {
-				var time = [now.getHours(), now.getMinutes(), now.getSeconds()];
-				var suffix = (time[0] < 12) ? ' AM' : ' PM';
+				time = [now.getHours(), now.getMinutes(), now.getSeconds()];
+				suffix = (time[0] < 12) ? ' AM' : ' PM';
 				time[0] = (time[0] <= 12) ? time[0] : time[0] - 12;
 				time[1] = (time[1] >= 10) ? time[1] : '0' + time[1];
 				time[2] = (time[2] >= 10) ? time[2] : '0' + time[2];
@@ -98,7 +100,7 @@ $(function () {
 			if (y.indexOf('date') !== -1) {
 				var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-				var date = [now.getDay(), now.getMonth(), now.getDate() + ',', now.getFullYear()];
+				date = [now.getDay(), now.getMonth(), now.getDate() + ',', now.getFullYear()];
 				date[0] = days[date[0]];
 				date[1] = months[date[1]];
 				date = date.join(' ');
