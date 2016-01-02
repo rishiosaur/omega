@@ -41,14 +41,14 @@ $(function () {
 		} else if (y.startsWith('go to ')) {
 			newtab = y.slice(6);
 			if (newtab.indexOf('.') === -1) {
-				say('Opening ' + newtab + '.com');
+				say('Opening ' + newtab + '.com&hellip;');
 				setTimeout(function () {
-					window.open('https://' + newtab + '.com.', '_blank');
+					window.open('https://' + newtab + '.com', '_blank');
 				}, 1000);
 			} else {
-				say('Opening ' + newtab);
+				say('Opening ' + newtab + '&hellip;');
 				setTimeout(function () {
-					window.open('https://' + newtab + '.', '_blank');
+					window.open('https://' + newtab, '_blank');
 				}, 1000);
 			}
 		} else if (y.startsWith('you')) {
