@@ -32,4 +32,4 @@ Change from your light theme to your dark one, or vice-versa. This happens autom
 
 ## Clear the Log
 
-You've been talking to Fuchsia for so long that the page is totally cluttered! You have to much conversation that you won't ever look at again. Obviously, you can `clear` the log.
+You've been talking to Fuchsia for so long that the page is totally cluttered! You have too much conversation that you won't ever look at again. Obviously, you can `clear` the log.
