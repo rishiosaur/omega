@@ -83,7 +83,7 @@ $(function () {
 					say('I couldn\'t find that film.');
 				}
 			});
-		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y === 'what is the date' || y === 'what date is it' || y === 'give me the date' || y === 'what is the time and date' || y === 'what is the date and time' || y === 'what is the time and the date' || y === 'what is the date and the time' || y === 'what time and date is it' || y === 'what date and time is it' || y === 'give me the time and date' || y === 'give me the date and time' || y === 'give me the time and the date' || y === 'give me the date and the time') {
+		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y === 'what is the date' || y === 'what date is it' || y === 'give me the date' || y === 'what is the time and date' || y === 'what is the date and time' || y === 'what is the time and the date' || y === 'what is the date and the time' || y === 'what time and date is it' || y === 'what date and time is it' || y === 'give me the time and date' || y === 'give me the date and time' || y === 'give me the time and the date' || y === 'give me the date and the time' || y === 'when am i') {
 			var now = new Date();
 			if (y.indexOf('time') !== -1) {
 				var time = [now.getHours(), now.getMinutes(), now.getSeconds()];
@@ -102,7 +102,7 @@ $(function () {
 				date = date.join(' ');
 			}
 			if (y.indexOf('time') !== -1 && y.indexOf('date') !== -1) {
-				say('It is currently <b>' + date + ' - ' + time + suffix + '</b>.');
+				say('It is currently <b>' + date + ' ' + time + suffix + '</b>.');
 			} else if (y.indexOf('time') !== -1) {
 				say('The time is <b>' + time + suffix + '</b>.');
 			} else {
