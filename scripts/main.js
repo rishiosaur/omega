@@ -1,4 +1,5 @@
 $(function () {
+	FastClick.attach(document.body);
 	var y, r, newtab;
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== "") {
