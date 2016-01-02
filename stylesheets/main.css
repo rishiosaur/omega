@@ -27,6 +27,7 @@ input:focus {
 	height: 15%;
 	position: fixed;
 	width: 100%;
+	display: none;
 }
 #conversation-box {
 	color: #566473;

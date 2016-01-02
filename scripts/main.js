@@ -1,7 +1,11 @@
 $(function () {
 	'use strict';
 	FastClick.attach(document.body);
+	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
+	setTimeout(function () {
+		$('#container').fadeIn('slow');
+	}, 1000);
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== "") {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
@@ -21,7 +25,7 @@ $(function () {
 			y = y.slice(0, y.length - 1);
 		}
 		if (y === 'clear' || y === 'clear log' || y === 'clear logs') {
-			say('Clearing log...');
+			say('Clearing log&hellip;');
 			setTimeout(function () {
 				$('#conversation-box').fadeOut('slow', function () {
 					$('#conversation-box').empty().show();
@@ -50,7 +54,7 @@ $(function () {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
-			say('Searching Google for "' + newtab + '"...');
+			say('Searching Google for "' + newtab + '"&hellip;');
 			setTimeout(function () {
 				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
 			}, 1000);
@@ -112,14 +116,19 @@ $(function () {
 			} else {
 				say('The date is <b>' + date + '</b>.');
 			}
-		} else {
-			say('I apologize, but I wasn\'t sure what you were asking of me.');
+		} else if (y === 'toggle goodnight') {
+			say('Toggling Goodnight&mdash;brace yourself&hellip;');
 			setTimeout(function () {
-				say('Searching Google for "' + y + '"...');
+				Goodnight.toggle();
+			}, 3000);
+		} else {
+			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
+			setTimeout(function () {
+				say('Searching Google for "' + y + '"&hellip;');
 				setTimeout(function () {
 					window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
-				}, 1000);
-			}, 1000);
+				}, 2000);
+			}, 2000);
 		}
 		$('html, body').animate({scrollTop: $(document).height()}, 'slow');
 	}

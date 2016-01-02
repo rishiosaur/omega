@@ -1,0 +1,23 @@
+body {
+	background-color: black;
+}
+input {
+	background-color: black;
+	color: #b7b7b6;
+}
+#conversation-box {
+	color: #b7b7b6;
+}
+.you {
+	border-left: 0.4vw solid #b7b7b6;
+}
+.fuchsia {
+	text-align: right;
+	border-right: 0.4vw solid #b7b7b6;
+}
+a {
+	color: #b7b7b6;
+}
+.box {
+	background-color: #1f1f1f;
+}

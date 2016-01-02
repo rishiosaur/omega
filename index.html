@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="description" content="fuchsia, an attempt at a personal assistant for the web.">
+		<meta name="description" content="Fuchsia, an attempt at a personal assistant for the web.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<title>Fuchsia by 355over113</title>
@@ -10,11 +10,16 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/normalize.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
 		<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="application/javascript" src="scripts/goodnight.js"></script>
 		<script type="application/javascript" src="scripts/fastclick.js"></script>
 		<script type="application/javascript" src="scripts/main.js"></script>
 	</head>
 	<body>
-		<div id="conversation-box"></div>
-		<div id="container"><input type="text" placeholder="Say something to Fuchsia..."></div>
+		<div id="conversation-box">
+			<noscript><div class="conversation fuchsia" style="display: block;">Your JavaScript's off. You must turn it on and refresh in order for me to help.</div></noscript>
+		</div>
+		<div id="container">
+			<input type="text" placeholder="Say something to Fuchsia...">
+		</div>
 	</body>
 </html>
