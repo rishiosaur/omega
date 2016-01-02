@@ -16,7 +16,7 @@ Have one large address bar to `go to` the website you want.
 
 ### See What's Good
 
-You can ask Fuchsia if you should watch something using the key phrase, `should I watch`, and see what you should, shouldn't, and might watch.
+You can ask Fuchsia if you should watch something using the key phrase, `should I watch`, and see what you should, shouldn't, and might watch. You can also ask about music with `should I listen to <artist-name>`.
 
 ### Search the Web
 
