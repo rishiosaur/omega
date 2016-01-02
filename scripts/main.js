@@ -11,6 +11,7 @@ $(function () {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
+				$('html, body').animate({scrollTop: $(document).height()}, 'slow');
 				app(y);
 			});
 		}
@@ -130,7 +131,6 @@ $(function () {
 				}, 2000);
 			}, 2000);
 		}
-		$('html, body').animate({scrollTop: $(document).height()}, 'slow');
 	}
 	function say (r) {
 		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
