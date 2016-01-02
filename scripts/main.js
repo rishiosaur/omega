@@ -46,7 +46,7 @@ $(function () {
 				}, 1000);
 			}
 		} else if (y.startsWith('you')) {
-			say(['Okay.', 'That\'s what I thought.', 'We should be talking more about you.'][Math.floor(Math.random() * 3)]);
+			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
 			say('Searching Google for "' + newtab + '"...');
