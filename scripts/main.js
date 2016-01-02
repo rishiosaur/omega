@@ -112,12 +112,13 @@ $(function () {
 			}, 1000);
 		} else if (y.startsWith('should i watch ') || y.startsWith('should i listen to ')) {
 			if (y.startsWith('should i watch ')) {
-				$.getJSON('https://www.omdbapi.com/?t=' + y.slice(15).split(' ').join('+') + '&y=&plot=full&r=json&tomatoes=true', function (d) {
+				y = y.slice(15).split(' ').join('+');
+				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					var image;
 					if (d.Poster !== undefined) {
 						image = '<p>[<a class="toggle">Show/Hide Poster</a>]<img src="' + d.Poster + '"></p>';
 					}
-					if (d.Reponse !== 'False') {
+					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
 						if (d.Type === 'movie') {
 							d.Type = 'Film';
@@ -143,7 +144,13 @@ $(function () {
 						say('Here is what I could find:');
 						$('<div class="box"><h1 class="title">' + d.Title + '</h1><p class="actors">Starring ' + d.Actors + '</p><p class="rated">' + d.Rated + '</p><p class="info">' + d.Year + ' ' + d.Type + '</p><p class="plot">' + d.Plot + '</p>' + image + '<p class="reviews">' + reviews + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
 					} else {
-						say('I couldn\'t find that film.');
+						say('I apologize, but I couldn\'t find that film. I\'ll perform a Googe search instead.');
+						setTimeout(function () {
+							say('Searching Google for "' + y + '"&hellip;');
+							setTimeout(function () {
+								window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
+							}, 2000);
+						}, 2000);
 					}
 				});
 			} else {
