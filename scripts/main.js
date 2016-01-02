@@ -85,6 +85,7 @@ $(function () {
 			});
 		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y === 'what is the date' || y === 'what date is it' || y === 'give me the date' || y === 'what is the time and date' || y === 'what is the date and time' || y === 'what is the time and the date' || y === 'what is the date and the time' || y === 'what time and date is it' || y === 'what date and time is it' || y === 'give me the time and date' || y === 'give me the date and time' || y === 'give me the time and the date' || y === 'give me the date and the time' || y === 'when am i') {
 			var now = new Date();
+			y = (y === 'when am i') ? 'time date' : y;
 			if (y.indexOf('time') !== -1) {
 				var time = [now.getHours(), now.getMinutes(), now.getSeconds()];
 				var suffix = (time[0] < 12) ? ' AM' : ' PM';
