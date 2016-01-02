@@ -5,12 +5,12 @@ $(function () {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
-				$('html, body').animate({scrollTop: $(document).height()}, 'slow');
 				app(y);
 			});
 		}
 	});
 	function app (y) {
+		$('html, body').animate({scrollTop: $(document).height()}, 'slow');
 		y = y.toLowerCase();
 		y = y.split('?').join('');
 		y = y.split('!').join('');
