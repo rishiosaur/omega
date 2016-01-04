@@ -22,7 +22,7 @@ $(function () {
 	}
 	function app (y) {
 		parse(y);
-		$('html, body').animate({scrollTop: $(document).height()}, 'slow');
+		$('html, body').animate({scrollTop: $(document).height()}, 1500);
 	}
 	function parse (y) {
 		y = y.toLowerCase();
@@ -150,7 +150,7 @@ $(function () {
 			}, 1000);
 		} else if (y.startsWith('should i watch ') || y.startsWith('should i listen to ')) {
 			if (y.startsWith('should i watch ')) {
-				y = y.slice(15).split(' ').join('+');
+				y = y.slice(15);
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					var image;
 					if (d.Poster !== undefined) {
