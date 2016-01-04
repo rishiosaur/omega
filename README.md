@@ -30,6 +30,10 @@ Find out what time it is easily, along with the date, which features the day of 
 
 Change from your light theme to your dark one, or vice-versa. This happens automatically, but if you want your dark theme during the day or you light theme during the night, feel free to `toggle goodnight`.
 
+## Randomizers!
+
+What's that? You want to `flip a coin`, but oh wait&mdash;you only use bills! Well, worry no more and turn your bills into internet and flip a virtual coin as much as you want! Also, you can say, `give me a random number between <number> and <number>` to get a random integer in a range, or `roll a die` (because really&mdash;who really has *just* a die?)!s
+
 ## Clear the Log
 
 You've been talking to Fuchsia for so long that the page is totally cluttered! You have too much conversation that you won't ever look at again. Obviously, you can `clear` the log.

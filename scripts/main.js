@@ -51,13 +51,13 @@ $(function () {
 				if (y.indexOf('integer') !== -1) {
 					y = y.slice(34);
 				} else {
-					y = y.slice(31);
+					y = y.slice(33);
 				}
 			}
 			y = y.split(' and ');
-			y[0] = parseFloat(y[0], 10);
-			y[1] = parseFloat(y[1], 10);
-			if (y[0] !== NaN && y[1] !== NaN) {
+			y[0] = parseInt(y[0], 10);
+			y[1] = parseInt(y[1], 10);
+			if (y[0] !== NaN || y[1] !== NaN) {
 				say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
 			} else {
 				say('Those aren\'t both integers!');
@@ -195,7 +195,7 @@ $(function () {
 				$.getJSON('https://api.spotify.com/v1/search?q=' + y.slice(19).split(' ').join('+') + '&type=artist&limit=1', function (d) {
 					var image;
 					var genres = '';
-					if (d.artists.count) {
+					if (d.artists.total) {
 						for (var i = 0;i < d.artists.items[0].genres.length;i++) {
 							d.artists.items[0].genres[i] = d.artists.items[0].genres[i].replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 						}
