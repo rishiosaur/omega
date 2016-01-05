@@ -39,7 +39,8 @@ img {
 	margin: 0 10%;
 	margin-top: 5%;
 	padding-bottom: 15vw;
-	overflow: scroll;
+	overflow-x: scroll;
+	height: 100%;
 }
 .conversation {
 	padding: 2%;
