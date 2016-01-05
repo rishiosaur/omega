@@ -3,7 +3,7 @@ $(function () {
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
-	$(document).on("click", ".toggle", function() {
+	$(document).on('click', '.toggle', function() {
 		$(this).parent().children('.toggle').toggle();
 	});
 	$('input').keydown(function (e) {
@@ -221,7 +221,7 @@ $(function () {
 		} else if (y === 'ayy') {
 			say('lmao');
 		} else if (y === 'tell me a joke' || y.indexOf('chuck norris') !== -1 || y === 'be funny' || y === 'make me laugh') {
-			$.getJSON('http://api.icndb.com/jokes/random', function (d) {
+			$.getJSON('https://api.icndb.com/jokes/random', function (d) {
 				say(d.value.joke);
 			});
 		} else {
