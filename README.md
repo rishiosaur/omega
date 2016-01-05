@@ -32,7 +32,7 @@ Change from your light theme to your dark one, or vice-versa. This happens autom
 
 ## Randomizers!
 
-What's that? You want to `flip a coin`, but oh wait&mdash;you only use bills! Well, worry no more and turn your bills into internet and flip a virtual coin as much as you want! Also, you can say, `give me a random number between <number> and <number>` to get a random integer in a range, or `roll a die` (because really&mdash;who really has *just* a die?)!s
+What's that? You want to `flip a coin`, but oh wait&mdash;you only use bills! Well, worry no more and turn your bills into internet and flip a virtual coin as much as you want! Also, you can say, `give me a random number between <number> and <number>` to get a random integer in a range, or `roll a die` (because really&mdash;who really has *just* a die?)!
 
 ## Clear the Log
 
