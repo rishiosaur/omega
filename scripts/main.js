@@ -3,6 +3,9 @@ $(function () {
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
+	$(document).on('click', '.toggle', function () {
+		$(this).parent().children().toggle();
+	});
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
