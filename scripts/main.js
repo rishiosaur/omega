@@ -3,9 +3,6 @@ $(function () {
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
-	$(document).on('click', '.toggle', function() {
-		$(this).parent().children('.toggle').toggle();
-	});
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
@@ -154,7 +151,7 @@ $(function () {
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					var image;
 					if (d.Poster !== undefined) {
-						image = '<p><a class="toggle">[Show Poster]</a><img src="' + d.Poster.split('http://').join('https://') + '" title="Click to hide" class="toggle"></p>';
+						image = '<p><a href="' + d.Poster.split('http://').join('https://') + '" target="_blank">[See Poster]</a></p>';
 					}
 					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
