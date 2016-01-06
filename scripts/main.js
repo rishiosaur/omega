@@ -154,7 +154,7 @@ $(function () {
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					var image;
 					if (d.Poster !== undefined) {
-						image = '<p><a class="toggle">[Show Poster]</a><img src="' + d.Poster + '" title="Click to hide" class="toggle"></p>';
+						image = '<p><a class="toggle">[Show Poster]</a><img src="' + d.Poster.split('http://').join('https://') + '" title="Click to hide" class="toggle"></p>';
 					}
 					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
