@@ -3,6 +3,9 @@ $(function () {
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
+	var modules = {
+		random: false
+	};
 	$(document).on('click', '.toggle', function () {
 		$(this).parent().children().toggle();
 	});
@@ -17,11 +20,13 @@ $(function () {
 			});
 		}
 	});
-	function say (r) {
-		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
-	}
 	function app (y) {
-		parse(y);
+		y = parse(y);
+		if (settings(y)) {
+			if (random(y)) {
+				core(y);
+			}
+		}
 		$('html, body').animate({scrollTop: $(document).height()}, 1500);
 	}
 	function parse (y) {
@@ -33,37 +38,79 @@ $(function () {
 		if (y.slice(-1) === '.') {
 			y = y.slice(0, y.length - 1);
 		}
-		random(y);
+		console.log('Fuchsia thinks that you said "' + y + '".');
+		return y;
+	}
+	function settings (y) {
+		var onoff;
+		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
+			say('Toggling Goodnight&mdash;brace yourself&hellip;');
+			setTimeout(function () {
+				Goodnight.toggle();
+			}, 2000);
+		} else if (y.startsWith('toggle ')) {
+			y = y.slice(7);
+			if (modules[y] !== undefined) {
+				if (modules[y]) {
+					modules[y] = false;
+					onoff = 'off';
+				} else {
+					modules[y] = true;
+					onoff = 'on';
+				}
+				say('The "' + y + '" module has been turned ' + onoff + '.');
+			} else {
+				say('That module doesn\'t exist!');
+			}
+		} else if (y === 'what modules are there' || y === 'what modules are available' || y === 'tell me the modules' || y === 'show me the modules' || y === 'give me the modules' || y === 'list the modules') {
+			var keys = [];
+			for (var key in modules) {
+				keys.push(key);
+			}
+			say('Available modules: ' + keys.join(', '));
+		} else if (y === 'what modules are on' || y === 'what modules are off' || y === 'what are the module settings' || y === 'tell me the module settings' || y === 'show me the module settings' || y === 'give me the module settings' || y === 'list the module settings') {
+			var output = '';
+			for (var property in modules) {
+				output += property[0].toUpperCase() + property.slice(1) + ': ' + modules[property] + '<br>';
+			}
+			say(output.split('true').join('On').split('false').join('Off'));
+		} else {
+			return true;
+		}
 	}
 	function random (y) {
-		if (y === 'flip a coin') {
-			say(['Heads', 'Tails'][Math.floor(Math.random() * 2)] + '.');
-		} else if (y === 'roll a die') {
-			say(['One', 'Two', 'Three', 'Four', 'Five', 'Six'][Math.floor(Math.random() * 6)] + '.');
-		} else if (y.startsWith('give me a random integer between ') || y.startsWith('give me a random number between ') || y.startsWith('generate a random integer between ') || y.startsWith('generate a random number between ')) {
-			if (y.indexOf('give') !== -1) {
-				if (y.indexOf('integer') !== -1) {
-					y = y.slice(33);
+		if (modules.random) {
+			if (y === 'flip a coin') {
+				say(['Heads', 'Tails'][Math.floor(Math.random() * 2)] + '.');
+			} else if (y === 'roll a die') {
+				say(['One', 'Two', 'Three', 'Four', 'Five', 'Six'][Math.floor(Math.random() * 6)] + '.');
+			} else if (y.startsWith('give me a random integer between ') || y.startsWith('give me a random number between ') || y.startsWith('generate a random integer between ') || y.startsWith('generate a random number between ')) {
+				if (y.indexOf('give') !== -1) {
+					if (y.indexOf('integer') !== -1) {
+						y = y.slice(33);
+					} else {
+						y = y.slice(32);
+					}
 				} else {
-					y = y.slice(32);
+					if (y.indexOf('integer') !== -1) {
+						y = y.slice(34);
+					} else {
+						y = y.slice(33);
+					}
+				}
+				y = y.split(' and ');
+				y[0] = parseInt(y[0], 10);
+				y[1] = parseInt(y[1], 10);
+				if (y[0] !== NaN || y[1] !== NaN) {
+					say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
+				} else {
+					say('Those aren\'t both integers!');
 				}
 			} else {
-				if (y.indexOf('integer') !== -1) {
-					y = y.slice(34);
-				} else {
-					y = y.slice(33);
-				}
-			}
-			y = y.split(' and ');
-			y[0] = parseInt(y[0], 10);
-			y[1] = parseInt(y[1], 10);
-			if (y[0] !== NaN || y[1] !== NaN) {
-				say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
-			} else {
-				say('Those aren\'t both integers!');
+				return true;
 			}
 		} else {
-			core(y);
+			return true;
 		}
 	}
 	function core (y) {
@@ -120,11 +167,6 @@ $(function () {
 			} else {
 				say('The date is <b>' + date + '</b>.');
 			}
-		} else if (y === 'toggle goodnight' || y === 'flip goodnight' || y === 'switch goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
-			say('Toggling Goodnight&mdash;brace yourself&hellip;');
-			setTimeout(function () {
-				Goodnight.toggle();
-			}, 2000);
 		} else if (y.startsWith('go to ') || y.startsWith('open ')) {
 			if (y.startsWith('go to')) {
 				newtab = y.slice(6);
@@ -225,17 +267,17 @@ $(function () {
 				say(d.value.joke);
 			});
 		} else {
-			fallback(y);
+			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
+			setTimeout(function () {
+				say('Searching Google for "' + y + '"&hellip;');
+				setTimeout(function () {
+					window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
+				}, 2000);
+			}, 2000);
 		}
 	}
-	function fallback (y) {
-		say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
-		setTimeout(function () {
-			say('Searching Google for "' + y + '"&hellip;');
-			setTimeout(function () {
-				window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
-			}, 2000);
-		}, 2000);
+	function say (r) {
+		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
 	}
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
