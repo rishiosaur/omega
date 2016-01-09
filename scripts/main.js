@@ -1,11 +1,12 @@
+var modules = {
+		'random': false,
+		'entertainment': false
+	};
 $(function () {
 	'use strict';
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
-	var modules = {
-		random: false
-	};
 	if (Cookies.get('modules') !== undefined) {
 		modules = eval('(' + Cookies.get('modules') + ')');
 	}
@@ -26,7 +27,9 @@ $(function () {
 		y = parse(y);
 		if (settings(y)) {
 			if (random(y)) {
-				core(y);
+				if (entertainment(y)) {
+					core(y);
+				}
 			}
 		}
 		$('html, body').animate({scrollTop: $(document).height()}, 1500);
@@ -40,7 +43,6 @@ $(function () {
 		if (y.slice(-1) === '.') {
 			y = y.slice(0, y.length - 1);
 		}
-		console.log('Fuchsia thinks that you said "' + y + '".');
 		return y;
 	}
 	function settings (y) {
@@ -109,6 +111,84 @@ $(function () {
 				} else {
 					say('Those aren\'t both integers!');
 				}
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+	function entertainment (y) {
+		if (modules.entertainment) {
+			if (y.startsWith('should i watch ')) {
+				y = y.slice(15);
+				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
+					if (d.Error === undefined) {
+						var reviews = '', sum = 0, count = 0;
+						if (d.Type === 'movie') {
+							d.Type = 'Film';
+						} else if (d.Type === 'series') {
+							d.Type = 'TV Series';
+						}
+						if (d.imdbRating !== 'N/A') {
+							reviews += 'IMDb: ' + d.imdbRating + '/10<br>';
+							sum += parseFloat(d.imdbRating, 10) * 10;
+							count++;
+						}
+						if (d.tomatoRating !== 'N/A') {
+							reviews += 'Rotten Tomatoes: ' + d.tomatoRating + '/10<br>';
+							sum += parseFloat(d.tomatoRating, 10) * 10;
+							count++;
+						}
+						if (d.Metascore !== 'N/A') {
+							reviews += 'Metacritic: ' + d.Metascore + '/100<br>';
+							sum += parseInt(d.Metascore, 10);
+							count++;
+						}
+						if (d.Rated !== 'N/A') {
+							d.Rated = '<p class="rated">' + d.Rated + '</p>';
+						} else {
+							d.Rated = '';
+						}
+						reviews += '<br>Average: ' + Math.round(sum / count) + '%';
+						say('Here is what I could find:');
+						$('<div class="box"><h1 class="title">' + d.Title + '</h1><p class="actors">Starring ' + d.Actors + '</p>' + d.Rated + '<p class="info">' + d.Year + ' ' + d.Type + '</p><p class="plot">' + d.Plot + '</p><p class="reviews">' + reviews + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
+					} else {
+						say('I apologize, but I couldn\'t find that film. I\'ll perform a Google search instead.');
+						setTimeout(function () {
+							say('Searching Google for "' + y + '"&hellip;');
+							setTimeout(function () {
+								window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
+							}, 2000);
+						}, 2000);
+					}
+				});
+			} else if (y.startsWith('should i listen to ')) {
+				$.getJSON('https://api.spotify.com/v1/search?q=' + y.slice(19).split(' ').join('+') + '&type=artist&limit=1', function (d) {
+					var image;
+					var genres = '';
+					if (d.artists.total) {
+						for (var i = 0;i < d.artists.items[0].genres.length;i++) {
+							d.artists.items[0].genres[i] = d.artists.items[0].genres[i].replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+						}
+						if (d.artists.items[0].genres[0] !== undefined) {
+							genres = 'Genres: ';
+						}
+						if (d.artists.items[0].images[0].url !== undefined) {
+							image = '<p><a class="toggle">[Show Image]</a><img src="' + d.artists.items[0].images[0].url + '" title="Click to hide" class="toggle"></p>';
+						}
+						say('Here is what I could find:');
+						$('<div class="box"><h1 class="title">' + d.artists.items[0].name + '</h1><p class="musictype">Music Artist</p><p class="rated">' + genres + d.artists.items[0].genres.join(', ') + '</p>' + image + '<p class="reviews">Popularity on Spotify: ' + d.artists.items[0].popularity + '<br>Followers on Spotify: ' + d.artists.items[0].followers.total + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
+					} else {
+						say('I couldn\'t find that artist. I\'ll perform a Google search for them instead.');
+						setTimeout(function () {
+							say('Searching Google for "' + y.slice(19) + '"&hellip;');
+							setTimeout(function () {
+								window.open('https://www.google.ca/search?q=' + y.slice(19).split(' ').join('+'), '_blank');
+							}, 2000);
+						}, 2000);
+					}
+				});
 			} else {
 				return true;
 			}
@@ -193,77 +273,6 @@ $(function () {
 			setTimeout(function () {
 				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
 			}, 1000);
-		} else if (y.startsWith('should i watch ') || y.startsWith('should i listen to ')) {
-			if (y.startsWith('should i watch ')) {
-				y = y.slice(15);
-				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
-					if (d.Error === undefined) {
-						var reviews = '', sum = 0, count = 0;
-						if (d.Type === 'movie') {
-							d.Type = 'Film';
-						} else if (d.Type === 'series') {
-							d.Type = 'TV Series';
-						}
-						if (d.imdbRating !== 'N/A') {
-							reviews += 'IMDb: ' + d.imdbRating + '/10<br>';
-							sum += parseFloat(d.imdbRating, 10) * 10;
-							count++;
-						}
-						if (d.tomatoRating !== 'N/A') {
-							reviews += 'Rotten Tomatoes: ' + d.tomatoRating + '/10<br>';
-							sum += parseFloat(d.tomatoRating, 10) * 10;
-							count++;
-						}
-						if (d.Metascore !== 'N/A') {
-							reviews += 'Metacritic: ' + d.Metascore + '/100<br>';
-							sum += parseInt(d.Metascore, 10);
-							count++;
-						}
-						if (d.Rated !== 'N/A') {
-							d.Rated = '<p class="rated">' + d.Rated + '</p>';
-						} else {
-							d.Rated = '';
-						}
-						reviews += '<br>Average: ' + Math.round(sum / count) + '%';
-						say('Here is what I could find:');
-						$('<div class="box"><h1 class="title">' + d.Title + '</h1><p class="actors">Starring ' + d.Actors + '</p>' + d.Rated + '<p class="info">' + d.Year + ' ' + d.Type + '</p><p class="plot">' + d.Plot + '</p><p class="reviews">' + reviews + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
-					} else {
-						say('I apologize, but I couldn\'t find that film. I\'ll perform a Google search instead.');
-						setTimeout(function () {
-							say('Searching Google for "' + y + '"&hellip;');
-							setTimeout(function () {
-								window.open('https://www.google.ca/search?q=' + y.split(' ').join('+'), '_blank');
-							}, 2000);
-						}, 2000);
-					}
-				});
-			} else {
-				$.getJSON('https://api.spotify.com/v1/search?q=' + y.slice(19).split(' ').join('+') + '&type=artist&limit=1', function (d) {
-					var image;
-					var genres = '';
-					if (d.artists.total) {
-						for (var i = 0;i < d.artists.items[0].genres.length;i++) {
-							d.artists.items[0].genres[i] = d.artists.items[0].genres[i].replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-						}
-						if (d.artists.items[0].genres[0] !== undefined) {
-							genres = 'Genres: ';
-						}
-						if (d.artists.items[0].images[0].url !== undefined) {
-							image = '<p><a class="toggle">[Show Image]</a><img src="' + d.artists.items[0].images[0].url + '" title="Click to hide" class="toggle"></p>';
-						}
-						say('Here is what I could find:');
-						$('<div class="box"><h1 class="title">' + d.artists.items[0].name + '</h1><p class="musictype">Music Artist</p><p class="rated">' + genres + d.artists.items[0].genres.join(', ') + '</p>' + image + '<p class="reviews">Popularity on Spotify: ' + d.artists.items[0].popularity + '<br>Followers on Spotify: ' + d.artists.items[0].followers.total + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
-					} else {
-						say('I couldn\'t find that artist. I\'ll perform a Google search for them instead.');
-						setTimeout(function () {
-							say('Searching Google for "' + y.slice(19) + '"&hellip;');
-							setTimeout(function () {
-								window.open('https://www.google.ca/search?q=' + y.slice(19).split(' ').join('+'), '_blank');
-							}, 2000);
-						}, 2000);
-					}
-				});
-			}
 		} else if (y === 'ayy') {
 			say('lmao');
 		} else if (y === 'tell me a joke' || y.indexOf('chuck norris') !== -1 || y === 'be funny' || y === 'make me laugh') {
