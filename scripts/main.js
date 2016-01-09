@@ -194,10 +194,6 @@ $(function () {
 			if (y.startsWith('should i watch ')) {
 				y = y.slice(15);
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
-					var image;
-					if (d.Poster !== undefined) {
-						image = '<p><a href="' + d.Poster.split('http://').join('https://') + '" target="_blank">[See Poster]</a></p>';
-					}
 					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
 						if (d.Type === 'movie') {
@@ -220,9 +216,14 @@ $(function () {
 							sum += parseInt(d.Metascore, 10);
 							count++;
 						}
+						if (d.Rated !== 'N/A') {
+							d.Rated = '<p class="rated">' + d.Rated + '</p>';
+						} else {
+							d.Rated = '';
+						}
 						reviews += '<br>Average: ' + Math.round(sum / count) + '%';
 						say('Here is what I could find:');
-						$('<div class="box"><h1 class="title">' + d.Title + '</h1><p class="actors">Starring ' + d.Actors + '</p><p class="rated">' + d.Rated + '</p><p class="info">' + d.Year + ' ' + d.Type + '</p><p class="plot">' + d.Plot + '</p>' + image + '<p class="reviews">' + reviews + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
+						$('<div class="box"><h1 class="title">' + d.Title + '</h1><p class="actors">Starring ' + d.Actors + '</p>' + d.Rated + '<p class="info">' + d.Year + ' ' + d.Type + '</p><p class="plot">' + d.Plot + '</p><p class="reviews">' + reviews + '</p></div>').appendTo('#conversation-box').fadeIn('slow');
 					} else {
 						say('I apologize, but I couldn\'t find that film. I\'ll perform a Google search instead.');
 						setTimeout(function () {
