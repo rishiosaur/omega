@@ -6,16 +6,18 @@ $(function () {
 	var modules = {
 		random: false
 	};
+	if (Cookies.get('modules') !== undefined) {
+		modules = eval('(' + Cookies.get('modules') + ')');
+	}
 	$(document).on('click', '.toggle', function () {
 		$(this).parent().children().toggle();
 	});
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
 			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
-			y.split('<').join('&lt;');
+			y = y.split('<').join('&lt;');
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
-				y.split('&lt;').join('<');
 				app(y);
 			});
 		}
@@ -58,6 +60,7 @@ $(function () {
 					modules[y] = true;
 					onoff = 'on';
 				}
+				Cookies.set('modules', modules);
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
 				say('That module doesn\'t exist!');
