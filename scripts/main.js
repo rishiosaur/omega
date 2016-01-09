@@ -1,12 +1,12 @@
-var modules = {
-		'random': false,
-		'entertainment': false
-	};
 $(function () {
 	'use strict';
 	FastClick.attach(document.body);
 	Goodnight.css('stylesheets/dark.css');
 	var y, newtab;
+	var modules = {
+		'random': false,
+		'entertainment': false
+	};
 	if (Cookies.get('modules') !== undefined) {
 		modules = eval('(' + Cookies.get('modules') + ')');
 	}
