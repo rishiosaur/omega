@@ -1,7 +1,7 @@
 $(function () {
 	'use strict';
 	FastClick.attach(document.body);
-	Goodnight.css('stylesheets/dark.css');
+	Goodnight.css('assets/stylesheets/dark.css');
 	var y, newtab;
 	var modules = {
 		'random': false,
@@ -32,7 +32,7 @@ $(function () {
 				}
 			}
 		}
-		$('html, body').animate({scrollTop: $(document).height()}, 1500);
+		$('html, body').animate({scrollTop: $(document).height()}, 3000);
 	}
 	function parse (y) {
 		y = y.toLowerCase();
@@ -165,7 +165,6 @@ $(function () {
 				});
 			} else if (y.startsWith('should i listen to ')) {
 				$.getJSON('https://api.spotify.com/v1/search?q=' + y.slice(19).split(' ').join('+') + '&type=artist&limit=1', function (d) {
-					var image;
 					var genres = '';
 					if (d.artists.total) {
 						for (var i = 0;i < d.artists.items[0].genres.length;i++) {
