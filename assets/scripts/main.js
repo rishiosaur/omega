@@ -32,7 +32,7 @@ $(function () {
 				}
 			}
 		}
-		$('html, body').animate({scrollTop: $(document).height()}, 3000);
+		$('html, body').animate({scrollTop: $(document).height()}, 2000);
 	}
 	function parse (y) {
 		y = y.toLowerCase();
