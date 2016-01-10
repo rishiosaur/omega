@@ -106,7 +106,7 @@ $(function () {
 				y = y.split(' and ');
 				y[0] = parseInt(y[0], 10);
 				y[1] = parseInt(y[1], 10);
-				if (y[0] !== NaN || y[1] !== NaN) {
+				if (!isNaN(y[0]) || !isNaN(y[1])) {
 					say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
 				} else {
 					say('Those aren\'t both integers!');
@@ -166,6 +166,7 @@ $(function () {
 			} else if (y.startsWith('should i listen to ')) {
 				$.getJSON('https://api.spotify.com/v1/search?q=' + y.slice(19).split(' ').join('+') + '&type=artist&limit=1', function (d) {
 					var genres = '';
+					var image;
 					if (d.artists.total) {
 						for (var i = 0;i < d.artists.items[0].genres.length;i++) {
 							d.artists.items[0].genres[i] = d.artists.items[0].genres[i].replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
