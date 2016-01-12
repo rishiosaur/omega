@@ -15,10 +15,12 @@ $(function () {
 	});
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
-			y = $(this).val().charAt(0).toUpperCase() + $(this).val().slice(1);
+			y = $(this).val().replace(/^\s+|\s+$/gm,'');
+			y = y[0].toUpperCase() + y.slice(1);
 			y = y.split('<').join('&lt;');
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
+				y = y.split('&lt;').join('<');
 				app(y);
 			});
 		}
@@ -290,7 +292,7 @@ $(function () {
 		}
 	}
 	function say (r) {
-		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
+		$('<div class="conversation fuchsia">' + r.split('<').join('&lt;') + '</div>').appendTo('#conversation-box').fadeIn('slow');
 	}
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
