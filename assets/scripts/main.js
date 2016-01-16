@@ -283,7 +283,7 @@ $(function () {
 				say(d.value.joke);
 			});
 		} else if (y.startsWith('i')) {
-			say(['Why you always lyin\'?', 'That\'s nice.'][Math.floor(Math.random() * )]);
+			say(['Why you always lyin\'?', 'That\'s nice.'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('you')) {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else {
