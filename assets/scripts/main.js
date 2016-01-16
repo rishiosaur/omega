@@ -42,6 +42,7 @@ $(function () {
 		y = y.split('!').join('');
 		y = y.split('what\'s').join('what is');
 		y = y.split('you\'re').join('you are');
+		y = y.split('i\'m').join('i am');
 		if (y.slice(-1) === '.') {
 			y = y.slice(0, y.length - 1);
 		}
@@ -212,8 +213,6 @@ $(function () {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/355over113/fuchsia" target="_blank">https://github.com/355over113/fuchsia</a>.');
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
 			say(['I\'m fine.', 'I\'m okay.', 'I\'m great; thanks for asking!', 'I could be doing better.'][Math.floor(Math.random() * 4)]);
-		} else if (y.startsWith('you')) {
-			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y.split('day').join('date') === 'what is the date' || y.split('day').join('date') === 'what date is it' || y.split('day').join('date') === 'give me the date' || y.split('day').join('date') === 'what is the time and date' || y.split('day').join('date') === 'what is the date and time' || y.split('day').join('date') === 'what is the time and the date' || y.split('day').join('date') === 'what is the date and the time' || y.split('day').join('date') === 'what time and date is it' || y.split('day').join('date') === 'what date and time is it' || y.split('day').join('date') === 'give me the time and date' || y.split('day').join('date') === 'give me the date and time' || y.split('day').join('date') === 'give me the time and the date' || y.split('day').join('date') === 'give me the date and the time' || y.split('day').join('date') === 'when am i') {
 			var now = new Date();
 			var date, time, suffix;
@@ -275,12 +274,18 @@ $(function () {
 			setTimeout(function () {
 				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
 			}, 1000);
+		} else if (y === 'what can you do' || y === 'what can i do' || y === 'what are your features') {
+			say(['If the random module is on, you can ask me to "flip a coin".', 'If the entertainment module is on, you can ask me "should I watch" followed by a space and a movie/TV show name.', 'Ask me to tell you a joke.', '"Toggle Goodnight"', 'Ask for the date or time.'][Math.floor(Math.random() * 5)]);
 		} else if (y === 'ayy') {
 			say('lmao');
 		} else if (y === 'tell me a joke' || y.indexOf('chuck norris') !== -1 || y === 'be funny' || y === 'make me laugh') {
 			$.getJSON('https://api.icndb.com/jokes/random', function (d) {
 				say(d.value.joke);
 			});
+		} else if (y.startsWith('i')) {
+			say(['Why you always lyin\'?', 'That\'s nice.'][Math.floor(Math.random() * )]);
+		} else if (y.startsWith('you')) {
+			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else {
 			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
 			setTimeout(function () {
