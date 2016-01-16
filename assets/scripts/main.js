@@ -297,7 +297,7 @@ $(function () {
 		}
 	}
 	function say (r) {
-		$('<div class="conversation fuchsia">' + r.split('<').join('&lt;') + '</div>').appendTo('#conversation-box').fadeIn('slow');
+		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
 	}
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
