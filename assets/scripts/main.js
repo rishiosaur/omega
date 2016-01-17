@@ -1,18 +1,24 @@
 $(function () {
 	'use strict';
+	/* FastClick */
 	FastClick.attach(document.body);
+	/* Goodnight */
 	Goodnight.css('assets/stylesheets/dark.css');
 	var y, newtab;
+	/* Modules */
 	var modules = {
 		'random': false,
 		'entertainment': false
 	};
+	/* Evaluation of modules cookie */
 	if (Cookies.get('modules') !== undefined) {
 		modules = eval('(' + Cookies.get('modules') + ')');
 	}
+	/* Entertainment image toggle */
 	$(document).on('click', '.toggle', function () {
 		$(this).parent().children().toggle();
 	});
+	/* Input for app */
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
 			y = $(this).val().replace(/^\s+|\s+$/gm,'');
@@ -25,6 +31,7 @@ $(function () {
 			});
 		}
 	});
+	/* Runs all modules */
 	function app (y) {
 		y = parse(y);
 		if (settings(y)) {
@@ -34,8 +41,10 @@ $(function () {
 				}
 			}
 		}
+		/* Scrolls after response */
 		$('html, body').animate({scrollTop: $(document).height()}, 2000);
 	}
+	/* Parses string to be evaluated */
 	function parse (y) {
 		y = y.toLowerCase();
 		y = y.split('?').join('');
@@ -48,6 +57,7 @@ $(function () {
 		}
 		return y;
 	}
+	/* [Mandatory] Settings module */
 	function settings (y) {
 		var onoff;
 		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
@@ -86,6 +96,7 @@ $(function () {
 			return true;
 		}
 	}
+	/* [Optional] Random module */
 	function random (y) {
 		if (modules.random) {
 			if (y === 'flip a coin') {
@@ -121,6 +132,7 @@ $(function () {
 			return true;
 		}
 	}
+	/* [Optional] Entertainment module */
 	function entertainment (y) {
 		if (modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
@@ -199,6 +211,7 @@ $(function () {
 			return true;
 		}
 	}
+	/* [Mandatory] Core */
 	function core (y) {
 		if (y === 'clear' || y === 'clear log' || y === 'clear logs') {
 			say('Clearing log&hellip;');
@@ -296,9 +309,11 @@ $(function () {
 			}, 2000);
 		}
 	}
+	/* Adds text to conversation */
 	function say (r) {
 		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
 	}
+	/* Fade-in at beginning of app's load */
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
 	}, 1000);
