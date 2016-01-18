@@ -6,6 +6,9 @@ body {
 input {
 	background-color: black;
 }
+#conversation-box {
+	color: #b7b7b6;
+}
 .you {
 	border-left: 0.4vw solid #b7b7b6;
 }
