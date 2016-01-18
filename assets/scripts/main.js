@@ -1,29 +1,38 @@
 $(function () {
 	'use strict';
-	/* FastClick */
+	// FastClick
 	FastClick.attach(document.body);
-	/* Goodnight */
+	// Goodnight
 	Goodnight.css('assets/stylesheets/dark.css');
-	var y, newtab;
-	/* Modules */
-	var modules = {
+	var
+	// User's input
+	y,
+	// Newtab contains page to be opened
+	newtab,
+	// Modules
+	modules = {
 		'random': false,
 		'entertainment': false
 	};
-	/* Evaluation of modules cookie */
+	// Evaluation of modules cookie
 	if (Cookies.get('modules') !== undefined) {
 		modules = eval('(' + Cookies.get('modules') + ')');
 	}
-	/* Entertainment image toggle */
+	// Entertainment image toggle
 	$(document).on('click', '.toggle', function () {
+		// $(this).parent().children() to target specifically the image in the same paragraph
 		$(this).parent().children().toggle();
 	});
-	/* Input for app */
+	// Input for app
 	$('input').keydown(function (e) {
 		if (e.which === 13 && $(this).val() !== '') {
-			y = $(this).val().replace(/^\s+|\s+$/gm,'');
-			y = y[0].toUpperCase() + y.slice(1);
+			// Parsing of user input for display
+			y = $(this).val();
+			y = y.replace(/^\s+|\s+$/gm,'');
+			y = y.replace(/\s\s+/g, ' ');
+			y = y.charAt(0).toUpperCase() + y.slice(1);
 			y = y.split('<').join('&lt;');
+			y = y.split(' i ').join(' I ');
 			$(this).val('').blur();
 			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
 				y = y.split('&lt;').join('<');
@@ -31,7 +40,7 @@ $(function () {
 			});
 		}
 	});
-	/* Runs all modules */
+	// Runs all modules
 	function app (y) {
 		y = parse(y);
 		if (settings(y)) {
@@ -41,10 +50,10 @@ $(function () {
 				}
 			}
 		}
-		/* Scrolls after response */
+		// Scrolls after response
 		$('html, body').animate({scrollTop: $(document).height()}, 2000);
 	}
-	/* Parses string to be evaluated */
+	// Parses string to be evaluated
 	function parse (y) {
 		y = y.toLowerCase();
 		y = y.split('?').join('');
@@ -55,9 +64,10 @@ $(function () {
 		if (y.slice(-1) === '.') {
 			y = y.slice(0, y.length - 1);
 		}
+		console.log('String has been interpreted as: "' + y + '".');
 		return y;
 	}
-	/* [Mandatory] Settings module */
+	// [Mandatory] Settings module
 	function settings (y) {
 		var onoff;
 		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
@@ -96,7 +106,7 @@ $(function () {
 			return true;
 		}
 	}
-	/* [Optional] Random module */
+	// [Optional] Random module
 	function random (y) {
 		if (modules.random) {
 			if (y === 'flip a coin') {
@@ -132,7 +142,7 @@ $(function () {
 			return true;
 		}
 	}
-	/* [Optional] Entertainment module */
+	// [Optional] Entertainment module
 	function entertainment (y) {
 		if (modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
@@ -211,7 +221,7 @@ $(function () {
 			return true;
 		}
 	}
-	/* [Mandatory] Core */
+	// [Mandatory] Core
 	function core (y) {
 		if (y === 'clear' || y === 'clear log' || y === 'clear logs') {
 			say('Clearing log&hellip;');
@@ -309,11 +319,11 @@ $(function () {
 			}, 2000);
 		}
 	}
-	/* Adds text to conversation */
+	// Adds text to conversation
 	function say (r) {
 		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
 	}
-	/* Fade-in at beginning of app's load */
+	// Fade-in at beginning of app's load
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
 	}, 1000);
