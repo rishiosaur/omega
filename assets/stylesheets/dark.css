@@ -6,7 +6,7 @@ body {
 input {
 	background-color: black;
 }
-#conversation-box {
+#conversation-box, a {
 	color: #b7b7b6;
 }
 .you {
