@@ -310,7 +310,7 @@ $(function () {
 		} else if (y.startsWith('you')) {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
-			say('Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you');
+			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
 		} else {
 			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
 			setTimeout(function () {
