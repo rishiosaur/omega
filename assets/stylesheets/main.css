@@ -3,6 +3,7 @@ body {
 	font-size: 1.5vmax;
 	font-weight: 300;
 	background-color: white;
+	overflow-x: hidden;
 }
 b {
 	font-weight: 500;
@@ -39,7 +40,7 @@ img {
 	margin: 0 10%;
 	margin-top: 5%;
 	padding-bottom: 15vw;
-	overflow-x: scroll;
+	overflow-x: hidden;
 	height: 100%;
 }
 .conversation {
