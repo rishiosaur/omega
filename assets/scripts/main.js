@@ -61,9 +61,10 @@ $(function () {
 		y = y.split('what\'s').join('what is');
 		y = y.split('you\'re').join('you are');
 		y = y.split('i\'m').join('i am');
-		if (y.slice(-1) === '.') {
-			y = y.slice(0, y.length - 1);
+		while (y.slice(-1) === '.') {
+			y = y.slice(0, -1);
 		}
+		y = y.replace(/^\s+|\s+$/gm,'');
 		console.log('String has been interpreted as: "' + y + '".');
 		return y;
 	}
