@@ -9,35 +9,43 @@ $(function () {
 	y,
 	// Newtab contains page to be opened
 	newtab,
-	// Modules
-	modules = {
-		'random': false,
-		'entertainment': false
+	// Memory
+	remember = {
+		modules: {
+			'random': false,
+			'entertainment': false
+		}
 	};
 	// Evaluation of modules cookie
-	if (Cookies.get('modules') !== undefined) {
-		modules = eval('(' + Cookies.get('modules') + ')');
+	if (Cookies.get('remember') !== undefined) {
+		remember = eval('(' + Cookies.get('remember') + ')');
 	}
 	// Entertainment image toggle
 	$(document).on('click', '.toggle', function () {
-		// $(this).parent().children() to target specifically the image in the same paragraph
+		// $(this).parent().children() to specifically target the image in the same paragraph
 		$(this).parent().children().toggle();
 	});
 	// Input for app
 	$('input').keydown(function (e) {
-		if (e.which === 13 && $(this).val() !== '') {
-			// Parsing of user input for display
-			y = $(this).val();
-			y = y.replace(/^\s+|\s+$/gm,'');
-			y = y.replace(/\s\s+/g, ' ');
-			y = y.charAt(0).toUpperCase() + y.slice(1);
-			y = y.split('<').join('&lt;');
-			y = y.split(' i ').join(' I ');
-			$(this).val('').blur();
-			$('<div class="conversation you">' + y + '</div>').appendTo('#conversation-box').fadeIn('slow', function () {
-				y = y.split('&lt;').join('<');
-				app(y);
-			});
+		if (e.which === 13) {
+			if ($(this).val().replace(/^\s+|\s+$/gm,'') !== '') {
+				// Parsing of user input for display
+				y = $(this).val();
+				// Replacement of .trim() using a regular expression
+				y = y.replace(/^\s+|\s+$/gm,'');
+				// Condenses multiple spaces into single spaces
+				y = y.replace(/\s\s+/g, ' ');
+				y = y.charAt(0).toUpperCase() + y.slice(1);
+				y = y.split('<').join('&lt;');
+				y = y.split(' i ').join(' I ');
+				$(this).val('').blur();
+				$(say(y, 'you')).appendTo('#conversation-box').fadeIn('slow', function () {
+					y = y.split('&lt;').join('<');
+					app(y);
+				});
+			} else {
+				$(this).val('');
+			}
 		}
 	});
 	// Runs all modules
@@ -79,29 +87,29 @@ $(function () {
 			}, 2000);
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
-			if (modules[y] !== undefined) {
-				if (modules[y]) {
-					modules[y] = false;
+			if (remember.modules[y] !== undefined) {
+				if (remember.modules[y]) {
+					remember.modules[y] = false;
 					onoff = 'off';
 				} else {
-					modules[y] = true;
+					remember.modules[y] = true;
 					onoff = 'on';
 				}
-				Cookies.set('modules', modules);
+				Cookies.set('modules', remember.modules);
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
 				say('That module doesn\'t exist!');
 			}
 		} else if (y === 'what modules are there' || y === 'what modules are available' || y === 'tell me the modules' || y === 'show me the modules' || y === 'give me the modules' || y === 'list the modules') {
 			var keys = [];
-			for (var key in modules) {
+			for (var key in remember.modules) {
 				keys.push(key);
 			}
 			say('Available modules: ' + keys.join(', '));
 		} else if (y === 'what modules are on' || y === 'what modules are off' || y === 'what are the module settings' || y === 'tell me the module settings' || y === 'show me the module settings' || y === 'give me the module settings' || y === 'list the module settings') {
 			var output = '';
-			for (var property in modules) {
-				output += property[0].toUpperCase() + property.slice(1) + ': ' + modules[property] + '<br>';
+			for (var property in remember.modules) {
+				output += property[0].toUpperCase() + property.slice(1) + ': ' + remember.modules[property] + '<br>';
 			}
 			say(output.split('true').join('On').split('false').join('Off'));
 		} else {
@@ -110,32 +118,58 @@ $(function () {
 	}
 	// [Optional] Random module
 	function random (y) {
-		if (modules.random) {
+		if (remember.modules.random) {
 			if (y === 'flip a coin') {
 				say(['Heads', 'Tails'][Math.floor(Math.random() * 2)] + '.');
 			} else if (y === 'roll a die') {
 				say(['One', 'Two', 'Three', 'Four', 'Five', 'Six'][Math.floor(Math.random() * 6)] + '.');
-			} else if (y.startsWith('give me a random integer between ') || y.startsWith('give me a random number between ') || y.startsWith('generate a random integer between ') || y.startsWith('generate a random number between ')) {
-				if (y.indexOf('give') !== -1) {
-					if (y.indexOf('integer') !== -1) {
-						y = y.slice(33);
+			} else if (y.startsWith('give me a random integer ') || y.startsWith('give me a random number ') || y.startsWith('generate a random integer ') || y.startsWith('generate a random number ')) {
+				if (y.startsWith('give me a random integer between ') || y.startsWith('give me a random number between ') || y.startsWith('generate a random integer between ') || y.startsWith('generate a random number between ')) {
+					if (y.indexOf('give') !== -1) {
+						if (y.indexOf('integer') !== -1) {
+							y = y.slice(33);
+						} else {
+							y = y.slice(32);
+						}
 					} else {
-						y = y.slice(32);
+						if (y.indexOf('integer') !== -1) {
+							y = y.slice(34);
+						} else {
+							y = y.slice(33);
+						}
+					}
+					y = y.split(' and ');
+					y[0] = parseInt(y[0], 10);
+					y[1] = parseInt(y[1], 10);
+					if (!isNaN(y[0]) || !isNaN(y[1])) {
+						say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
+					} else {
+						say('Those aren\'t both integers!');
+					}
+				} else if (y.startsWith('give me a random integer from ') || y.startsWith('give me a random number from ') || y.startsWith('generate a random integer from ') || y.startsWith('generate a random number from ')) {
+					if (y.indexOf('give') !== -1) {
+						if (y.indexOf('integer') !== -1) {
+							y = y.slice(30);
+						} else {
+							y = y.slice(29);
+						}
+					} else {
+						if (y.indexOf('integer') !== -1) {
+							y = y.slice(31);
+						} else {
+							y = y.slice(30);
+						}
+					}
+					y = y.split(' to ');
+					y[0] = parseInt(y[0], 10);
+					y[1] = parseInt(y[1], 10);
+					if (!isNaN(y[0]) || !isNaN(y[1])) {
+						say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
+					} else {
+						say('Those aren\'t both integers!');
 					}
 				} else {
-					if (y.indexOf('integer') !== -1) {
-						y = y.slice(34);
-					} else {
-						y = y.slice(33);
-					}
-				}
-				y = y.split(' and ');
-				y[0] = parseInt(y[0], 10);
-				y[1] = parseInt(y[1], 10);
-				if (!isNaN(y[0]) || !isNaN(y[1])) {
-					say(Math.floor(Math.random() * (Math.max(y[0], y[1]) - Math.min(y[0], y[1]) + 1) + Math.min(y[0], y[1])));
-				} else {
-					say('Those aren\'t both integers!');
+					say('Sorry; I\'m not entirely sure what you\'re saying. I\'ll perform');
 				}
 			} else {
 				return true;
@@ -146,7 +180,7 @@ $(function () {
 	}
 	// [Optional] Entertainment module
 	function entertainment (y) {
-		if (modules.entertainment) {
+		if (remember.modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
 				y = y.slice(15);
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
@@ -313,6 +347,8 @@ $(function () {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
 			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
+		} else if (y.startsWith('sorry')) {
+			say(['It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'][Math.floor(Math.random() * 4)]);
 		} else {
 			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
 			setTimeout(function () {
@@ -324,8 +360,15 @@ $(function () {
 		}
 	}
 	// Adds text to conversation
-	function say (r) {
-		$('<div class="conversation fuchsia">' + r + '</div>').appendTo('#conversation-box').fadeIn('slow');
+	function say (t, s) {
+		switch (s) {
+			case 'you':
+			case 'y':
+				return '<div class="conversation you">' + t + '</div>';
+				break;
+			default:
+				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
+		}
 	}
 	// Fade-in at beginning of app's load
 	setTimeout(function () {
