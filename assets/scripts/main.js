@@ -61,6 +61,7 @@ $(function () {
 		y = y.split('what\'s').join('what is');
 		y = y.split('you\'re').join('you are');
 		y = y.split('i\'m').join('i am');
+		y = y.split('"').join('');
 		while (y.slice(-1) === '.') {
 			y = y.slice(0, -1);
 		}
