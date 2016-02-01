@@ -48,4 +48,4 @@ Fork the repository and submit a pull request. If the change is a simple trigger
 
 # License
 
-Licensed under the MIT License. Created by [Ryan Nguyen](https://github.com/355over113).
+Licensed under the MIT License. Created by [Ryan Nguyen](https://github.com/Loquacious).
