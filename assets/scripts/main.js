@@ -294,8 +294,7 @@ $(function () {
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
 			say(['I\'m fine.', 'I\'m okay.', 'I\'m great; thanks for asking!', 'I could be doing better.'][Math.floor(Math.random() * 4)]);
 		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y.split('day').join('date') === 'what is the date' || y.split('day').join('date') === 'what date is it' || y.split('day').join('date') === 'give me the date' || y.split('day').join('date') === 'what is the time and date' || y.split('day').join('date') === 'what is the date and time' || y.split('day').join('date') === 'what is the time and the date' || y.split('day').join('date') === 'what is the date and the time' || y.split('day').join('date') === 'what time and date is it' || y.split('day').join('date') === 'what date and time is it' || y.split('day').join('date') === 'give me the time and date' || y.split('day').join('date') === 'give me the date and time' || y.split('day').join('date') === 'give me the time and the date' || y.split('day').join('date') === 'give me the date and the time' || y.split('day').join('date') === 'when am i') {
-			var now = new Date();
-			var date, time, suffix;
+			var now = new Date(), date, time, suffix;
 			y = (y === 'when am i') ? 'tid' : y;
 			if (y.indexOf('ti') !== -1) {
 				time = [now.getHours(), now.getMinutes(), now.getSeconds()];
