@@ -105,7 +105,7 @@ $(function () {
 					remember.modules[y] = true;
 					onoff = 'on';
 				}
-				Cookies.set('modules', remember.modules);
+				Cookies.set('remember', remember);
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
 				say('That module doesn\'t exist!');
@@ -361,9 +361,14 @@ $(function () {
 			}
 			y = y.charAt(0).toUpperCase() + y.slice(1);
 			remember.name = y;
+			Cookies.set('remember', remember);
 			say('From now on, I shall call you "' + y + '".');
 		} else if (y === 'who am i' || y === 'what is my name' || y === 'what do you call me' || y === 'what are you calling me') {
-			say('Your name is "' + remember.name + '".');
+			if (remember.name !== undefined) {
+				say('Your name is "' + remember.name + '".');
+			} else {
+				say('You haven\'t told me yet!');
+			}
 		} else if (y.startsWith('i')) {
 			say(['Why you always lyin\'?', 'Good for you.'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('you')) {
