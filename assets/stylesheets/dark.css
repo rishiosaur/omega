@@ -1,4 +1,11 @@
+
+/* External Stylesheets:
+ * dark.css
+ * normalize.css
+ */
+
 /* Only modifies colours */
+
 body {
 	background-color: black;
 	color: #b7b7b6;

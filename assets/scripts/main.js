@@ -1,3 +1,10 @@
+
+// List of external scripts:
+// jquery.min.js
+// js.cookie.js
+// goodnight.js
+// fastclick.js
+
 $(function () {
 	'use strict';
 	// FastClick
@@ -9,6 +16,7 @@ $(function () {
 	y,
 	// Newtab contains page to be opened
 	newtab,
+
 	// Everything the user says will be
 	// stored in an array so pressing the
 	// up or down arrow will move to the
@@ -17,6 +25,7 @@ $(function () {
 	// This currently isn't being used.
 	//
 	// inputs = [],
+
 	// Memory
 	memory = {
 		// Stores first and last name if inputted
