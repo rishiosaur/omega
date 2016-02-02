@@ -18,7 +18,7 @@ $(function () {
 	//
 	// inputs = [],
 	// Memory
-	remember = {
+	memory = {
 		// Stores first and last name if inputted
 		name: [],
 		// Module settings
@@ -28,8 +28,8 @@ $(function () {
 		}
 	};
 	// Evaluation of memory cookie
-	if (Cookies.get('remember') !== undefined) {
-		remember = eval('(' + Cookies.get('remember') + ')');
+	if (Cookies.get('memory') !== undefined) {
+		memory = eval('(' + Cookies.get('memory') + ')');
 	}
 	// Entertainment image toggle
 	$(document).on('click', '.toggle', function () {
@@ -49,6 +49,7 @@ $(function () {
 				y = y.charAt(0).toUpperCase() + y.slice(1);
 				y = y.split('<').join('&lt;');
 				y = y.split(' i ').join(' I ');
+				y = y += (('abdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.indexOf(y.slice(-1)) !== -1) ? '.' : '')
 				$(this).val('').blur();
 				$(say(y, 'you')).appendTo('#conversation-box').fadeIn('slow', function () {
 					y = y.split('&lt;').join('<');
@@ -106,29 +107,29 @@ $(function () {
 			}, 2000);
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
-			if (remember.modules[y] !== undefined) {
-				if (remember.modules[y]) {
-					remember.modules[y] = false;
+			if (memory.modules[y] !== undefined) {
+				if (memory.modules[y]) {
+					memory.modules[y] = false;
 					onoff = 'off';
 				} else {
-					remember.modules[y] = true;
+					memory.modules[y] = true;
 					onoff = 'on';
 				}
-				Cookies.set('remember', remember);
+				remember();
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
 				say('That module doesn\'t exist!');
 			}
 		} else if (y === 'what modules are there' || y === 'what modules are available' || y === 'tell me the modules' || y === 'show me the modules' || y === 'give me the modules' || y === 'list the modules') {
 			var keys = [];
-			for (var key in remember.modules) {
+			for (var key in memory.modules) {
 				keys.push(key);
 			}
 			say('Available modules: ' + keys.join(', '));
 		} else if (y === 'what modules are on' || y === 'what modules are off' || y === 'what are the module settings' || y === 'tell me the module settings' || y === 'show me the module settings' || y === 'give me the module settings' || y === 'list the module settings') {
 			var output = '';
-			for (var property in remember.modules) {
-				output += property[0].toUpperCase() + property.slice(1) + ': ' + remember.modules[property] + '<br>';
+			for (var property in memory.modules) {
+				output += property[0].toUpperCase() + property.slice(1) + ': ' + memory.modules[property] + '<br>';
 			}
 			say(output.split('true').join('On').split('false').join('Off'));
 		} else {
@@ -137,7 +138,7 @@ $(function () {
 	}
 	// [Optional] Random module
 	function random (y) {
-		if (remember.modules.random) {
+		if (memory.modules.random) {
 			if (y === 'flip a coin') {
 				say(['Heads', 'Tails'][Math.floor(Math.random() * 2)] + '.');
 			} else if (y === 'roll a die') {
@@ -199,7 +200,7 @@ $(function () {
 	}
 	// [Optional] Entertainment module
 	function entertainment (y) {
-		if (remember.modules.entertainment) {
+		if (memory.modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
 				y = y.slice(15);
 				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
@@ -288,7 +289,7 @@ $(function () {
 				});
 			}, 1000);
 		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
-			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((remember.name[0] !== undefined) ? ', ' + remember.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
+			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((memory.name[0] !== undefined && !!Math.floor(Math.random() * 2)) ? ', ' + memory.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y === 'what are you' || y === 'who are you' || y === 'what do you do') {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/Loquacious/fuchsia" target="_blank">https://github.com/Loquacious/fuchsia</a>.');
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
@@ -336,6 +337,7 @@ $(function () {
 			} else {
 				newtab = y.slice(5);
 			}
+			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
 			if (newtab.indexOf('.') === -1) {
 				say('Opening ' + newtab + '.com&hellip;');
 				setTimeout(function () {
@@ -357,10 +359,6 @@ $(function () {
 			say(['If the random module is on, you can ask me to "flip a coin".', 'If the entertainment module is on, you can ask me "should I watch" followed by a space and a movie/TV show name.', 'Ask me to tell you a joke.', '"Toggle Goodnight"', 'Ask for the date or time.'][Math.floor(Math.random() * 5)]);
 		} else if (y === 'ayy') {
 			say('lmao');
-		} else if (y === 'tell me a joke' || y.indexOf('chuck norris') !== -1 || y === 'be funny' || y === 'make me laugh') {
-			$.getJSON('https://api.icndb.com/jokes/random', function (d) {
-				say(d.value.joke);
-			});
 		} else if (y === 'call me') {
 			say('No. Apply cool water to burnt skin.');
 		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
@@ -373,19 +371,19 @@ $(function () {
 			for (var i = 0;i < y.length;i++) {
 				y[i] = y[i].charAt(0).toUpperCase() + y[i].slice(1);
 			}
-			remember.name = y;
-			Cookies.set('remember', remember);
-			say('From now on, I shall call you "' + remember.name.join(' ') + '".');
+			memory.name = y;
+			remember();
+			say('From now on, I shall call you "' + memory.name.join(' ') + '".');
 		} else if (y === 'who am i' || y === 'what is my name' || y === 'what do you call me' || y === 'what are you calling me') {
-			if (remember.name[0] !== undefined) {
-				say('Your name is "' + remember.name.join(' ') + '".');
+			if (memory.name[0] !== undefined) {
+				say(['Your name is', 'You\'re', 'I currently know you as'][Math.floor(Math.random() * 3)] + ' "' + memory.name.join(' ') + '".');
 			} else {
 				say('You haven\'t told me yet!');
 			}
 		} else if (y.startsWith('i')) {
-			say([(remember.name[0] === 'Ryan') ? 'Why you always Ryan?' : 'Why you always lyin\'?', 'Good for you.'][Math.floor(Math.random() * 2)]);
+			say([(memory.name[0] === 'Ryan') ? 'Why you always Ryan?' : ((memory.name[0] === 'Daman' || memory.name[0] === 'Damanjit') ? 'Why you always dumb, man (Daman)?' : 'Why you always lyin\'?'), 'Good for you.'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('you')) {
-			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
+			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ((memory.name[0] !== undefined && !!Math.floor(Math.random() * 2)) ? ', ' + memory.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
 			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
 		} else if (y.startsWith('sorry')) {
@@ -410,6 +408,10 @@ $(function () {
 			default:
 				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
 		}
+	}
+	// Sets memory cookie to memory variable
+	function remember () {
+		Cookies.set('memory', memory);
 	}
 	// Fade-in at beginning of app's load
 	setTimeout(function () {
