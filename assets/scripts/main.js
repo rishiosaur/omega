@@ -9,10 +9,18 @@ $(function () {
 	y,
 	// Newtab contains page to be opened
 	newtab,
+	// Everything the user says will be
+	// stored in an array so pressing the
+	// up or down arrow will move to the
+	// next bit of text.
+	//
+	// This currently isn't being used.
+	//
+	// inputs = [],
 	// Memory
 	remember = {
-		// Just to tell people that the name is something that can be remembered
-		name: undefined,
+		// Stores first and last name if inputted
+		name: [],
 		// Module settings
 		modules: {
 			'random': false,
@@ -277,7 +285,7 @@ $(function () {
 				});
 			}, 1000);
 		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
-			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((remember.name !== undefined) ? ['', ', ' + remember.name][Math.floor(Math.random() * 2)] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
+			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((remember.name[0] !== undefined) ? ', ' + remember.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y === 'what are you' || y === 'who are you' || y === 'what do you do') {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/355over113/fuchsia" target="_blank">https://github.com/355over113/fuchsia</a>.');
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
@@ -351,26 +359,29 @@ $(function () {
 			$.getJSON('https://api.icndb.com/jokes/random', function (d) {
 				say(d.value.joke);
 			});
-		} else if (y.startsWith('i am ') || y.startsWith('my name is ') || y.startsWith('call me ')) {
-			if (y.startsWith('i')) {
-				y = y.slice(5);
-			} else if (y.startsWith('m')) {
+		} else if (y === 'call me') {
+			say('No. Apply cool water to burnt skin.');
+		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
+			if (y.startsWith('m')) {
 				y = y.slice(11);
 			} else {
 				y = y.slice(8);
 			}
-			y = y.charAt(0).toUpperCase() + y.slice(1);
+			y = y.toLowerCase().split(' ');
+			for (var i = 0;i < y.length;i++) {
+				y[i] = y[i].charAt(0).toUpperCase() + y[i].slice(1);
+			}
 			remember.name = y;
 			Cookies.set('remember', remember);
-			say('From now on, I shall call you "' + y + '".');
+			say('From now on, I shall call you "' + remember.name.join(' ') + '".');
 		} else if (y === 'who am i' || y === 'what is my name' || y === 'what do you call me' || y === 'what are you calling me') {
-			if (remember.name !== undefined) {
-				say('Your name is "' + remember.name + '".');
+			if (remember.name[0] !== undefined) {
+				say('Your name is "' + remember.name.join(' ') + '".');
 			} else {
 				say('You haven\'t told me yet!');
 			}
 		} else if (y.startsWith('i')) {
-			say(['Why you always lyin\'?', 'Good for you.'][Math.floor(Math.random() * 2)]);
+			say([(remember.name[0] === 'Ryan') ? 'Why you always Ryan?' : 'Why you always lyin\'?', 'Good for you.'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('you')) {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
