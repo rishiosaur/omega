@@ -11,18 +11,21 @@ $(function () {
 	newtab,
 	// Memory
 	remember = {
+		// Just to tell people that the name is something that can be remembered
+		name: undefined,
+		// Module settings
 		modules: {
 			'random': false,
 			'entertainment': false
 		}
 	};
-	// Evaluation of modules cookie
+	// Evaluation of memory cookie
 	if (Cookies.get('remember') !== undefined) {
 		remember = eval('(' + Cookies.get('remember') + ')');
 	}
 	// Entertainment image toggle
 	$(document).on('click', '.toggle', function () {
-		// $(this).parent().children() to specifically target the image in the same paragraph
+		// $(this).parent().children() specifically targets the image in the same paragraph
 		$(this).parent().children().toggle();
 	});
 	// Input for app
@@ -64,16 +67,23 @@ $(function () {
 	// Parses string to be evaluated
 	function parse (y) {
 		y = y.toLowerCase();
+		// Punctuation
 		y = y.split('?').join('');
 		y = y.split('!').join('');
+		y = y.split(',').join(' ');
+		y = y.split('"').join('');
+		// Contractions
 		y = y.split('what\'s').join('what is');
 		y = y.split('you\'re').join('you are');
 		y = y.split('i\'m').join('i am');
-		y = y.split('"').join('');
+		// Ending periods
 		while (y.slice(-1) === '.') {
 			y = y.slice(0, -1);
 		}
+		// Replacement of .trim() using a regular expression
 		y = y.replace(/^\s+|\s+$/gm,'');
+		// Condenses multiple spaces into single spaces
+		y = y.replace(/\s\s+/g, ' ');
 		console.log('String has been interpreted as: "' + y + '".');
 		return y;
 	}
@@ -267,7 +277,7 @@ $(function () {
 				});
 			}, 1000);
 		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
-			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ['.', '!'][Math.floor(Math.random() * 2)]);
+			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((remember.name !== undefined) ? ['', ', ' + remember.name][Math.floor(Math.random() * 2)] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y === 'what are you' || y === 'who are you' || y === 'what do you do') {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/355over113/fuchsia" target="_blank">https://github.com/355over113/fuchsia</a>.');
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
@@ -341,6 +351,19 @@ $(function () {
 			$.getJSON('https://api.icndb.com/jokes/random', function (d) {
 				say(d.value.joke);
 			});
+		} else if (y.startsWith('i am ') || y.startsWith('my name is ') || y.startsWith('call me ')) {
+			if (y.startsWith('i')) {
+				y = y.slice(5);
+			} else if (y.startsWith('m')) {
+				y = y.slice(11);
+			} else {
+				y = y.slice(8);
+			}
+			y = y.charAt(0).toUpperCase() + y.slice(1);
+			remember.name = y;
+			say('From now on, I shall call you "' + y + '".');
+		} else if (y === 'who am i' || y === 'what is my name' || y === 'what do you call me' || y === 'what are you calling me') {
+			say('Your name is "' + remember.name + '".');
 		} else if (y.startsWith('i')) {
 			say(['Why you always lyin\'?', 'Good for you.'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('you')) {
