@@ -86,7 +86,8 @@ $(function () {
 		y = y.split('i\'m').join('i am');
 		// Ending periods
 		while (y.slice(-1) === '.') {
-			y = y.slice(0, -1);
+			// Deletes end period and trims string
+			y = y.slice(0, -1).replace(/^\s+|\s+$/gm,'');
 		}
 		// Replacement of .trim() using a regular expression
 		y = y.replace(/^\s+|\s+$/gm,'');
@@ -277,7 +278,9 @@ $(function () {
 	}
 	// [Mandatory] Core
 	function core (y) {
-		if (y === 'clear' || y === 'clear log' || y === 'clear logs') {
+		if (y === '') {
+			say('Sorry, I couldn\'t <s>hear</s> read you. Could you try re-entering your command?');
+		} else if (y === 'clear' || y === 'clear log' || y === 'clear logs') {
 			say('Clearing log&hellip;');
 			setTimeout(function () {
 				$('#conversation-box').fadeOut('slow', function () {
