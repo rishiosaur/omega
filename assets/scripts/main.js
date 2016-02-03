@@ -346,7 +346,7 @@ $(function () {
 			}
 		} else if (y.startsWith('go to ') || y.startsWith('open ')) {
 			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
-			say('Opening ' + newtab + ((newtab.indexOf('.') === -1) ? '.com' : '') + '&hellip;');
+			say('Opening ' + newtab.split(' ').join('') + ((newtab.indexOf('.') === -1) ? '.com' : '') + '&hellip;');
 			setTimeout(function () {
 				window.open('https://' + newtab + '.com', '_blank');
 			}, 1000);
@@ -361,7 +361,7 @@ $(function () {
 		} else if (y === 'ayy') {
 			say('lmao');
 		} else if (y === 'call me') {
-			say('No. Apply cool water to burnt skin.');
+			say('No.');
 		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
 			y = y.startsWith('m') ? y.slice(11) : y.slice(8);
 			y = y.toLowerCase().split(' ');
