@@ -346,9 +346,11 @@ $(function () {
 			}
 		} else if (y.startsWith('go to ') || y.startsWith('open ')) {
 			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
-			say('Opening ' + newtab.split(' ').join('') + ((newtab.indexOf('.') === -1) ? '.com' : '') + '&hellip;');
+			newtab = newtab.split(' ').join('')
+			newtab += (newtab.indexOf('.') === -1) ? '.com' : '';
+			say('Opening ' + newtab + '&hellip;');
 			setTimeout(function () {
-				window.open('https://' + newtab.split(' ').join('') + '.com', '_blank');
+				window.open('https://' + newtab, '_blank');
 			}, 1000);
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
