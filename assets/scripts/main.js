@@ -28,8 +28,9 @@ $(function () {
 
 	// inputs = [],
 
-	// Memory
+	// Page
 	page = $('html, body'),
+	// Memory
 	memory = {
 		// Stores full name
 		name: [],
