@@ -21,12 +21,13 @@ $(function () {
 	// stored in an array so pressing the
 	// up or down arrow will move to the
 	// next bit of text.
-	//
+
 	// This currently isn't being used.
-	//
+
 	// inputs = [],
 
 	// Memory
+	page = $('html, body'),
 	memory = {
 		// Stores first and last name if inputted
 		name: [],
@@ -58,7 +59,6 @@ $(function () {
 				y = y.charAt(0).toUpperCase() + y.slice(1);
 				y = y.split('<').join('&lt;');
 				y = y.split(' i ').join(' I ');
-				y = y += (('abdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.indexOf(y.slice(-1)) !== -1) ? '.' : '')
 				$(this).val('').blur();
 				$(say(y, 'you')).appendTo('#conversation-box').fadeIn('slow', function () {
 					y = y.split('&lt;').join('<');
@@ -80,7 +80,14 @@ $(function () {
 			}
 		}
 		// Scrolls after response
-		$('html, body').animate({scrollTop: $(document).height()}, 2000);
+		page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function() {
+			page.stop();
+		});
+		page.animate({
+			scrollTop: $(document).height()
+		}, 'slow', function() {
+			page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
+		});
 	}
 	// Parses string to be evaluated
 	function parse (y) {
@@ -117,13 +124,8 @@ $(function () {
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
 			if (memory.modules[y] !== undefined) {
-				if (memory.modules[y]) {
-					memory.modules[y] = false;
-					onoff = 'off';
-				} else {
-					memory.modules[y] = true;
-					onoff = 'on';
-				}
+				memory.modules[y] = memory.modules[y] ? false : true;
+				onoff = memory.modules[y] ? 'on' : 'off';
 				remember();
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
@@ -200,6 +202,14 @@ $(function () {
 				} else {
 					say('Sorry; I\'m not entirely sure what you\'re saying. I\'ll perform');
 				}
+			} else if (y === 'give me a random string' || y === 'generate a random string') {
+				y = y.startsWith('gi') ? y.slice(23) : y.slice(24);
+				var temp = [];
+				var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+				for (var i = 0;i < 32;i++) {
+					temp.push(chars[Math.floor(Math.random() * 62)]);
+				}
+				say(temp.join(''));
 			} else {
 				return true;
 			}
@@ -324,13 +334,7 @@ $(function () {
 				date[1] = months[date[1]];
 				tempdate = date[2];
 				tempdate = (tempdate >= 10) ? tempdate.toString() : '0' + tempdate;
-				console.log(tempdate);
-				if (tempdate[0] === '1') {
-					date[2] += 'th,';
-					console.log(date[2]);
-				} else {
-					date[2] += chron[parseInt(tempdate[1], 10) - 1] + ',';
-				}
+				date[2] += (tempdate[0] === '1') ? 'th,' : chron[parseInt(tempdate[1], 10) - 1];
 				date = date.join(' ');
 			}
 			if (y.indexOf('ti') !== -1 && y.indexOf('d') !== -1) {
@@ -341,23 +345,11 @@ $(function () {
 				say('The date is <b>' + date + '</b>.');
 			}
 		} else if (y.startsWith('go to ') || y.startsWith('open ')) {
-			if (y.startsWith('go to')) {
-				newtab = y.slice(6);
-			} else {
-				newtab = y.slice(5);
-			}
 			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
-			if (newtab.indexOf('.') === -1) {
-				say('Opening ' + newtab + '.com&hellip;');
-				setTimeout(function () {
-					window.open('https://' + newtab + '.com', '_blank');
-				}, 1000);
-			} else {
-				say('Opening ' + newtab + '&hellip;');
-				setTimeout(function () {
-					window.open('https://' + newtab, '_blank');
-				}, 1000);
-			}
+			say('Opening ' + newtab + ((newtab.indexOf('.') === -1) ? '.com' : '') + '&hellip;');
+			setTimeout(function () {
+				window.open('https://' + newtab + '.com', '_blank');
+			}, 1000);
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
 			say('Searching Google for "' + newtab + '"&hellip;');
@@ -371,11 +363,7 @@ $(function () {
 		} else if (y === 'call me') {
 			say('No. Apply cool water to burnt skin.');
 		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
-			if (y.startsWith('m')) {
-				y = y.slice(11);
-			} else {
-				y = y.slice(8);
-			}
+			y = y.startsWith('m') ? y.slice(11) : y.slice(8);
 			y = y.toLowerCase().split(' ');
 			for (var i = 0;i < y.length;i++) {
 				y[i] = y[i].charAt(0).toUpperCase() + y[i].slice(1);
