@@ -307,7 +307,7 @@ $(function () {
 					$('#conversation-box').empty().show();
 				});
 			}, 1000);
-		} else if (y === 'hi' || y === 'hello' || y === 'hey' || y === 'greetings') {
+		} else if (y.startsWith('hi') || y.startsWith('hello') || y.startsWith('hey') || y.startsWith('greetings')) {
 			say(['Hi', 'Hello', 'Hey', 'Greetings'][Math.floor(Math.random() * 4)] + ((memory.name[0] !== undefined && !!Math.floor(Math.random() * 2)) ? ', ' + memory.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y === 'what are you' || y === 'who are you' || y === 'what do you do') {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/Loquacious/fuchsia" target="_blank">https://github.com/Loquacious/fuchsia</a>.');
