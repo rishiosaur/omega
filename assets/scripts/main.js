@@ -108,7 +108,7 @@ $(function () {
 		function styleoff () {
 			$('#green').remove();
 		}
-		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()' || y === 'toggle dark' || y === 'toggle dark.css' || y === 'toggle dark theme') {
+		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()' || y === 'toggle dark' || y === 'toggle dark.css' || y === 'toggle dark theme' || y === 'toggle light' || y === 'toggle light theme') {
 			say('Toggling Goodnight&mdash;brace yourself&hellip;');
 			setTimeout(function () {
 				styleoff();
