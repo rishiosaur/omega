@@ -41,34 +41,21 @@ $(function () {
 	if (Cookies.get('memory') !== undefined) {
 		memory = eval('(' + Cookies.get('memory') + ')');
 	}
-	// Entertainment image toggle
-	$(document).on('click', '.toggle', function () {
-		// $(this).parent().children() specifically targets the image in the same paragraph
-		$(this).parent().children().toggle();
-	});
-	// Input for app
-	$('input').keydown(function (e) {
-		if (e.which === 13) {
-			if ($(this).val().replace(/^\s+|\s+$/gm,'') !== '') {
-				// Parsing of user input for display
-				y = $(this).val();
-				// Replacement of .trim() using a regular expression
-				y = y.replace(/^\s+|\s+$/gm,'');
-				// Condenses multiple spaces into single spaces
-				y = y.replace(/\s\s+/g, ' ');
-				y = y.charAt(0).toUpperCase() + y.slice(1);
-				y = y.split('<').join('&lt;');
-				y = y.split(' i ').join(' I ');
-				$(this).val('').blur();
-				$(say(y, 'you')).appendTo('#conversation-box').fadeIn('slow', function () {
-					y = y.split('&lt;').join('<');
-					app(y);
-				});
-			} else {
-				$(this).val('');
-			}
+	// Adds text to conversation
+	function say (t, s) {
+		switch (s) {
+			case 'you':
+			case 'y':
+				return '<div class="conversation you">' + t + '</div>';
+				break;
+			default:
+				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
 		}
-	});
+	}
+	// Sets memory cookie to memory variable
+	function remember () {
+		Cookies.set('memory', memory);
+	}
 	// Runs all modules
 	function app (y) {
 		y = parse(y);
@@ -79,7 +66,7 @@ $(function () {
 				}
 			}
 		}
-		// Scrolls after response
+		// Scrolling will stop if user manually scrolls
 		page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function() {
 			page.stop();
 		});
@@ -358,14 +345,10 @@ $(function () {
 			setTimeout(function () {
 				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
 			}, 1000);
+		} else if (y.startsWith('sorry')) {
+			say(['It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'][Math.floor(Math.random() * 4)]);
 		} else if (y === 'what can you do' || y === 'what can i do' || y === 'what are your features') {
 			say(['If the random module is on, you can ask me to "flip a coin".', 'If the entertainment module is on, you can ask me "should I watch" followed by a space and a movie/TV show name.', 'Ask me to tell you a joke.', '"Toggle Goodnight"', 'Ask for the date or time.'][Math.floor(Math.random() * 5)]);
-		} else if (y === 'ayy') {
-			say('&helliplmao');
-		} else if (y === 'the cake' || y === 'cake') {
-			say('&hellipis a lie.');
-		} else if (y === 'call me') {
-			say('No.');
 		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
 			y = y.startsWith('m') ? y.slice(11) : y.slice(8);
 			y = y.toLowerCase().split(' ');
@@ -387,8 +370,12 @@ $(function () {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ((memory.name[0] !== undefined && !!Math.floor(Math.random() * 2)) ? ', ' + memory.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
 			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
-		} else if (y.startsWith('sorry')) {
-			say(['It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'][Math.floor(Math.random() * 4)]);
+		} else if (y === 'ayy') {
+			say('&helliplmao');
+		} else if (y === 'the cake' || y === 'cake') {
+			say('&hellipis a lie.');
+		} else if (y === 'call me') {
+			say('No.');
 		} else {
 			say('I apologize, but I wasn\'t sure what you were asking of me. I\'ll perform a Google search instead.');
 			setTimeout(function () {
@@ -399,21 +386,34 @@ $(function () {
 			}, 2000);
 		}
 	}
-	// Adds text to conversation
-	function say (t, s) {
-		switch (s) {
-			case 'you':
-			case 'y':
-				return '<div class="conversation you">' + t + '</div>';
-				break;
-			default:
-				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
+	// Entertainment image toggle
+	$(document).on('click', '.toggle', function () {
+		// $(this).parent().children() specifically targets the image in the same paragraph
+		$(this).parent().children().toggle();
+	});
+	// Input for app
+	$('input').keydown(function (e) {
+		if (e.which === 13) {
+			if ($(this).val().replace(/^\s+|\s+$/gm,'') !== '') {
+				// Parsing of user input for display
+				y = $(this).val();
+				// Replacement of .trim() using a regular expression
+				y = y.replace(/^\s+|\s+$/gm,'');
+				// Condenses multiple spaces into single spaces
+				y = y.replace(/\s\s+/g, ' ');
+				y = y.charAt(0).toUpperCase() + y.slice(1);
+				y = y.split('<').join('&lt;');
+				y = y.split(' i ').join(' I ');
+				$(this).val('').blur();
+				$(say(y, 'you')).appendTo('#conversation-box').fadeIn('slow', function () {
+					y = y.split('&lt;').join('<');
+					app(y);
+				});
+			} else {
+				$(this).val('');
+			}
 		}
-	}
-	// Sets memory cookie to memory variable
-	function remember () {
-		Cookies.set('memory', memory);
-	}
+	});
 	// Fade-in at beginning of app's load
 	setTimeout(function () {
 		$('#container').fadeIn('slow');
