@@ -377,6 +377,9 @@ $(function () {
 				case 'vimeo':
 					endpoint = 'https://vimeo.com/search?q=';
 					break;
+				case 'reddit':
+					endpoint = 'https://www.reddit.com/search?q=';
+					break;
 				case 'github':
 					endpoint = 'https://github.com/search?utf8=✓&q=';
 					break;
