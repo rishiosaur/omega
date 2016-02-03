@@ -16,6 +16,8 @@ $(function () {
 	y,
 	// Newtab contains page to be opened
 	newtab,
+	// Endpoint contains search page before query
+	endpoint,
 
 	// Everything the user says will be
 	// stored in an array so pressing the
@@ -106,13 +108,13 @@ $(function () {
 		function styleoff () {
 			$('#green').remove();
 		}
-		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
+		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()' || y === 'toggle dark' || y === 'toggle dark.css' || y === 'toggle dark theme') {
 			say('Toggling Goodnight&mdash;brace yourself&hellip;');
 			setTimeout(function () {
 				styleoff();
 				Goodnight.toggle();
 			}, 2000);
-		} else if (y === 'toggle green' || y === 'toggle green.css') {
+		} else if (y === 'toggle green' || y === 'toggle green.css' || y === 'toggle green theme') {
 			say('Toggling the "Green" theme&mdash;brace yourself&hellip;');
 			setTimeout(function () {
 				if ($('#green').length === 0) {
@@ -314,7 +316,7 @@ $(function () {
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
 			say(['I\'m fine.', 'I\'m okay.', 'I\'m great; thanks for asking!', 'I could be doing better.'][Math.floor(Math.random() * 4)]);
 		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y.split('day').join('date') === 'what is the date' || y.split('day').join('date') === 'what date is it' || y.split('day').join('date') === 'give me the date' || y.split('day').join('date') === 'what is the time and date' || y.split('day').join('date') === 'what is the date and time' || y.split('day').join('date') === 'what is the time and the date' || y.split('day').join('date') === 'what is the date and the time' || y.split('day').join('date') === 'what time and date is it' || y.split('day').join('date') === 'what date and time is it' || y.split('day').join('date') === 'give me the time and date' || y.split('day').join('date') === 'give me the date and time' || y.split('day').join('date') === 'give me the time and the date' || y.split('day').join('date') === 'give me the date and the time' || y.split('day').join('date') === 'when am i') {
-			var now = new Date(), date, time, suffix;
+			var now = new Date(), date, time, suffix, theme;
 			y = (y === 'when am i') ? 'tid' : y;
 			if (y.indexOf('ti') !== -1) {
 				time = [now.getHours(), now.getMinutes(), now.getSeconds()];
@@ -323,6 +325,7 @@ $(function () {
 				time[1] = (time[1] >= 10) ? time[1] : '0' + time[1];
 				time[2] = (time[2] >= 10) ? time[2] : '0' + time[2];
 				time = time.join(':');
+				theme = ' You should probably use the' + ((now.getHours() <= 18 || now.getHours() >= 6) ? '"Light" or "Green"' : '"Dark"') + ' theme if you aren\'t already.';
 			}
 			if (y.indexOf('d') !== -1) {
 				var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -338,9 +341,9 @@ $(function () {
 				date = date.join(' ');
 			}
 			if (y.indexOf('ti') !== -1 && y.indexOf('d') !== -1) {
-				say('It is currently <b>' + date + ' ' + time + suffix + '</b>.');
+				say('It is currently <b>' + date + ' ' + time + suffix + '</b>.' + theme);
 			} else if (y.indexOf('ti') !== -1) {
-				say('The time is <b>' + time + suffix + '</b>.');
+				say('The time is <b>' + time + suffix + '</b>.' + theme);
 			} else {
 				say('The date is <b>' + date + '</b>.');
 			}
@@ -352,11 +355,46 @@ $(function () {
 			setTimeout(function () {
 				window.open('https://' + newtab, '_blank');
 			}, 1000);
-		} else if (y.startsWith('search for ')){
-			newtab = y.slice(11);
-			say('Searching Google for "' + newtab + '"&hellip;');
+		} else if (y.startsWith('search ')){
+			y = y.slice(7).split('for ');
+			// More or less -stolen- borrowed from Jarvis
+			switch (y[0].split(' ').join('')) {
+				case 'bing':
+					endpoint = 'https://www.bing.com/search?q=';
+					break;
+				case 'yahoo':
+					endpoint = 'https://search.yahoo.com/search?p=';
+					break;
+				case 'duckduckgo':
+					endpoint = 'https://duckduckgo.com/?q=';
+					break;
+				case 'wikipedia':
+					endpoint = 'https://en.wikipedia.org/wiki/';
+					break;
+				case 'youtube':
+					endpoint = 'https://www.youtube.com/results?search_query=';
+					break;
+				case 'vimeo':
+					endpoint = 'https://vimeo.com/search?q=';
+					break;
+				case 'github':
+					endpoint = 'https://github.com/search?utf8=✓&q=';
+					break;
+				case 'stackoverflow':
+					endpoint = 'http://stackoverflow.com/search?q=';
+					break;
+				default:
+					endpoint = 'https://www.google.com/search?q=';
+			}
+			say('Searching for "' + y[1] + '"&hellip;');
 			setTimeout(function () {
-				window.open('https://www.google.ca/search?q=' + newtab.split(' ').join('+'), '_blank');
+				window.open(endpoint + y[1].split(' ').join('%20'), '_blank');
+			}, 1000);
+		} else if (y.startsWith('tell me about ')) {
+			y = y.slice(14);
+			say('Search Wikipedia for "' + y + '"&hellip;');
+			setTimeout(function () {
+				window.open('https://en.wikipedia.org/wiki/' + y.split(' ').join('_'), '_blank');
 			}, 1000);
 		} else if (y.startsWith('sorry')) {
 			say(['It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'][Math.floor(Math.random() * 4)]);
@@ -384,9 +422,9 @@ $(function () {
 		} else if (y.startsWith('never gonna give you up')) {
 			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
 		} else if (y === 'ayy') {
-			say('&helliplmao');
+			say('&hellip;lmao');
 		} else if (y === 'the cake' || y === 'cake') {
-			say('&hellipis a lie.');
+			say('&hellip;is a lie.');
 		} else if (y === 'call me') {
 			say('No.');
 		} else {
