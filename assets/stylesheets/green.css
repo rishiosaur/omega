@@ -1,0 +1,38 @@
+
+/* Only modifies colours */
+
+body {
+	background-color: #9CFF88;
+	color: #11772D;
+}
+input {
+	background-color: #9CFF88;
+}
+#conversation-box, a {
+	color: #11772D;
+}
+.you {
+	border-left: 0.4vw solid #11772D;
+}
+.fuchsia {
+	text-align: right;
+	border-right: 0.4vw solid #11772D;
+}
+.box {
+	background-color: #22EE5B;
+}
+*::-webkit-input-placeholder {
+    color: #30AD23;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: #30AD23;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: #30AD23;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #30AD23;
+}

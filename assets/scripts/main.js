@@ -103,10 +103,23 @@ $(function () {
 	// [Mandatory] Settings module
 	function settings (y) {
 		var onoff;
+		function styleoff () {
+			$('#green').remove();
+		}
 		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()') {
 			say('Toggling Goodnight&mdash;brace yourself&hellip;');
 			setTimeout(function () {
+				styleoff();
 				Goodnight.toggle();
+			}, 2000);
+		} else if (y === 'toggle green' || y === 'toggle green.css') {
+			say('Toggling the "Green" theme&mdash;brace yourself&hellip;');
+			setTimeout(function () {
+				if ($('#green').length === 0) {
+					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/green.css" id="green">');
+				} else {
+					$('#green').remove();
+				}
 			}, 2000);
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
