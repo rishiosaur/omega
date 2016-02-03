@@ -339,7 +339,7 @@ $(function () {
 			}
 			if (y.indexOf('ti') !== -1 && y.indexOf('d') !== -1) {
 				say('It is currently <b>' + date + ' ' + time + suffix + '</b>.');
-			} else if (y.indexOf('time') !== -1) {
+			} else if (y.indexOf('ti') !== -1) {
 				say('The time is <b>' + time + suffix + '</b>.');
 			} else {
 				say('The date is <b>' + date + '</b>.');
@@ -348,7 +348,7 @@ $(function () {
 			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
 			say('Opening ' + newtab.split(' ').join('') + ((newtab.indexOf('.') === -1) ? '.com' : '') + '&hellip;');
 			setTimeout(function () {
-				window.open('https://' + newtab + '.com', '_blank');
+				window.open('https://' + newtab.split(' ').join('') + '.com', '_blank');
 			}, 1000);
 		} else if (y.startsWith('search for ')){
 			newtab = y.slice(11);
