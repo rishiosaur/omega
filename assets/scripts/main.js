@@ -361,9 +361,9 @@ $(function () {
 		} else if (y === 'what can you do' || y === 'what can i do' || y === 'what are your features') {
 			say(['If the random module is on, you can ask me to "flip a coin".', 'If the entertainment module is on, you can ask me "should I watch" followed by a space and a movie/TV show name.', 'Ask me to tell you a joke.', '"Toggle Goodnight"', 'Ask for the date or time.'][Math.floor(Math.random() * 5)]);
 		} else if (y === 'ayy') {
-			say('&hellip;lmao');
+			say('&helliplmao');
 		} else if (y === 'the cake' || y === 'cake') {
-			say('&hellip;is a lie.');
+			say('&hellipis a lie.');
 		} else if (y === 'call me') {
 			say('No.');
 		} else if (y.startsWith('my name is ') || y.startsWith('call me ')) {
