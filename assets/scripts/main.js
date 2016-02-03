@@ -29,7 +29,7 @@ $(function () {
 	// Memory
 	page = $('html, body'),
 	memory = {
-		// Stores first and last name if inputted
+		// Stores full name
 		name: [],
 		// Module settings
 		modules: {
