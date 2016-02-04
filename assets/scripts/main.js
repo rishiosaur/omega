@@ -57,7 +57,7 @@ $(function () {
 	}
 	// Sets memory cookie to memory variable
 	function remember () {
-		Cookies.set('memory', memory);
+		Cookies.set('memory', memory, {expires: 365});
 	}
 	// Runs all modules
 	function app (y) {
@@ -115,8 +115,8 @@ $(function () {
 				styleoff();
 				Goodnight.toggle();
 			}, 2000);
-		} else if (y === 'toggle green' || y === 'toggle green.css' || y === 'toggle green theme') {
-			say('Toggling the "Green" theme&mdash;brace yourself&hellip;');
+		} else if (y.split('grassy').join('grass') === 'toggle grass' || y.split('grassy').join('grass') === 'toggle grass theme' || y === 'toggle green' || y === 'toggle green.css' || y === 'toggle green theme') {
+			say('Toggling the "Grassy" theme&mdash;brace yourself&hellip;');
 			setTimeout(function () {
 				if ($('#green').length === 0) {
 					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/green.css" id="green">');
@@ -316,7 +316,7 @@ $(function () {
 			say('I am Fuchsia. An intelligient virtual personal assistant for the web. I\'m based off of <a href="https://github.com/jaredcubilla/jarvis" target="_blank">Jared Cubilla\'s Jarvis</a>, but I\'m not voice-powered, which means that I can <del>say</del> write anything I want. You can find my documentation at <a href="https://github.com/Loquacious/fuchsia" target="_blank">https://github.com/Loquacious/fuchsia</a>.');
 		} else if (y === 'how are you' || y === 'how do you do' || y === 'how are you doing') {
 			say(['I\'m fine.', 'I\'m okay.', 'I\'m great; thanks for asking!', 'I could be doing better.'][Math.floor(Math.random() * 4)]);
-		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y.split('day').join('date') === 'what is the date' || y.split('day').join('date') === 'what date is it' || y.split('day').join('date') === 'give me the date' || y.split('day').join('date') === 'what is the time and date' || y.split('day').join('date') === 'what is the date and time' || y.split('day').join('date') === 'what is the time and the date' || y.split('day').join('date') === 'what is the date and the time' || y.split('day').join('date') === 'what time and date is it' || y.split('day').join('date') === 'what date and time is it' || y.split('day').join('date') === 'give me the time and date' || y.split('day').join('date') === 'give me the date and time' || y.split('day').join('date') === 'give me the time and the date' || y.split('day').join('date') === 'give me the date and the time' || y.split('day').join('date') === 'when am i') {
+		} else if (y === 'what is the time' || y === 'what time is it' || y === 'give me the time' || y === 'tell me the time' || y.split('day').join('date') === 'what is the date' || y.split('day').join('date') === 'what date is it' || y.split('day').join('date') === 'give me the date' || y.split('day').join('date') === 'tell me the date' || y.split('day').join('date') === 'what is the time and date' || y.split('day').join('date') === 'what is the date and time' || y.split('day').join('date') === 'what is the time and the date' || y.split('day').join('date') === 'what is the date and the time' || y.split('day').join('date') === 'what time and date is it' || y.split('day').join('date') === 'what date and time is it' || y.split('day').join('date') === 'give me the time and date' || y.split('day').join('date') === 'give me the date and time' || y.split('day').join('date') === 'give me the time and the date' || y.split('day').join('date') === 'give me the date and the time' || y.split('day').join('date') === 'when am i') {
 			var now = new Date(), date, time, suffix, theme;
 			y = (y === 'when am i') ? 'tid' : y;
 			if (y.indexOf('ti') !== -1) {
@@ -326,7 +326,7 @@ $(function () {
 				time[1] = (time[1] >= 10) ? time[1] : '0' + time[1];
 				time[2] = (time[2] >= 10) ? time[2] : '0' + time[2];
 				time = time.join(':');
-				theme = ' You should probably use the ' + ((now.getHours() <= 18 || now.getHours() >= 6) ? '"Light" or "Green"' : '"Dark"') + ' theme if you aren\'t already.';
+				theme = (Math.random() < 0.25) ? '' : ' Try using the ' + ((now.getHours() <= 18 || now.getHours() >= 6) ? '"Light" or "Grassy"' : '"Dark"') + ' theme if you aren\'t already.';
 			}
 			if (y.indexOf('d') !== -1) {
 				var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
