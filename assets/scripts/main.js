@@ -357,7 +357,9 @@ $(function () {
 				window.open('https://' + newtab, '_blank');
 			}, 1000);
 		} else if (y.startsWith('search ')){
-			y = y.slice(7).split('for ');
+			y = y.slice(6).split(' for ');
+			y[1] = y.slice(1).join(' for ');
+			y[1] = (y[1] === '') ? y[0].slice(1) : y[1];
 			// More or less -stolen- borrowed from Jarvis
 			switch (y[0].split(' ').join('')) {
 				case 'bing':
