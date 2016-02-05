@@ -116,17 +116,25 @@ $(function () {
 				Goodnight.toggle();
 			}, 2000);
 		} else if (y.split('grassy').join('grass') === 'activate grass' || y.split('grassy').join('grass') === 'activate grass theme' || y === 'activate green' || y === 'activate green.css' || y === 'activate green theme') {
-			say('Toggling the "Grassy" theme&mdash;brace yourself&hellip;');
-			setTimeout(function () {
-				styleoff();
-				$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/green.css" id="green">');
-			}, 2000);
+			if ($('#green').length === 0) {
+				say('Activating the "Grassy" theme&mdash;brace yourself&hellip;');
+				setTimeout(function () {
+					styleoff();
+					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/green.css" id="green">');
+				}, 2000);
+			} else {
+				say('What? That theme\'s already on!');
+			}
 		} else if (y === 'activate sky' || y === 'activate sky theme' || y === 'activate sky.css') {
-			say('Activating the "Sky" theme&mdash;brace yourself&hellip;');
-			setTimeout(function () {
-				styleoff();
-				$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/sky.css" id="sky">');
-			}, 2000);
+			if ($('#sky').length === 0) {
+				say('Activating the "Sky" theme&mdash;brace yourself&hellip;');
+				setTimeout(function () {
+					styleoff();
+					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/sky.css" id="sky">');
+				}, 2000);
+			} else {
+				say('What? That theme\'s already on!');
+			}
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
 			if (memory.modules[y] !== undefined) {
