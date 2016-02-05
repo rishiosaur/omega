@@ -421,9 +421,9 @@ $(function () {
 			} else {
 				say('You haven\'t told me yet!');
 			}
-		} else if (y.startsWith('i')) {
+		} else if (y.startsWith('i ') || y.startsWith('i\'')) {
 			say([(memory.name[0] === 'Ryan') ? 'Why you always Ryan?' : ((memory.name[0] === 'Daman' || memory.name[0] === 'Damanjit') ? 'Why you always dumb, man (Daman)?' : 'Why you always lyin\'?'), 'Good for you.'][Math.floor(Math.random() * 2)]);
-		} else if (y.startsWith('you')) {
+		} else if (y.startsWith('you ') || y.startsWith('you\'')) {
 			say(['Thank you', 'That\'s what I thought', 'We should be talking more about you'][Math.floor(Math.random() * 3)] + ((memory.name[0] !== undefined && !!Math.floor(Math.random() * 2)) ? ', ' + memory.name[0] : '') + ['.', '!'][Math.floor(Math.random() * 2)]);
 		} else if (y.startsWith('never gonna give you up')) {
 			say('Never gonna give you up<br>Never gonna let you down<br>Never gonna run around and desert you<br>Never gonna make you cry<br>Never gonna say goodbye<br>Never gonna tell a lie and hurt you');
