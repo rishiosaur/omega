@@ -398,7 +398,7 @@ $(function () {
 			}, 1000);
 		} else if (y.startsWith('tell me about ')) {
 			y = y.slice(14);
-			say('Search Wikipedia for "' + y + '"&hellip;');
+			say('Searching Wikipedia for "' + y + '"&hellip;');
 			setTimeout(function () {
 				window.open('https://en.wikipedia.org/wiki/' + y.split(' ').join('_'), '_blank');
 			}, 1000);
