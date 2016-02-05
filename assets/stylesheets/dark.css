@@ -1,5 +1,5 @@
 
-/* Only modifies colours */
+/* Only modifies colours and borders */
 
 body {
 	background-color: black;
@@ -20,4 +20,5 @@ input {
 }
 .box {
 	background-color: #1f1f1f;
+	border: none;
 }
