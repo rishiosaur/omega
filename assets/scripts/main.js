@@ -50,6 +50,26 @@ $(function () {
 	if (memory.theme !== '') {
 		$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/' + memory.theme + '.css" class="theme">');
 	}
+	// Checks for internet connection
+	function connectionExists() {
+	    var xhr = new XMLHttpRequest();
+	    var file = "https://loquacious.github.io/lights-out/replay.svg";
+	    var randomNum = Math.round(Math.random() * 10000);
+
+	    xhr.open('HEAD', file + "?rand=" + randomNum, false);
+
+	    try {
+	        xhr.send();
+
+	        if (xhr.status >= 200 && xhr.status < 304) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    } catch (e) {
+	        return false;
+	    }
+	}
 	// Adds text to conversation
 	function say (t, s) {
 		switch (s) {
@@ -497,8 +517,13 @@ $(function () {
 			}
 		}
 	});
-	// Fade-in at beginning of app's load
-	setTimeout(function () {
-		$('#container').fadeIn('slow');
-	}, 1000);
+	if (connectionExists()) {
+		// Fade-in at beginning of app's load
+		setTimeout(function () {
+			$('#container').fadeIn('slow');
+		}, 1000);
+	} else {
+		// Fallback if not connected to internet
+		say('You don\'t seem to be connected to the internet. Please connect to use Fuchsia.');
+	}
 });
