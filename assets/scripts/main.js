@@ -243,7 +243,7 @@ $(function () {
 		if (memory.modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
 				y = y.slice(15);
-				$.ajax('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
+				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
 						if (d.Type === 'movie') {
