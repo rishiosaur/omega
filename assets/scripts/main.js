@@ -134,7 +134,7 @@ $(function () {
 				case 'theme':
 				case 'themes':
 				case 'styles':
-					say('Removing theme&mdash;brace yourself!');
+					say('Removing theme&mdash;brace yourself&hellip;');
 					setTimeout(function () {
 						$('.theme').remove();
 					}, 2000)
@@ -465,6 +465,7 @@ $(function () {
 	$(document).on('click', '.toggle', function () {
 		// $(this).parent().children() specifically targets the image in the same paragraph
 		$(this).parent().children().toggle();
+		$('body').scrollTo($(this).parent().children('img'), 'slow');
 	});
 	// Input for app
 	$('input').keydown(function (e) {
