@@ -34,6 +34,8 @@ $(function () {
 		name: [],
 		// Current theme
 		theme: '',
+		// If sound is on
+		sound: false,
 		// Module settings
 		modules: {
 			'random': false,
@@ -56,7 +58,7 @@ $(function () {
 				return '<div class="conversation you">' + t + '</div>';
 				break;
 			default:
-				('speechSynthesis' in window) ? window.speechSynthesis.speak(new SpeechSynthesisUtterance($('<span>' + t + '</span>').text())) : console.log('Speech synthesis is not supported in this browser.');
+				('speechSynthesis' in window && memory.sound) ? window.speechSynthesis.speak(new SpeechSynthesisUtterance($('<span>' + t + '</span>').text())) : console.log('Speech synthesis is not supported in this browser or user has disabled it.');
 				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
 		}
 	}
@@ -143,6 +145,10 @@ $(function () {
 				default:
 					say('I\'m sorry but I wasn\'t sure what you meant. Try again but this time say, "Deactivate ' + y + '"')
 			}
+		} else if (y === 'toggle sound') {
+			memory.sound = memory.sound ? false : true;
+			remember();
+			say('Sound has been turned ' + (memory.sound ? 'on' : 'off') + '.');
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
 			if (memory.modules[y] !== undefined) {
@@ -472,7 +478,7 @@ $(function () {
 	$('input').keydown(function (e) {
 		if (e.which === 13) {
 			if ($(this).val().replace(/^\s+|\s+$/gm,'') !== '') {
-				('speechSynthesis' in window) ? window.speechSynthesis.cancel() : console.log('Speech synthesis is not supported in this browser.');
+				('speechSynthesis' in window && memory.sound) ? window.speechSynthesis.cancel() : console.log('Speech synthesis is not supported in this browser or user has disabled it.');
 				// Parsing of user input for display
 				y = $(this).val();
 				// Replacement of .trim() using a regular expression
