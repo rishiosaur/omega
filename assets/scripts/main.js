@@ -56,6 +56,7 @@ $(function () {
 				return '<div class="conversation you">' + t + '</div>';
 				break;
 			default:
+				('speechSynthesis' in window) ? window.speechSynthesis.speak(new SpeechSynthesisUtterance($('<span>' + t + '</span>').text())) : console.log('Speech synthesis is not supported in this browser.');
 				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
 		}
 	}
@@ -471,6 +472,7 @@ $(function () {
 	$('input').keydown(function (e) {
 		if (e.which === 13) {
 			if ($(this).val().replace(/^\s+|\s+$/gm,'') !== '') {
+				('speechSynthesis' in window) ? window.speechSynthesis.cancel() : console.log('Speech synthesis is not supported in this browser.');
 				// Parsing of user input for display
 				y = $(this).val();
 				// Replacement of .trim() using a regular expression
