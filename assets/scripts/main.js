@@ -147,7 +147,6 @@ $(function () {
 			}
 		} else if (y === 'toggle sound') {
 			memory.sound = memory.sound ? false : true;
-			remember();
 			say('Sound has been turned ' + (memory.sound ? 'on' : 'off') + '.');
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
