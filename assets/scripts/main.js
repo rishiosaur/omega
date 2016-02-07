@@ -9,8 +9,6 @@ $(function () {
 	'use strict';
 	// FastClick
 	FastClick.attach(document.body);
-	// Goodnight
-	Goodnight.css('assets/stylesheets/dark.css');
 	var
 	// User's input
 	y,
@@ -34,6 +32,8 @@ $(function () {
 	memory = {
 		// Stores full name
 		name: [],
+		// Current theme
+		theme: '',
 		// Module settings
 		modules: {
 			'random': false,
@@ -43,6 +43,10 @@ $(function () {
 	// Evaluation of memory cookie
 	if (Cookies.get('memory') !== undefined) {
 		memory = eval('(' + Cookies.get('memory') + ')');
+	}
+	// Sets theme to last used theme
+	if (memory.theme !== '') {
+		$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/' + memory.theme + '.css" class="theme">');
 	}
 	// Adds text to conversation
 	function say (t, s) {
@@ -106,51 +110,43 @@ $(function () {
 	// [Mandatory] Settings module
 	function settings (y) {
 		var onoff;
-		function styleoff () {
-			$('.theme').remove();
-		}
-		if (y === 'toggle goodnight' || y === 'goodnight.toggle();' || y === 'goodnight.toggle()' || y === 'toggle dark' || y === 'toggle dark.css' || y === 'toggle dark theme' || y === 'toggle light' || y === 'toggle light theme') {
-			say('Toggling Goodnight&mdash;brace yourself&hellip;');
-			setTimeout(function () {
-				styleoff();
-				Goodnight.toggle();
-			}, 2000);
-		} else if (y.split('grassy').join('grass') === 'activate grass' || y.split('grassy').join('grass') === 'activate grass theme' || y === 'activate green' || y === 'activate green.css' || y === 'activate green theme') {
-			if ($('link[href="assets/stylesheets/green.css"]').length === 0) {
-				say('Activating the "Grassy" theme&mdash;brace yourself&hellip;');
-				setTimeout(function () {
-					styleoff();
-					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/green.css" class="theme">');
-				}, 2000);
+		if (y.startsWith('activate ')) {
+			y = y.slice('9').replace(' theme', '').replace('.css', '');
+			if ($('link[href="assets/stylesheets/' + y + '.css"]').length === 0) {
+				if (y === 'dark' || y === 'grass' || y === 'sky' || y === 'space' || y === 'wood') {
+					memory.theme = y;
+					say('Activating the "' + y.charAt(0).toUpperCase() + y.slice(1) + '" theme&mdash;brace yourself&hellip;');
+					setTimeout(function () {
+						$('.theme').remove();
+						$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/' + y + '.css" class="theme">');
+					}, 2000);
+				} else {
+					say('That theme doesn\'t exist!');
+				}
 			} else {
 				say('What? That theme\'s already on!');
 			}
-		} else if (y === 'activate sky' || y === 'activate sky theme' || y === 'activate sky.css') {
-			if ($('link[href="assets/stylesheets/sky.css"]').length === 0) {
-				say('Activating the "Sky" theme&mdash;brace yourself&hellip;');
-				setTimeout(function () {
-					styleoff();
-					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/sky.css" class="theme">');
-				}, 2000);
-			} else {
-				say('What? That theme\'s already on!');
-			}
-		} else if (y === 'activate space' || y === 'activate space theme' || y === 'activate space.css') {
-			if ($('link[href="assets/stylesheets/space.css"]').length === 0) {
-				say('Activating the "Space" theme&mdash;brace yourself&hellip;');
-				setTimeout(function () {
-					styleoff();
-					$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/space.css" class="theme">');
-				}, 2000);
-			} else {
-				say('What? That theme\'s already on!');
+		} else if (y.startsWith('deactivate ')) {
+			console.log(y.slice(11));
+			switch (y.slice(11)) {
+				case 'style':
+				case 'stylesheets':
+				case 'theme':
+				case 'themes':
+				case 'styles':
+					say('Removing theme&mdash;brace yourself!');
+					setTimeout(function () {
+						$('.theme').remove();
+					}, 2000)
+					break;
+				default:
+					say('I\'m sorry but I wasn\'t sure what you meant. Try again but this time say, "Deactivate ' + y + '"')
 			}
 		} else if (y.startsWith('toggle ')) {
 			y = y.slice(7);
 			if (memory.modules[y] !== undefined) {
 				memory.modules[y] = memory.modules[y] ? false : true;
 				onoff = memory.modules[y] ? 'on' : 'off';
-				remember();
 				say('The "' + y + '" module has been turned ' + onoff + '.');
 			} else {
 				say('That module doesn\'t exist!');
@@ -170,6 +166,7 @@ $(function () {
 		} else {
 			return true;
 		}
+		remember();
 	}
 	// [Optional] Random module
 	function random (y) {
@@ -246,7 +243,7 @@ $(function () {
 		if (memory.modules.entertainment) {
 			if (y.startsWith('should i watch ')) {
 				y = y.slice(15);
-				$.getJSON('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
+				$.ajax('https://www.omdbapi.com/?t=' + y + '&y=&plot=full&r=json&tomatoes=true', function (d) {
 					if (d.Error === undefined) {
 						var reviews = '', sum = 0, count = 0;
 						if (d.Type === 'movie') {
