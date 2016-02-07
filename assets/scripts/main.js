@@ -350,7 +350,7 @@ $(function () {
 				time[1] = (time[1] >= 10) ? time[1] : '0' + time[1];
 				time[2] = (time[2] >= 10) ? time[2] : '0' + time[2];
 				time = time.join(':');
-				theme = (Math.random() < 0.25) ? '' : ' Try using the ' + ((now.getHours() <= 18 || now.getHours() >= 6) ? '"Light" or "Grassy"' : '"Dark"') + ' theme if you aren\'t already.';
+				theme = (Math.random() < 0.25) ? '' : ' Try using the ' + ((now.getHours() <= 18 || now.getHours() >= 6) ? '"Light" or "Grassy"' : '"Dark" or "Space"') + ' theme if you aren\'t already.';
 			}
 			if (y.indexOf('d') !== -1) {
 				var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
