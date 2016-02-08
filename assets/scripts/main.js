@@ -71,14 +71,15 @@ $(function () {
 	    }
 	}
 	// Adds text to conversation
-	function say (t, s) {
+	function say (t, s, p) {
+		p = (p === undefined) ? true : p;
 		switch (s) {
 			case 'you':
 			case 'y':
 				return '<div class="conversation you">' + t + '</div>';
 				break;
 			default:
-				('speechSynthesis' in window && memory.sound) ? window.speechSynthesis.speak(new SpeechSynthesisUtterance($('<span>' + t + '</span>').text())) : console.log('Speech synthesis is not supported in this browser or user has disabled it.');
+				('speechSynthesis' in window && memory.sound && p) ? window.speechSynthesis.speak(new SpeechSynthesisUtterance($('<span>' + t + '</span>').text())) : console.log('Speech synthesis is not supported in this browser or user has disabled it.');
 				$('<div class="conversation fuchsia">' + t + '</div>').appendTo('#conversation-box').fadeIn('slow');
 		}
 	}
@@ -188,7 +189,7 @@ $(function () {
 			for (var property in memory.modules) {
 				output += property[0].toUpperCase() + property.slice(1) + ': ' + memory.modules[property] + '<br>';
 			}
-			say(output.split('true').join('On').split('false').join('Off'));
+			say(output.split('true').join('On').split('false').join('Off'), '', false);
 		} else {
 			return true;
 		}
