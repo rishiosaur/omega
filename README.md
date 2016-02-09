@@ -16,7 +16,7 @@ Have one large address bar to `go to` the website you want.
 
 ## See What's Good
 
-You can ask Fuchsia if you should watch something using the key phrase, `should I watch`, and see what you should, shouldn't, and might watch. You can also ask about music with `should I listen to <artist-name>`.
+You can ask Fuchsia if you should watch something using the key phrase, `should I watch <movie/show name>`, and see what you should, shouldn't, and might watch. You can also ask about music with `should I listen to <artist name>`.
 
 ## Search the Web
 
@@ -26,9 +26,17 @@ You can ask Fuchsia if you should watch something using the key phrase, `should 
 
 Find out what time it is easily, along with the date, which features the day of the week as well. Always unsure what day it is? It's more fun to find out from your virtual personal assistant! Just ask `what time is it?`
 
-## Toggle Goodnight
+## Theming System
 
-Change from your light theme to your dark one, or vice-versa. This happens automatically, but if you want your dark theme during the day or you light theme during the night, feel free to `toggle goodnight`.
+Ah! My eyes! Have you ever had to deal with a bright website when it's the middle of the night? Worry no more as Fuchsia now comes with five different themes (excluding the default)! Three dark, two light. Just say `activate <theme name>`
+
+List of themes:
+
+- Grass
+- Sky
+- Dark
+- Space
+- Wood
 
 ## Randomizers!
 
@@ -40,7 +48,7 @@ You've been talking to Fuchsia for so long that the page is totally cluttered! Y
 
 ## Modules
 
-As this is based off of Jarvis, it makes sense to also be modular. While the ability to toggle modules isn't as open as Jarvis because there's no settings menu visible on the screen (mainly because there's no where to put it since that would change how the app's supposed to look), these modules are toggled like the "Goodnight" feature. You say `toggle <module-name>`.
+As this is based off of Jarvis, it makes sense to also be modular. While the ability to toggle modules isn't as open as Jarvis because there's no settings menu visible on the screen (mainly because there's no where to put it since that would change how the app's supposed to look), these modules are toggled like the "Goodnight" feature. You say `toggle <module name>`.
 
 # Contributing
 
