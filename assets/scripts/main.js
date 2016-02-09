@@ -161,10 +161,10 @@ $(function () {
 					say('Removing theme&mdash;brace yourself&hellip;');
 					setTimeout(function () {
 						$('.theme').remove();
-					}, 2000)
+					}, 2000);
 					break;
 				default:
-					say('I\'m sorry but I wasn\'t sure what you meant. Try again but this time say, "Deactivate ' + y + '"')
+					say('I\'m sorry but I wasn\'t sure what you meant. Try again but this time say, "Deactivate ' + y + '"');
 			}
 		} else if (y === 'toggle sound') {
 			memory.sound = memory.sound ? false : true;
@@ -395,7 +395,7 @@ $(function () {
 			}
 		} else if (y.startsWith('go to ') || y.startsWith('open ')) {
 			newtab = y.startsWith('go to') ? y.slice(6) : y.slice(5);
-			newtab = newtab.split(' ').join('')
+			newtab = newtab.split(' ').join('');
 			newtab += (newtab.indexOf('.') === -1) ? '.com' : '';
 			say('Opening ' + newtab + '&hellip;');
 			setTimeout(function () {
