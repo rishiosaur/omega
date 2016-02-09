@@ -50,6 +50,10 @@ You've been talking to Fuchsia for so long that the page is totally cluttered! Y
 
 As this is based off of Jarvis, it makes sense to also be modular. While the ability to toggle modules isn't as open as Jarvis because there's no settings menu visible on the screen (mainly because there's no where to put it since that would change how the app's supposed to look), these modules are toggled like the "Goodnight" feature. You say `toggle <module name>`.
 
+## Speech
+
+Fuchsia can talk right back to you now using Speech Synthesis (part of the [Web Audio API](https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html)). Can't read? We've got you covered.
+
 # Contributing
 
 Fork the repository and submit a pull request. If the change is a simple trigger change ("flip a coin" will trigger a coin flip), just add it as an issue. This lets me know that that's a phrase that'd be used.
