@@ -2,7 +2,7 @@
 
 An attempt at creating a personal assistant that responds with and to text only.
 
-Fuchsia is based on [Jared Cubilla's Jarvis](https://github.com/jaredcubilla/jarvis). The goal of Fuchsia is to create a similar virtual personal assistant that isn't limited by speech for responses.
+Fuchsia is based on [Jared Cubilla's Jarvis](https://github.com/jaredcubilla/jarvis). The goal of Fuchsia is to create a similar virtual personal assistant <s>that isn't limited by speech for responses</s> (Fuchsia now has speech support but isn't limited to sound recordings from me; this is not yet perfected).
 
 # Features
 
