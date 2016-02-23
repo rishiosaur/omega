@@ -52,7 +52,7 @@ $(function () {
 		$('head').append('<link rel="stylesheet" type="text/css" href="assets/stylesheets/' + memory.theme + '.css" class="theme">');
 	}
 	// Checks for internet connection
-	function connectionExists() {
+	function connectionExists () {
 	    var xhr = new XMLHttpRequest();
 	    var file = "https://loquacious.github.io/lights-out/replay.svg";
 	    var randomNum = Math.round(Math.random() * 10000);
