@@ -167,7 +167,7 @@ $(function () {
 				default:
 					say('I\'m sorry but I wasn\'t sure what you meant. Try again but this time say, "Deactivate ' + y + '"');
 			}
-		} else if (y === 'what themes are there' || y === 'what themes are available' || y === 'tell me the themes' || y === 'show me the themes') {
+		} else if (y === 'what themes are there' || y === 'what themes are available' || y === 'tell me the themes' || y === 'show me the themes' || y === 'what are the themes') {
 			say('The current available themes include "Dark", "Grass", "Sky", "Space", and "Wood".');
 		} else if (y === 'toggle sound') {
 			memory.sound = memory.sound ? false : true;
