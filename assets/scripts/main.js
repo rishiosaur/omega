@@ -138,7 +138,7 @@ $(function () {
 		if (y.startsWith('activate ')) {
 			y = y.slice('9').replace(' theme', '').replace('.css', '');
 			if ($('link[href="assets/stylesheets/' + y + '.css"]').length === 0) {
-				if (y === 'dark' || y === 'grass' || y === 'sky' || y === 'space' || y === 'wood') {
+				if (y === 'dark' || y === 'grass' || y === 'sky' || y === 'space' || y === 'wood' || y === 'pinkalicious') {
 					memory.theme = y;
 					say('Activating the "' + y.charAt(0).toUpperCase() + y.slice(1) + '" theme&mdash;brace yourself&hellip;');
 					setTimeout(function () {

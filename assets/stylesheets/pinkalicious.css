@@ -1,0 +1,24 @@
+
+/* Only modifies colours and borders */
+
+body {
+	background-color: #ffc5da;
+	color: #f0005b;
+}
+input {
+	background-color: #ffc5da;
+}
+#conversation-box, a {
+	color: #f0005b;
+}
+.you {
+	border-left: 0.4vw solid #f0005b;
+}
+.fuchsia {
+	text-align: right;
+	border-right: 0.4vw solid #f0005b;
+}
+.box {
+	background-color: #ffc5da;
+	border: none;
+}
