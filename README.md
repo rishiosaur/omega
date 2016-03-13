@@ -28,7 +28,7 @@ Find out what time it is easily, along with the date, which features the day of 
 
 ## Theming System
 
-Ah! My eyes! Have you ever had to deal with a bright website when it's the middle of the night? Worry no more as Fuchsia now comes with five different themes (excluding the default)! Three dark, three light. Just say `activate <theme name>`
+Ah! My eyes! Have you ever had to deal with a bright website when it's the middle of the night? Worry no more as Fuchsia now comes with six different themes (excluding the default)! Three dark, three light. Just say `activate <theme name>`
 
 List of themes:
 
