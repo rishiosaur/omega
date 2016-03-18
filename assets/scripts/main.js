@@ -296,7 +296,7 @@ $(function () {
 						memory.location.city = d.city;
 
 						$.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=' + memory.location.lat + '&lon=' + memory.location.lon + '&units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f', function(d) {
-							$('<div class="box"><h3 class="title">' + memory.location.city + ', ' + memory.location.country + '</h3><div style="background-image:url(\'http://openweathermap.org/img/w/' + d.weather[0].icon + '.png\'); width:50px; height:50px; display: inline-block;" alt="' + d.weather[0].main + '"></div><h1 class="title" style="display:inline-block; padding-left:0.2vw;">' + d.main.temp + 'C°</h1><p><span style="text-transform:capitalize;font-weight:500;">' + d.weather[0].description + '</span><br>Wind Speed: ' + d.wind.speed + 'm/s<br>Humidity: ' + d.main.humidity + '%</p></div>').appendTo('#conversation-box').fadeIn('slow');
+							$('<div class="box"><h3 class="title">' + memory.location.city + ', ' + memory.location.country + '</h3><div style="background-image:url(\'http://openweathermap.org/img/w/' + d.weather[0].icon + '.png\'); width:50px; height:50px; display: inline-block;" alt="' + d.weather[0].main + '"></div><h1 class="title" style="display:inline-block; padding-left:0.2vw;">' + d.main.temp + '&deg;C</h1><p><span style="text-transform:capitalize;font-weight:500;">' + d.weather[0].description + '</span><br>Wind Speed: ' + d.wind.speed + 'm/s<br>Humidity: ' + d.main.humidity + '%</p></div>').appendTo('#conversation-box').fadeIn('slow');
 						});
 					});
 			} else if (y === 'what is the temperature' || y === 'how hot is it today' || y === 'how cold is it today') {
@@ -308,7 +308,7 @@ $(function () {
 						memory.location.city = d.city;
 
 						$.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=' + memory.location.lat + '&lon=' + memory.location.lon + '&units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f', function(d) {
-							say('The temperature right now in <b>' + memory.location.city + '</b> is <b>' + d.main.temp+ 'C°</b>.');
+							say('The temperature right now in <b>' + memory.location.city + '</b> is <b>' + d.main.temp+ '&deg;C</b>.');
 						});
 				});
 			}
