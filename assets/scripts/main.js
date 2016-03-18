@@ -54,7 +54,10 @@ $(function () {
 	};
 	// Evaluation of memory cookie
 	if (Cookies.get('memory') !== undefined) {
-		memory = eval('(' + Cookies.get('memory') + ')');
+		var oldMemory = eval('(' + Cookies.get('memory') + ')');
+		for (var propname in oldMemory) {
+			memory[propname] = oldMemory[propname];
+		}
 	}
 	// Sets theme to last used theme
 	if (memory.theme !== '') {
