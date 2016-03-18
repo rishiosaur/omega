@@ -54,7 +54,13 @@ $(function () {
 	};
 	// Evaluation of memory cookie
 	if (Cookies.get('memory') !== undefined) {
-		var oldMemory = eval('(' + Cookies.get('memory') + ')');
+		var oldMemory = eval('(' + Cookies.get('memory') + ')'),
+			memoryObj = ['name', 'location', 'modules'];
+		for (var i = 0;i < memoryObj.length;i++) {
+			for (var propname in oldMemory[memoryObj]) {
+				memory[memoryObj][propname] = oldMemory[memoryObj][propname];
+			}
+		}
 		for (var propname in oldMemory) {
 			memory[propname] = oldMemory[propname];
 		}
