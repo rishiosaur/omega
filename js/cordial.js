@@ -40,7 +40,7 @@
 		}
 
 		if (!Array.isArray(triggers)) {
-			throw new TypeError('(Module) The triggers variable must be an array.');
+			throw new TypeError('(Cordial) The triggers variable must be an array.');
 		}
 
 		if (this.triggers === []) {
