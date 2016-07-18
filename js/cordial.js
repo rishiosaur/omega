@@ -124,7 +124,7 @@
 					if (Array.isArray(response)) {
 						response = response[Math.floor(Math.random() * response.length)];
 					} else if (typeof response === 'function') {
-						response = response();
+						response = response(parsed);
 					}
 				}
 
