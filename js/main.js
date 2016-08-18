@@ -1,58 +1,16 @@
 (function () {
 	'use strict';
 
-	function getTime() {
-		var now = new Date(),
-			time,
-			suffix;
+	function toElement(str) {
+		var el,
+			body = document.body;
 
-		time = [now.getHours(), now.getMinutes()];
+		body.innerHTML = str + body.innerHTML;
 
-		suffix = (time[0] < 12) ? 'AM' : 'PM';
+		el = body.getElementsByTagName('*')[0];
+		el.remove();
 
-		time[0] = time[0] % 12;
-
-		time[0] = time[0] || 12;
-
-		return time.join(':') + ' ' + suffix;
-	}
-
-	function getDate() {
-		var now = new Date(),
-			date,
-			months = [
-				'January',
-				'February',
-				'March',
-				'April',
-				'May',
-				'June',
-				'July',
-				'August',
-				'September',
-				'October',
-				'November',
-				'December'
-			],
-			days = [
-				'Sunday',
-				'Monday',
-				'Tuesday',
-				'Wednesday',
-				'Thursday',
-				'Friday',
-				'Saturday'
-			];
-
-		date = [now.getDay(), now.getMonth(), now.getDate(), now.getFullYear()];
-
-		date[2] = date[2] + ',';
-
-		date[0] = days[date[0]];
-
-		date[1] = months[date[1]];
-
-		return date.join(' ');
+		return el;
 	}
 
 	var Fuchsia = Cordial();
@@ -111,7 +69,7 @@
 				'tell me the time'
 			],
 			'response': function () {
-				return 'The time is ' + getTime() + '.';
+				return 'The time is ' + moment().format('h:mm a').toUpperCase() + '.';
 			},
 			'type': 'equalTo'
 		},
@@ -129,7 +87,7 @@
 				'tell me the day'
 			],
 			'response': function () {
-				return 'The date is ' + getDate() + '.';
+				return 'The date is ' + moment().format('dddd MMMM Do YYYY') + '.';
 			},
 			'type': 'equalTo'
 		},
@@ -137,7 +95,7 @@
 		{
 			'text': 'when am i',
 			'response': function () {
-				return 'It is currently ' + getDate() + ' ' + getTime() + '.';
+				return 'It is currently ' + moment().format('dddd MMMM Do YYYY') + ', ' + moment().format('h:mm a').toUpperCase() + '.';
 			},
 			'type': 'equalTo'
 		},
@@ -168,26 +126,6 @@
 			],
 			'type': 'equalTo',
 			'post': '.!'
-		},
-
-		// The impractical always-lose game of "Rock Paper Scissors"
-		{
-			'text': [
-				'rock',
-				'paper',
-				'scissors'
-			],
-			'response': function (parsed) {
-				var result,
-					choices = ['rock', 'paper', 'scissors'];
-
-				result = choices[(choices.indexOf(parsed) + 1) % 3];
-
-				result = result.charAt(0).toUpperCase() + result.slice(1);
-
-				return result + '! I win!';
-			},
-			'type': 'equalTo'
 		}
 	]);
 
