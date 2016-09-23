@@ -1,18 +1,24 @@
-(function () {
+(function (w, d) {
 	'use strict';
 
-	function toElement(str) {
+	// Functions needed for use later
+	var span = d.createElement('span');
+
+	var toElement = function (str) {
 		var el,
-			body = document.body;
+			body = d.body;
 
-		body.innerHTML = str + body.innerHTML;
+		span.display = 'none';
 
-		el = body.getElementsByTagName('*')[0];
+		span.innerHTML = str + span.innerHTML;
+
+		el = span.getElementsByTagName('*')[0];
 		el.remove();
 
 		return el;
 	}
 
+	// Start of Fuchsia initiation
 	var Fuchsia = Cordial();
 
 	// I would separate into modules but I really
@@ -43,7 +49,7 @@
 				'how do you do '
 			],
 			'response': [
-				'I\'m fine',
+				'I\'m fine.',
 				'I\'m okay, thanks for asking.',
 				'I\'m great; thanks for asking!',
 				'I could be doing better.'
@@ -129,5 +135,6 @@
 		}
 	]);
 
-	window.Fuchsia = Fuchsia;
-})();
+	w.Fuchsia = Fuchsia;
+	w.toElement = toElement;
+})(window, document);
