@@ -14,10 +14,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 	Fuchsia.elements.$input = d.getElementsByTagName('input')[0],
 	Fuchsia.elements.$conversation = d.getElementsByClassName('conversation')[0];
 
-	// I would separate into modules but I really
-	// think they would work better in core.
-
-	Fuchsia.install([
+	Fuchsia.modules['core'].install([
 		{
 			'text': 'clear',
 			'response': function () {
@@ -84,7 +81,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				'tell me the time'
 			],
 			'response': function () {
-				return 'The time is ' + moment().format('h:mm a').toUpperCase() + '.';
+				return 'The time is <b>' + moment().format('h:mm a').toUpperCase() + '</b>.';
 			},
 			'type': 'equalTo'
 		},
@@ -102,7 +99,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				'tell me the day'
 			],
 			'response': function () {
-				return 'The date is ' + moment().format('dddd MMMM Do YYYY') + '.';
+				return 'The date is <b>' + moment().format('dddd MMMM Do YYYY') + '</b>.';
 			},
 			'type': 'equalTo'
 		},
@@ -110,7 +107,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		{
 			'text': 'when am i',
 			'response': function () {
-				return 'It is currently ' + moment().format('dddd MMMM Do YYYY') + ', ' + moment().format('h:mm a').toUpperCase() + '.';
+				return 'It is currently <b>' + moment().format('dddd MMMM Do YYYY') + ', ' + moment().format('h:mm a').toUpperCase() + '</b>.';
 			},
 			'type': 'equalTo'
 		},
@@ -135,16 +132,6 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if the page did not automatically open.';
 			},
 			'type': 'startsWith'
-		},
-
-		{
-			'text': 'flip a coin',
-			'response': [
-				'Heads',
-				'Tails'
-			],
-			'type': 'equalTo',
-			'post': '.!'
 		},
 
 		{
@@ -174,7 +161,27 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			'text': [
 				'the cake'
 			],
-			'response': '&hellip; is a lie.',
+			'response': '&hellip; is a lie',
+			'type': 'equalTo',
+			'post': '.!'
+		}
+	]);
+
+	Fuchsia.createModule('random').install([
+		{
+			'text': 'flip a coin',
+			'response': [
+				'Heads',
+				'Tails'
+			],
+			'type': 'equalTo',
+			'post': '.!'
+		},
+		{
+			'text': 'roll a die',
+			'response': function () {
+				return (Math.floor(Math.random() * 6) + 1).toString(10);
+			},
 			'type': 'equalTo'
 		}
 	]);

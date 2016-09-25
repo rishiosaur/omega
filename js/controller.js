@@ -17,9 +17,13 @@ addEventListener('DOMContentLoaded', function (d) {
 	$input.addEventListener('keypress', function (e) {
 		e = e || window.event;
 
-		var response;
+		var value,
+			response,
+			self,
+			fuchsia;
 
 		if (e.which === 13 && this.value.replace(/\s+/g, '') !== '') {
+			value = Fuchsia.makeConversation('self', this.value, 'p');
 			response = Fuchsia(this.value);
 
 			if (typeof response === 'string') {
@@ -28,14 +32,15 @@ addEventListener('DOMContentLoaded', function (d) {
 				response = Fuchsia.makeConversation('fuchsia', 'Blah', 'div');
 			}
 
-			$conversation.appendChild(Fuchsia.makeConversation('self', this.value, 'p'));
+			$conversation.appendChild(value);
 			$conversation.appendChild(response);
 
 			setTimeout(function () {
-				var self = d.getElementsByClassName('self');
+				self = d.getElementsByClassName('self');
 				for (var i = 0; i < self.length; i++) {
 					self[i].style['opacity'] = 1;
 				}
+				d.body.scrollTop = value.offsetTop;
 				setTimeout(function () {
 					var fuchsia = d.getElementsByClassName('fuchsia');
 					for (var j = 0; j < fuchsia.length; j++) {
