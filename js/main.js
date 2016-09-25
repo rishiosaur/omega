@@ -158,13 +158,16 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		},
 
 		{
-			'text': [
-				'the cake'
-			],
+			'text': 'the cake',
 			'response': '&hellip; is a lie',
 			'type': 'equalTo',
 			'post': '.!'
-		}
+		},
+		
+		{
+			'text': 'call me',
+			'response': 'No.'
+			'type': 'equalTo'
 	]);
 
 	Fuchsia.createModule('random').install([
@@ -177,6 +180,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			'type': 'equalTo',
 			'post': '.!'
 		},
+		
 		{
 			'text': 'roll a die',
 			'response': function () {
