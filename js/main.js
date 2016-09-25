@@ -155,6 +155,30 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			],
 			'type': 'equalTo',
 			'post': '.!'
+		},
+		
+		{
+			'text': 'sorry',
+			'response': 'It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'
+			'type': 'startsWith'	
+		},
+		
+		{
+			'text': [
+				'you',
+				'you\''
+				],
+			'response': 'Thank you', 'That\'s what I thought', 'We should be talking more about you.'
+			'type': 'startsWith'
+		},
+		
+		{
+			'text': [
+				'the cake',
+				'cake'
+				],
+			'response': '&hellip;is a lie.'
+			'type': 'equalTo'
 		}
 	]);
 
