@@ -1,6 +1,5 @@
 html,
 body {
-	background-color: #eee;
 	font-family: "Open Sans";
 }
 
@@ -51,5 +50,5 @@ input:focus {
 }
 
 div.conversation-piece {
-	background-color: #d2d5d8;
+	background-color: #e2e2e4;
 }
