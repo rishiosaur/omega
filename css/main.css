@@ -4,6 +4,10 @@ body {
 	font-family: "Open Sans";
 }
 
+a {
+	color: inherit;
+}
+
 .input-container {
 	bottom: 0;
 	position: fixed;
@@ -27,11 +31,14 @@ input:focus {
 .conversation {
 	margin: 5rem auto 10rem;
 	width: 50rem;
+	transition: opacity 0.3s;
 }
 
 .conversation-piece {
 	color: #566473;
+	opacity: 0;
 	padding: 1rem 1.5rem;
+	transition: opacity 0.3s;
 }
 
 .conversation-piece.self {

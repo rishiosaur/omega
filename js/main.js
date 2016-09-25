@@ -21,9 +21,14 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		{
 			'text': 'clear',
 			'response': function () {
+				var $conversation = Fuchsia.elements.$conversation;
 				setTimeout(function () {
-					Fuchsia.elements.$conversation.innerHTML = '';
-				}, 500);
+					$conversation.style['opacity'] = 0;
+					setTimeout(function () {
+						$conversation.innerHTML = '';
+						$conversation.style['opacity'] = 1;
+					}, 300);
+				}, 1500);
 
 				return 'Clearing conversation &hellip;'
 			},
@@ -123,7 +128,11 @@ addEventListener('DOMContentLoaded', function (w, d) {
 					parsed += '.com';
 				}
 
-				return parsed;
+				setTimeout(function () {
+					w.open('https://' + parsed, '_blank');
+				}, 1000);
+
+				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if the page did not automatically open.';
 			},
 			'type': 'startsWith'
 		},
@@ -186,7 +195,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 
 	function makeConversation(speaker, content, type) {
 		type = type || 'p';
-		Fuchsia.elements.$conversation.appendChild(toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>'));
+		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
 	};
 
 	w.Fuchsia = Fuchsia;
