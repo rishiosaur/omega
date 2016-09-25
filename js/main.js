@@ -188,6 +188,37 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				return (Math.floor(Math.random() * 6) + 1).toString(10);
 			},
 			'type': 'equalTo'
+		},
+
+		{
+			'text': [
+				'give me a password',
+				'give me a random password',
+				'give me a string',
+				'give me a random string',
+
+				'generate a password',
+				'generate a random password',
+				'generate a string',
+				'generate a random string'
+			],
+			'response': function () {
+				var pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+					output = '',
+					i;
+
+				// Making sure it meets the requirements of one uppercase, one lowercase, and on number
+				while (!(output.match(/[A-Z]/) && output.match(/[a-z]/) && output.match(/[0-9]/))) {
+					output = '';
+
+					for (i = 0; i < 16; i++) {
+						output += pool[Math.floor(Math.random() * pool.length)];
+					}
+				}
+
+				return Fuchsia.makeConversation('fuchsia', '<code>' + output + '</code>', 'div');
+			},
+			'type': 'equalTo'
 		}
 	]);
 
