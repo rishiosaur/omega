@@ -4,25 +4,6 @@ addEventListener('DOMContentLoaded', function (w, d) {
 	w = window,
 	d = document;
 
-	// Functions needed for use later
-	var span = d.createElement('span');
-
-	var toElement = function (str) {
-		var el,
-			body = d.body;
-
-		span.innerHTML = str;
-
-		el = span.getElementsByTagName('*')[0];
-
-		return el;
-	};
-
-	var makeConversation = function (speaker, content, type) {
-		type = type || 'p';
-		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
-	};
-
 	// Start of Fuchsia initiation
 	var Fuchsia = Cordial();
 
@@ -156,31 +137,57 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			'type': 'equalTo',
 			'post': '.!'
 		},
-		
+
 		{
 			'text': 'sorry',
-			'response': 'It\'s fine.', 'You\'ve been forgiven.', '&hellip;', 'What did you even do?'
-			'type': 'startsWith'	
+			'response': [
+				'It\'s fine.',
+				'You\'ve been forgiven.',
+				'&hellip;',
+				'What did you even do?'],
+			'type': 'startsWith'
 		},
-		
+
 		{
 			'text': [
 				'you',
 				'you\''
-				],
-			'response': 'Thank you', 'That\'s what I thought', 'We should be talking more about you.'
+			],
+			'response': [
+				'Thank you',
+				'That\'s what I thought',
+				'We should be talking more about you.'
+			],
 			'type': 'startsWith'
 		},
-		
+
 		{
 			'text': [
-				'the cake',
-				'cake'
-				],
-			'response': '&hellip;is a lie.'
+				'the cake'
+			],
+			'response': '&hellip; is a lie.',
 			'type': 'equalTo'
 		}
 	]);
+
+	// Functions needed for use earlier
+	var span = d.createElement('span');
+
+	function toElement(str) {
+		var el,
+			body = d.body;
+
+		span.innerHTML = str;
+
+		el = span.getElementsByTagName('*')[0];
+
+		return el;
+	};
+
+	function makeConversation(speaker, content, type) {
+		type = type || 'p';
+		Fuchsia.elements.$conversation.appendChild(toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>'));
+	};
 
 	w.Fuchsia = Fuchsia;
 });
