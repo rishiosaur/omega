@@ -1,16 +1,18 @@
 addEventListener('DOMContentLoaded', function (d) {
 	d = document;
 
-	var input = d.getElementsByTagName('input')[0],
-		conversation = d.getElementsByClassName('conversation')[0];
+	var elements = Fuchsia.elements,
+		$input = elements.$input,
+		$conversation = elements.$conversation;
 
-	input.addEventListener('keypress', function (e) {
+	$input.style['display'] = 'block';
+	$input.addEventListener('keypress', function (e) {
 		e = e || window.event;
 
 		var response;
 
 		if (e.which === 13 && this.value.replace(/\s+/g, '') !== '') {
-			conversation.appendChild(toElement('<p class="conversation-piece self">' + (this.value.charAt(0).toUpperCase() + this.value.slice(1)) + '</p>'));
+			$conversation.appendChild(Fuchsia.makeConversation('self', this.value, 'p'));
 
 			response = Fuchsia(this.value);
 
@@ -18,7 +20,7 @@ addEventListener('DOMContentLoaded', function (d) {
 				response = 'Sorry, I\'m unsure of what you mean.';
 			}
 
-			conversation.appendChild(toElement('<p class="conversation-piece fuchsia">' + response + '</p>'));
+			$conversation.appendChild(Fuchsia.makeConversation('fuchsia', response, 'p'));
 
 			this.value = '';
 		}

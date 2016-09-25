@@ -1,0 +1,37 @@
+html,
+body {
+	background-color: #eee;
+	font-family: "Open Sans";
+}
+.input-container {
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+}
+input {
+	border: none;
+	border-radius: 0.25rem;
+	display: none;
+	margin: 0 auto 3rem;
+	padding: 0.75rem 1rem;
+	transition: all 0.3s ease;
+	width: 30rem;
+}
+input:focus {
+	outline: none;
+}
+.conversation {
+	margin: 5rem auto 10rem;
+	width: 50rem;
+}
+.conversation-piece {
+	color: #566473;
+	padding: 1rem 1.5rem;
+}
+.conversation-piece.self {
+	border-left: 0.25rem solid #566473;
+}
+.conversation-piece.fuchsia {
+	border-right: 0.25rem solid #566473;
+	text-align: right;
+}

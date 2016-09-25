@@ -1,5 +1,8 @@
-(function (w, d) {
+addEventListener('DOMContentLoaded', function (w, d) {
 	'use strict';
+
+	w = window,
+	d = document;
 
 	// Functions needed for use later
 	var span = d.createElement('span');
@@ -8,23 +11,43 @@
 		var el,
 			body = d.body;
 
-		span.display = 'none';
-
-		span.innerHTML = str + span.innerHTML;
+		span.innerHTML = str;
 
 		el = span.getElementsByTagName('*')[0];
-		el.remove();
 
 		return el;
-	}
+	};
+
+	var makeConversation = function (speaker, content, type) {
+		type = type || 'p';
+		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
+	};
 
 	// Start of Fuchsia initiation
 	var Fuchsia = Cordial();
+
+	Fuchsia.makeConversation = makeConversation;
+	Fuchsia.makeConversation.toElement = toElement;
+
+	Fuchsia.elements = {};
+	Fuchsia.elements.$input = d.getElementsByTagName('input')[0],
+	Fuchsia.elements.$conversation = d.getElementsByClassName('conversation')[0];
 
 	// I would separate into modules but I really
 	// think they would work better in core.
 
 	Fuchsia.install([
+		{
+			'text': 'clear',
+			'response': function () {
+				setTimeout(function () {
+					Fuchsia.elements.$conversation.innerHTML = '';
+				}, 500);
+
+				return 'Clearing conversation &hellip;'
+			},
+			'type': 'equalTo'
+		},
 		{
 			'text': [
 				'hi ',
@@ -136,5 +159,4 @@
 	]);
 
 	w.Fuchsia = Fuchsia;
-	w.toElement = toElement;
-})(window, document);
+});
