@@ -16,7 +16,10 @@ addEventListener('DOMContentLoaded', function (w, d) {
 
 	Fuchsia.modules['core'].install([
 		{
-			'text': 'clear',
+			'text': [
+				'clear',
+				'clear conversation'
+			],
 			'response': function () {
 				var $conversation = Fuchsia.elements.$conversation;
 				setTimeout(function () {
@@ -69,7 +72,12 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				'who are you',
 				'who made you',
 				'what are you',
-				'what do you do'
+				'what do you do',
+
+				'what is your name',
+				'what can i call you',
+				'what do i call you',
+				'what do you call yourself'
 			],
 			'response': 'I\'m Fuchsia: an open-source virtual personal assistant for the web made by <a href="https://github.com/Loquacious">Ryan Nguyen</a>.<br>You can view my source <a href="https://github.com/Loquacious/fuchsia">here</a>.',
 			'type': 'equalTo'
