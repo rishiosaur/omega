@@ -31,6 +31,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			},
 			'type': 'equalTo'
 		},
+
 		{
 			'text': [
 				'hi ',
@@ -65,11 +66,12 @@ addEventListener('DOMContentLoaded', function (w, d) {
 
 		{
 			'text': [
-				'what are you',
 				'who are you',
+				'who made you',
+				'what are you',
 				'what do you do'
 			],
-			'response': 'I am Fuchsia: an intelligent virtual personal assistant for the web. I\'m based off of Jared Cubilla\'s Jarvis.',
+			'response': 'I\'m Fuchsia: an open-source virtual personal assistant for the web made by <a href="https://github.com/Loquacious">Ryan Nguyen</a>.<br>You can view my source <a href="https://github.com/Loquacious/fuchsia">here</a>.',
 			'type': 'equalTo'
 		},
 

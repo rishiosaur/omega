@@ -38,7 +38,7 @@ addEventListener('DOMContentLoaded', function (d) {
 			if (typeof response === 'string') {
 				response = Fuchsia.makeConversation('fuchsia', response, 'p');
 			} else if (response === null) {
-				response = Fuchsia.makeConversation('fuchsia', 'This is filler text. Tell Loquacious that he needs to add a custom response as a fallback!', 'p');
+				response = Fuchsia.makeConversation('fuchsia', 'This is filler text. Tell Ryan that he needs to add a custom response as a fallback!', 'p');
 			}
 
 			$conversation.appendChild(value);
@@ -51,7 +51,7 @@ addEventListener('DOMContentLoaded', function (d) {
 				}
 				d.body.scrollTop = value.offsetTop;
 				setTimeout(function () {
-					var fuchsia = d.getElementsByClassName('fuchsia');
+					fuchsia = d.getElementsByClassName('fuchsia');
 					for (var j = 0; j < fuchsia.length; j++) {
 						fuchsia[j].style['opacity'] = 1;
 					}
