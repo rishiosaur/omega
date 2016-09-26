@@ -241,5 +241,6 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
 	};
 
+	// Leak Fuchsia into global scope
 	w.Fuchsia = Fuchsia;
 });

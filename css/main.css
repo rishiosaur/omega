@@ -9,21 +9,22 @@ a {
 	color: inherit;
 }
 
-.input-container {
-	bottom: 0;
-	position: fixed;
-	width: 100%;
-}
-
 input {
 	border: none;
 	border-radius: 0.25rem;
+	bottom: 3rem;
 	display: none;
-	margin: 0 auto 3rem;
+	left: 50%;
 	max-width: 60%;
 	padding: 0.75rem 1rem;
+	position: fixed;
 	transition: all 0.3s ease;
 	width: 30rem;
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 input:focus {

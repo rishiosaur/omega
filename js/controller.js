@@ -23,13 +23,22 @@ addEventListener('DOMContentLoaded', function (d) {
 			fuchsia;
 
 		if (e.which === 13 && this.value.replace(/\s+/g, '') !== '') {
-			value = Fuchsia.makeConversation('self', this.value, 'p');
+			value = this.value;
+
+			value = value.replace(/ i /gi, ' I ').replace(/( i)$/i, ' I');
+			value = value.charAt(0).toUpperCase() + value.slice(1);
+
+			if (value.match(/[a-z]$/i)) {
+				value += '.';
+			}
+
+			value = Fuchsia.makeConversation('self', value, 'p');
 			response = Fuchsia(this.value);
 
 			if (typeof response === 'string') {
 				response = Fuchsia.makeConversation('fuchsia', response, 'p');
 			} else if (response === null) {
-				response = Fuchsia.makeConversation('fuchsia', 'Blah', 'div');
+				response = Fuchsia.makeConversation('fuchsia', 'This is filler text. Tell Loquacious that he needs to add a custom response as a fallback!', 'p');
 			}
 
 			$conversation.appendChild(value);
