@@ -8,11 +8,13 @@ addEventListener('DOMContentLoaded', function (w, d) {
 	var Fuchsia = Cordial();
 
 	Fuchsia.makeConversation = makeConversation;
-	Fuchsia.makeConversation.toElement = toElement;
 
-	Fuchsia.elements = {};
-	Fuchsia.elements.$input = d.getElementsByTagName('input')[0],
-	Fuchsia.elements.$conversation = d.getElementsByClassName('conversation')[0];
+	Fuchsia.utilities.toElement = toElement;
+
+	Fuchsia.elements = {
+		$input: d.getElementsByTagName('input')[0],
+		$conversation: d.getElementsByClassName('conversation')[0]
+	};
 
 	Fuchsia.modules['core'].install([
 		{
@@ -79,7 +81,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				'what do i call you',
 				'what do you call yourself'
 			],
-			'response': 'I\'m Fuchsia: an open-source virtual personal assistant for the web made by <a href="https://github.com/Loquacious">Ryan Nguyen</a>.<br>You can view my source <a href="https://github.com/Loquacious/fuchsia">here</a>.',
+			'response': 'I\'m Fuchsia: an open-source virtual personal assistant for the web made by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<br>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>.',
 			'type': 'equalTo'
 		},
 
@@ -156,15 +158,17 @@ addEventListener('DOMContentLoaded', function (w, d) {
 
 		{
 			'text': [
-				'you',
+				'you ',
+				'your',
 				'you\''
 			],
 			'response': [
 				'Thank you',
 				'That\'s what I thought',
-				'We should be talking more about you.'
+				'We should be talking more about you'
 			],
-			'type': 'startsWith'
+			'type': 'startsWith',
+			'post': '.!'
 		},
 
 		{
@@ -226,11 +230,19 @@ addEventListener('DOMContentLoaded', function (w, d) {
 					}
 				}
 
-				return Fuchsia.makeConversation('fuchsia', '<code>' + output + '</code>', 'div');
+				console.log(makeConversation('fuchsia', '<code>' + output + '</code>', 'div'));
+
+				return makeConversation('fuchsia', '<code>' + output + '</code>', 'div');
 			},
 			'type': 'equalTo'
 		}
 	]);
+
+	Fuchsia.fallback = function (parsed) {
+		var url = 'https://www.google.ca/?q=' + encodeURIComponent(parsed);
+
+		return makeConversation('fuchsia', '<a href="' + url + '" target="_blank">' + url + '</a>', 'div');
+	};
 
 	// Functions needed for use earlier
 	var span = d.createElement('span');

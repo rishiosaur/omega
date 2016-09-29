@@ -35,10 +35,10 @@ addEventListener('DOMContentLoaded', function (d) {
 			value = Fuchsia.makeConversation('self', value, 'p');
 			response = Fuchsia(this.value);
 
+			console.log(response);
+
 			if (typeof response === 'string') {
 				response = Fuchsia.makeConversation('fuchsia', response, 'p');
-			} else if (response === null) {
-				response = Fuchsia.makeConversation('fuchsia', 'This is filler text. Tell Ryan that he needs to add a custom response as a fallback!', 'p');
 			}
 
 			$conversation.appendChild(value);
