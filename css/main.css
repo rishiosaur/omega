@@ -46,6 +46,11 @@ input:focus {
 	transition: opacity 0.3s;
 }
 
+.conversation-piece h1 {
+	padding: 0;
+	margin: 0;
+}
+
 .conversation-piece.self {
 	border-left: 0.25rem solid #566473;
 }
@@ -59,6 +64,5 @@ p.conversation-piece.fuchsia {
 }
 
 div.conversation-piece {
-	background-color: #e2e2e4;
-	text-align: left;
+	background-color: #f2f2f2;
 }

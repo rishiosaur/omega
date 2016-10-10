@@ -7,8 +7,7 @@
 	}
 
 	Module.prototype.install = function (triggers) {
-		var i,
-			j;
+		var i;
 
 		if (!Array.isArray(triggers)) {
 			throw new TypeError('(Cordial) The triggers variable must be an array.');
@@ -73,7 +72,7 @@
 							for (j = 0; j < mod.triggers[i].text.length; j++) {
 								if (typeof mod.triggers[i].text[j] === 'string') {
 									if (mod.triggers[i].type === 'startsWith') {
-										match = (parsed + ' ').startsWith(mod.triggers[i].text[j]);
+										match = (parsed).startsWith(mod.triggers[i].text[j]);
 									} else {
 										match = parsed === mod.triggers[i].text[j];
 									}

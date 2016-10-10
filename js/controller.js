@@ -1,14 +1,6 @@
 addEventListener('DOMContentLoaded', function (d) {
 	d = document;
 
-	// http://stackoverflow.com/a/384380
-	function isElement(obj) {
-		return (
-			typeof HTMLElement === 'object' ? obj instanceof HTMLElement :
-			obj && typeof obj === 'object' && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === 'string'
-		);
-	}
-
 	var elements = Fuchsia.elements,
 		$input = elements.$input,
 		$conversation = elements.$conversation;
@@ -34,8 +26,6 @@ addEventListener('DOMContentLoaded', function (d) {
 
 			value = Fuchsia.makeConversation('self', value, 'p');
 			response = Fuchsia(this.value);
-
-			console.log(response);
 
 			if (typeof response === 'string') {
 				response = Fuchsia.makeConversation('fuchsia', response, 'p');
