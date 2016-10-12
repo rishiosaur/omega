@@ -46,8 +46,21 @@ input:focus {
 	transition: opacity 0.3s;
 }
 
-.conversation-piece h1 {
+.title,
+.film.year {
 	padding: 0;
+	margin: 0;
+}
+
+.film.rating ~ .film.rating {
+	margin: 0;
+}
+
+p {
+	margin: 1rem 0 0;
+}
+
+p.artist {
 	margin: 0;
 }
 

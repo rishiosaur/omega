@@ -246,27 +246,68 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		}
 	]);
 
-	Fuchsia.createModule('ajax').install([
+	Fuchsia.createModule('web').install([
 		{
 			'text': 'should i watch ',
 			'response': function (parsed) {
 				parsed = parsed.replace(/^(should i watch )/, '');
 
 				// Creation of element to be filled in later
-				var information = makeConversation('fuchsia', 'Retrieving information&hellip;', 'div');
+				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
+					reviews = '';
 
-				getJSON('http://www.omdbapi.com/?t=' + encodeURIComponent(parsed) + '&y=&plot=full&r=json', function (data) {
-					information.innerHTML =
-						'<h1 class="film title">' + data.Title + '</h1>' +
-						'<p class="film year">' + data.Year + ' ' + ((data.Type === 'series') ? 'TV Series' : 'Film') + '</p>' +
-						'<p class="film plot">' + data.Plot + '</p>';
-				}, function (status) {
-					information.innerHTML = 'Something went wrong.';
-				})
+				getJSON('http://www.omdbapi.com/?t=' + encodeURIComponent(parsed) + '&tomatoes=true&plot=short&r=json', function (data) {
+					if (data.Error) {
+						information.innerHTML = 'Something went wrong.';
+					} else {
+						if (data.imdbRating !== 'N/A') {
+							reviews += '<p class="film rating"><b>IMDb: </b>' + data.imdbRating + '/10</p>';
+						}
+						if (data.tomatoRating !== 'N/A') {
+							reviews += '<p class="film rating"><b>Rotten Tomatoes: </b>' + data.tomatoRating + '/10</p>';
+						}
+						if (data.Metascore !== 'N/A') {
+							'<p class="film rating"><b>Metacritic: </b>' + data.Metascore + '/100</p>'
+						}
+
+						information.innerHTML =
+							'<h1 class="film title">' + data.Title + '</h1>' +
+							'<p class="film year">' + data.Year + ' ' + ((data.Type === 'series') ? 'TV Series' : 'Film') + '</p>' +
+							'<p class="film plot">' + data.Plot + '</p>' + reviews;
+					}
+				});
 
 				return information;
 			},
 			'type': 'startsWith'
+		},
+
+		{
+			'text': 'should i listen to ',
+			'response': function (parsed) {
+				parsed = parsed.replace(/^(should i listen to)/, '');
+
+				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
+					genres = '';
+
+				getJSON('https://api.spotify.com/v1/search?q=' + encodeURIComponent(parsed) + '&type=artist&limit=1', function (data) {
+					if (data.artists.total) {
+						if (data.artists.items[0].genres) {
+							genres += '<p class="artist genres"><b>Genres:</b> ' +
+							data.artists.items[0].genres.join(', ').replace(/\b\w/g, function (str) { return str.charAt(0).toUpperCase() }) +
+							'</p>';
+						}
+						information.innerHTML =
+							'<h1 class="artist title">' + data.artists.items[0].name + '</h1>' + genres +
+							'<p class="artist popularity"><b>Popularity on Spotify:</b> ' + data.artists.items[0].popularity + '</p>' +
+							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>';
+					} else {
+						information.innerHTML = 'Something went wrong.'
+					}
+				});
+
+				return information;
+			}
 		}
 	]);
 
