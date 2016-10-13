@@ -1,7 +1,7 @@
-addEventListener('DOMContentLoaded', function (w, d) {
+addEventListener('DOMContentLoaded', function (e, w, d) {
 	'use strict';
 
-	w = window,
+	w = window;
 	d = document;
 
 	// Start of Fuchsia initiation
@@ -17,7 +17,7 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		$conversation: d.getElementsByClassName('conversation')[0]
 	};
 
-	Fuchsia.modules['core'].install([
+	Fuchsia.modules.core.install([
 		{
 			'text': [
 				'clear',
@@ -26,14 +26,14 @@ addEventListener('DOMContentLoaded', function (w, d) {
 			'response': function () {
 				var $conversation = Fuchsia.elements.$conversation;
 				setTimeout(function () {
-					$conversation.style['opacity'] = 0;
+					$conversation.style.opacity = 0;
 					setTimeout(function () {
 						$conversation.innerHTML = '';
-						$conversation.style['opacity'] = 1;
+						$conversation.style.opacity = 1;
 					}, 300);
 				}, 1500);
 
-				return 'Clearing conversation &hellip;'
+				return 'Clearing conversation &hellip;';
 			},
 			'type': 'equalTo'
 		},
@@ -256,9 +256,9 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
 					reviews = '';
 
-				getJSON('http://www.omdbapi.com/?t=' + encodeURIComponent(parsed) + '&tomatoes=true&plot=short&r=json', function (data) {
+				getJSON('http://www.omdbapi.com/?tomatoes=true&plot=short&r=json&t=' + encodeURIComponent(parsed), function (data) {
 					if (data.Error) {
-						information.innerHTML = 'Something went wrong.';
+						information.innerHTML = 'I could not find what you were looking for.';
 					} else {
 						if (data.imdbRating !== 'N/A') {
 							reviews += '<p class="film rating"><b>IMDb: </b>' + data.imdbRating + '/10</p>';
@@ -267,13 +267,14 @@ addEventListener('DOMContentLoaded', function (w, d) {
 							reviews += '<p class="film rating"><b>Rotten Tomatoes: </b>' + data.tomatoRating + '/10</p>';
 						}
 						if (data.Metascore !== 'N/A') {
-							'<p class="film rating"><b>Metacritic: </b>' + data.Metascore + '/100</p>'
+							reviews += '<p class="film rating"><b>Metacritic: </b>' + data.Metascore + '/100</p>';
 						}
 
 						information.innerHTML =
 							'<h1 class="film title">' + data.Title + '</h1>' +
 							'<p class="film year">' + data.Year + ' ' + ((data.Type === 'series') ? 'TV Series' : 'Film') + '</p>' +
-							'<p class="film plot">' + data.Plot + '</p>' + reviews;
+							'<p class="film plot">' + data.Plot + '</p>' + reviews +
+							'<div class="source">Data retrieved from <a href="http://www.omdbapi.com">http://www.omdbapi.com</a>.</div>';
 					}
 				});
 
@@ -290,19 +291,42 @@ addEventListener('DOMContentLoaded', function (w, d) {
 				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
 					genres = '';
 
-				getJSON('https://api.spotify.com/v1/search?q=' + encodeURIComponent(parsed) + '&type=artist&limit=1', function (data) {
+				getJSON('https://api.spotify.com/v1/search?type=artist&limit=1&q=' + encodeURIComponent(parsed), function (data) {
 					if (data.artists.total) {
 						if (data.artists.items[0].genres) {
 							genres += '<p class="artist genres"><b>Genres:</b> ' +
-							data.artists.items[0].genres.join(', ').replace(/\b\w/g, function (str) { return str.charAt(0).toUpperCase() }) +
-							'</p>';
+								data.artists.items[0].genres.join(', ').replace(/\b\w/g, function (str) { return str.charAt(0).toUpperCase(); }) +
+								'</p>';
 						}
 						information.innerHTML =
 							'<h1 class="artist title">' + data.artists.items[0].name + '</h1>' + genres +
 							'<p class="artist popularity"><b>Popularity on Spotify:</b> ' + data.artists.items[0].popularity + '</p>' +
-							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>';
+							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>' +
+							'<div class="source">Data retrieved from <a href="https://developer.spotify.com">https://spotify.com</a>.</div>';
 					} else {
-						information.innerHTML = 'Something went wrong.'
+						information.innerHTML = 'I could not find what you were looking for.';
+					}
+				});
+
+				return information;
+			}
+		},
+
+		{
+			'text': 'define ',
+			'response': function (parsed) {
+				parsed = parsed.replace(/^(define )/, '');
+
+				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div');
+
+				getJSON('http://api.pearson.com/v2/dictionaries/entries?headword=' + encodeURIComponent(parsed), function (data) {
+					if (data.results.length) {
+						information.innerHTML =
+							'<h1 class="word title">' + data.results[0].headword + '</h1>' +
+							'<p class="word definition">' + data.results[0].senses[0].definition + '</p>' +
+							'<div class="source">Data retrieved from <a href="http://developer.pearson.com/apis/dictionaries">http://developer.pearson.com</a>.</div>';
+					} else {
+						information.innerHTML = 'I could not find what you were looking for.';
 					}
 				});
 
@@ -321,20 +345,19 @@ addEventListener('DOMContentLoaded', function (w, d) {
 	var span = d.createElement('span');
 
 	function toElement(str) {
-		var el,
-			body = d.body;
+		var el;
 
 		span.innerHTML = str;
 
 		el = span.getElementsByTagName('*')[0];
 
 		return el;
-	};
+	}
 
 	function makeConversation(speaker, content, type) {
 		type = type || 'p';
 		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
-	};
+	}
 
 	// https://mathiasbynens.be/notes/xhr-responsetype-json
 	function getJSON(url, successHandler, errorHandler) {
@@ -344,13 +367,17 @@ addEventListener('DOMContentLoaded', function (w, d) {
 		xhr.onload = function () {
 			var status = xhr.status;
 			if (status == 200) {
-				successHandler && successHandler(xhr.response);
+				if (successHandler) {
+					successHandler(xhr.response);
+				}
 			} else {
-				errorHandler && errorHandler(status);
+				if (errorHandler) {
+					errorHandler(status);
+				}
 			}
 		};
 		xhr.send();
-	};
+	}
 
 	// Leak Fuchsia into global scope
 	w.Fuchsia = Fuchsia;
