@@ -274,7 +274,7 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 							'<h1 class="film title">' + data.Title + '</h1>' +
 							'<p class="film year">' + data.Year + ' ' + ((data.Type === 'series') ? 'TV Series' : 'Film') + '</p>' +
 							'<p class="film plot">' + data.Plot + '</p>' + reviews +
-							'<div class="source">Data retrieved from <a href="http://www.omdbapi.com">http://www.omdbapi.com</a>.</div>';
+							'<div class="source">Data retrieved from <a href="http://www.omdbapi.com">http://omdbapi.com</a>.</div>';
 					}
 				});
 
@@ -324,7 +324,7 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 						information.innerHTML =
 							'<h1 class="word title">' + data.results[0].headword + '</h1>' +
 							'<p class="word definition">' + data.results[0].senses[0].definition + '</p>' +
-							'<div class="source">Data retrieved from <a href="http://developer.pearson.com/apis/dictionaries">http://developer.pearson.com</a>.</div>';
+							'<div class="source">Data retrieved from <a href="http://developer.pearson.com/apis/dictionaries">http://pearson.com</a>.</div>';
 					} else {
 						information.innerHTML = 'I could not find what you were looking for.';
 					}
