@@ -46,6 +46,14 @@ input:focus {
 	transition: opacity 0.3s;
 }
 
+p {
+	margin: 1rem 0 0;
+}
+
+p.artist {
+	margin: 0;
+}
+
 .title,
 .film.year {
 	padding: 0;
@@ -58,22 +66,6 @@ input:focus {
 
 .definition {
 	margin-top: 0.5rem;
-}
-
-.source {
-	border-top: 1px solid #566473;
-	color: #707E8D;
-	font-size: 0.9rem;
-	margin-top: 0.75rem;
-	padding: 0.5rem 0 0;
-}
-
-p {
-	margin: 1rem 0 0;
-}
-
-p.artist {
-	margin: 0;
 }
 
 .conversation-piece.self {

@@ -15,6 +15,8 @@ addEventListener('DOMContentLoaded', function (d) {
 			fuchsia;
 
 		if (e.which === 13 && this.value.replace(/\s+/g, '') !== '') {
+			this.blur();
+
 			value = this.value;
 
 			value = value.replace(/ i /gi, ' I ').replace(/( i)$/i, ' I');

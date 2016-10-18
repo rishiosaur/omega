@@ -1,8 +1,46 @@
-addEventListener('DOMContentLoaded', function (e, w, d) {
+addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
-	w = window;
-	d = document;
+	var w = window,
+		d = document;
+
+	var span = d.createElement('span');
+
+	function toElement(str) {
+		var el;
+
+		span.innerHTML = str;
+
+		el = span.getElementsByTagName('*')[0];
+
+		return el;
+	}
+
+	function makeConversation(speaker, content, type) {
+		type = type || 'p';
+
+		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
+	}
+
+	// https://mathiasbynens.be/notes/xhr-responsetype-json
+	function getJSON(url, successHandler, errorHandler) {
+		var xhr = new XMLHttpRequest();
+		xhr.open('get', url, true);
+		xhr.responseType = 'json';
+		xhr.onload = function () {
+			var status = xhr.status;
+			if (status === 200) {
+				if (successHandler) {
+					successHandler(xhr.response);
+				}
+			} else {
+				if (errorHandler) {
+					errorHandler(status);
+				}
+			}
+		};
+		xhr.send();
+	}
 
 	// Start of Fuchsia initiation
 	var Fuchsia = Cordial();
@@ -11,6 +49,8 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 
 	Fuchsia.utilities.toElement = toElement;
 	Fuchsia.utilities.getJSON = getJSON;
+
+	Fuchsia.memory = {};
 
 	Fuchsia.elements = {
 		$input: d.getElementsByTagName('input')[0],
@@ -139,28 +179,6 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 		},
 
 		{
-			'text': [
-				'go to ',
-				'open '
-			],
-			'response': function (parsed) {
-				parsed = parsed.replace(/^(go to|open) | /, '');
-
-				// Really long RegExp from https://gist.github.com/gruber/8891611
-				if (!parsed.match(/\.(com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj| Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/)) {
-					parsed += '.com';
-				}
-
-				setTimeout(function () {
-					w.open('https://' + parsed, '_blank');
-				}, 1000);
-
-				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if the page did not automatically open.';
-			},
-			'type': 'startsWith'
-		},
-
-		{
 			'text': 'sorry',
 			'response': [
 				'It\'s fine.',
@@ -248,33 +266,66 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 
 	Fuchsia.createModule('web').install([
 		{
+			'text': [
+				'go to ',
+				'open '
+			],
+			'response': function (parsed) {
+				parsed = parsed.replace(/(^(go to|open)) | /g, '');
+
+				// Really long RegExp from https://gist.github.com/gruber/8891611
+				if (!parsed.match(/\.(com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj| Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/)) {
+					parsed += '.com';
+				}
+
+				setTimeout(function () {
+					w.open('https://' + parsed, '_blank');
+				}, 1000);
+
+				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if your page did not automatically open.';
+			},
+			'type': 'startsWith'
+		},
+
+		{
 			'text': 'should i watch ',
 			'response': function (parsed) {
 				parsed = parsed.replace(/^(should i watch )/, '');
 
 				// Creation of element to be filled in later
 				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
-					reviews = '';
+					reviews = '',
+					total = 0,
+					count = 0;
 
-				getJSON('http://www.omdbapi.com/?tomatoes=true&plot=short&r=json&t=' + encodeURIComponent(parsed), function (data) {
+				getJSON('https://www.omdbapi.com/?tomatoes=true&plot=short&r=json&t=' + encodeURIComponent(parsed), function (data) {
 					if (data.Error) {
 						information.innerHTML = 'I could not find what you were looking for.';
 					} else {
 						if (data.imdbRating !== 'N/A') {
 							reviews += '<p class="film rating"><b>IMDb: </b>' + data.imdbRating + '/10</p>';
+							total += parseFloat(data.imdbRating) / 10;
+							count++;
 						}
 						if (data.tomatoRating !== 'N/A') {
 							reviews += '<p class="film rating"><b>Rotten Tomatoes: </b>' + data.tomatoRating + '/10</p>';
+							total += parseFloat(data.tomatoRating) / 10;
+							count++;
 						}
 						if (data.Metascore !== 'N/A') {
 							reviews += '<p class="film rating"><b>Metacritic: </b>' + data.Metascore + '/100</p>';
+							total += parseFloat(data.Metascore) / 100;
+							count++;
+						}
+
+						if (count > 1) {
+							reviews += '<p class="film rating average"><b>Average: </b>' + Math.round(total / count * 10000) / 100 + '%</p>';
 						}
 
 						information.innerHTML =
 							'<h1 class="film title">' + data.Title + '</h1>' +
 							'<p class="film year">' + data.Year + ' ' + ((data.Type === 'series') ? 'TV Series' : 'Film') + '</p>' +
-							'<p class="film plot">' + data.Plot + '</p>' + reviews +
-							'<div class="source">Data retrieved from <a href="http://www.omdbapi.com">http://omdbapi.com</a>.</div>';
+							'<p class="film plot">' + data.Plot + '</p>' + reviews;
 					}
 				});
 
@@ -301,8 +352,7 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 						information.innerHTML =
 							'<h1 class="artist title">' + data.artists.items[0].name + '</h1>' + genres +
 							'<p class="artist popularity"><b>Popularity on Spotify:</b> ' + data.artists.items[0].popularity + '</p>' +
-							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>' +
-							'<div class="source">Data retrieved from <a href="https://developer.spotify.com">https://spotify.com</a>.</div>';
+							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>';
 					} else {
 						information.innerHTML = 'I could not find what you were looking for.';
 					}
@@ -319,12 +369,11 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 
 				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div');
 
-				getJSON('http://api.pearson.com/v2/dictionaries/entries?headword=' + encodeURIComponent(parsed), function (data) {
-					if (data.results.length) {
+				getJSON('https://api.pearson.com/v2/dictionaries/entries?headword=' + encodeURIComponent(parsed), function (data) {
+					if (data.results.length && data.results[0].senses.length && data.results[0].senses[0].definition) {
 						information.innerHTML =
 							'<h1 class="word title">' + data.results[0].headword + '</h1>' +
-							'<p class="word definition">' + data.results[0].senses[0].definition + '</p>' +
-							'<div class="source">Data retrieved from <a href="http://developer.pearson.com/apis/dictionaries">http://pearson.com</a>.</div>';
+							'<p class="word definition">' + data.results[0].senses[0].definition + '</p>';
 					} else {
 						information.innerHTML = 'I could not find what you were looking for.';
 					}
@@ -332,52 +381,62 @@ addEventListener('DOMContentLoaded', function (e, w, d) {
 
 				return information;
 			}
+		},
+
+		{
+			'text': /^((what is|whats|how is|hows) the weather( like)?( today)?)$/,
+			'response': function () {
+				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'p');
+
+				getJSON('https://freegeoip.net/json/', function (data) {
+					getJSON('http://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
+						information.innerHTML =
+							'The weather in <b>' + data.city + '</b> appears to be <b>' + nData.weather[0].description + '</b>.';
+					});
+				});
+
+				return information;
+			}
+		},
+
+		{
+			'text': /^((((what is|whats) the temperature)|(how (hot|cold) is it))( today)?)$/,
+			'response': function () {
+				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'p');
+
+				getJSON('http://freegeoip.net/json/', function (data) {
+					getJSON('http://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
+						information.innerHTML =
+							'The temperature in <b>' + data.city + '</b> appears to be <b>' + Math.round(nData.main.temp) + '&deg;C</b>.';
+					});
+				});
+
+				return information;
+			},
+			'type': 'equalTo'
+		},
+
+		{
+			'text': [
+				'whats up',
+				'sup'
+			],
+			'response': function () {
+				return Fuchsia('should i watch up');
+			},
+			'type': 'equalTo'
 		}
 	]);
 
 	Fuchsia.fallback = function (parsed) {
 		var url = 'https://www.google.ca/?q=' + encodeURIComponent(parsed);
 
-		return makeConversation('fuchsia', '<a href="' + url + '" target="_blank">' + url + '</a>', 'div');
+		setTimeout(function () {
+			w.open(url, '_blank');
+		}, 1000);
+
+		return makeConversation('fuchsia', 'I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google Search.', 'div');
 	};
-
-	// Functions needed for use earlier
-	var span = d.createElement('span');
-
-	function toElement(str) {
-		var el;
-
-		span.innerHTML = str;
-
-		el = span.getElementsByTagName('*')[0];
-
-		return el;
-	}
-
-	function makeConversation(speaker, content, type) {
-		type = type || 'p';
-		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
-	}
-
-	// https://mathiasbynens.be/notes/xhr-responsetype-json
-	function getJSON(url, successHandler, errorHandler) {
-		var xhr = new XMLHttpRequest();
-		xhr.open('get', url, true);
-		xhr.responseType = 'json';
-		xhr.onload = function () {
-			var status = xhr.status;
-			if (status == 200) {
-				if (successHandler) {
-					successHandler(xhr.response);
-				}
-			} else {
-				if (errorHandler) {
-					errorHandler(status);
-				}
-			}
-		};
-		xhr.send();
-	}
 
 	// Leak Fuchsia into global scope
 	w.Fuchsia = Fuchsia;
