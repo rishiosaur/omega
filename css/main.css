@@ -3,6 +3,18 @@
 html,
 body {
 	font-family: "Open Sans";
+	font-weight: 400;
+}
+
+b,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
 }
 
 a {
@@ -10,6 +22,7 @@ a {
 }
 
 input {
+	background-color: #f2f2f2;
 	border: none;
 	border-radius: 0.25rem;
 	bottom: 3rem;
@@ -41,10 +54,29 @@ input:focus {
 
 .conversation-piece {
 	color: #566473;
+	border-color: #566473;
+	border-width: 0.25rem;
 	opacity: 0;
 	margin-bottom: 2rem;
 	padding: 1rem 1.5rem;
 	transition: opacity 0.3s;
+}
+
+.conversation-piece.self {
+	border-left-style: solid;
+}
+
+.conversation-piece.fuchsia {
+	border-right-style: solid;
+}
+
+div.conversation-piece {
+	background-color: #f2f2f2;
+	position: relative;
+}
+
+p.conversation-piece.fuchsia {
+	text-align: right;
 }
 
 p {
@@ -52,15 +84,11 @@ p {
 }
 
 p ~ p {
-	margin: 1rem 0 0;
+	margin-top: 1rem;
 }
 
 .intro p ~ p {
-	margin: 0.5rem 0 0;
-}
-
-p ~ p.artist {
-	margin: 0;
+	margin-top: 0.5rem;
 }
 
 .intro {
@@ -85,27 +113,10 @@ p ~ p.artist {
 	display: inline-block;
 	font-size: 1.5rem;
 	position: absolute;
-	top: 1rem;
+	top: 0.7rem;
 	right: 1.5rem;
 }
 
 .sources a {
 	text-decoration: none;
-}
-
-.conversation-piece.self {
-	border-left: 0.25rem solid #566473;
-}
-
-.conversation-piece.fuchsia {
-	border-right: 0.25rem solid #566473;
-}
-
-p.conversation-piece.fuchsia {
-	text-align: right;
-}
-
-div.conversation-piece {
-	background-color: #f2f2f2;
-	position: relative;
 }

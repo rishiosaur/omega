@@ -1,0 +1,19 @@
+/* { outline: 1px dotted red; } */
+
+body {
+	background-color: #1c2e40;
+}
+
+input {
+	background-color: #2c3e50;
+	color: #bccee0;
+}
+
+.conversation-piece {
+	color: #bccee0;
+	border-color: #bccee0;
+}
+
+div.conversation-piece {
+	background-color: #2c3e50;
+}

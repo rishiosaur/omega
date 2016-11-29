@@ -1,6 +1,8 @@
 addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
+	var Fuchsia = Cordial();
+
 	var w = window,
 		d = document;
 
@@ -51,18 +53,7 @@ addEventListener('DOMContentLoaded', function () {
 		return fadeOut;
 	};
 
-	var intro = toElement(
-		'<div class="conversation-piece fuchsia intro">' +
-		'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
-		'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
-		'</div>'
-	);
-
-	// Start of Fuchsia initiation
-	var Fuchsia = Cordial();
-
-	Fuchsia.makeConversation = makeConversation;
-
+	Fuchsia.utilities.makeConversation = makeConversation;
 	Fuchsia.utilities.toElement = toElement;
 	Fuchsia.utilities.getJSON = getJSON;
 	Fuchsia.utilities.capitalize = function (str) {
@@ -72,12 +63,29 @@ addEventListener('DOMContentLoaded', function () {
 	};
 	Fuchsia.utilities.fadeOut = fadeOut;
 
-	Fuchsia.memory = Cookies.get('memory') || {};
+	var memory = Fuchsia.memory = Cookies.get('memory') || {};
 
 	Fuchsia.elements = {
 		$input: d.getElementsByTagName('input')[0],
 		$conversation: d.getElementsByClassName('conversation')[0]
 	};
+
+	var openPage = function (url, delay, callback, cbdelay) {
+		if (!memory.blank) {
+			return;
+		}
+
+		setTimeout(function () {
+			w.open(url, '_blank');
+		}, delay);
+	};
+
+	var intro = toElement(
+		'<div class="conversation-piece fuchsia intro">' +
+		'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
+		'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
+		'</div>'
+	);
 
 	Fuchsia.modules.core.install([
 		{
@@ -280,7 +288,11 @@ addEventListener('DOMContentLoaded', function () {
 					}
 				}
 
-				return makeConversation('fuchsia', '<code>' + output + '</code>', 'div');
+				return makeConversation(
+				'fuchsia',
+					'<code>' + output + '</code>',
+				'div'
+				);
 			},
 			'type': 'equalTo'
 		}
@@ -293,16 +305,14 @@ addEventListener('DOMContentLoaded', function () {
 				'open '
 			],
 			'response': function (parsed) {
-				parsed = parsed.replace(/^(go to|open)| /g, '');
+				parsed = parsed.replace(/^(go to|open)| /, '');
 
 				// Really long RegExp from https://gist.github.com/gruber/8891611
 				if (!parsed.match(/\.(com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj| Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/)) {
 					parsed += '.com';
 				}
 
-				setTimeout(function () {
-					w.open('https://' + parsed, '_blank');
-				}, 1000);
+				openPage('https://' + parsed , 1000);
 
 				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if your page did not automatically open.';
 			},
@@ -315,7 +325,11 @@ addEventListener('DOMContentLoaded', function () {
 				parsed = parsed.replace(/^should i watch /, '');
 
 				// Creation of element to be filled in later
-				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
+				var information = makeConversation(
+					'fuchsia',
+						'Retrieving data&hellip;',
+					'div'
+					),
 					reviews = '',
 					total = 0,
 					count = 0;
@@ -361,7 +375,11 @@ addEventListener('DOMContentLoaded', function () {
 			'response': function (parsed) {
 				parsed = parsed.replace(/^should i listen to /, '');
 
-				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div'),
+				var information = makeConversation(
+					'fuchsia',
+						'Retrieving data&hellip;',
+					'div'
+					),
 					genres = '';
 
 				getJSON('https://api.spotify.com/v1/search?type=artist&limit=1&q=' + encodeURIComponent(parsed), function (data) {
@@ -393,7 +411,11 @@ addEventListener('DOMContentLoaded', function () {
 			'response': function (parsed) {
 				parsed = parsed.replace(/^define /, '');
 
-				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'div');
+				var information = makeConversation(
+				'fuchsia',
+					'Retrieving data&hellip;',
+				'div'
+				);
 
 				getJSON('https://api.pearson.com/v2/dictionaries/entries?headword=' + encodeURIComponent(parsed), function (data) {
 					if (data.results.length && data.results[0].senses.length && data.results[0].senses[0].definition) {
@@ -408,15 +430,18 @@ addEventListener('DOMContentLoaded', function () {
 				return information;
 			}
 		},
-		*/
 
 		{
 			'text': /^(what is|whats|how is|hows) the weather( like)?( today)?$/,
 			'response': function () {
-				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'p');
+				var information = makeConversation(
+				'fuchsia',
+					'Retrieving data&hellip;',
+				'p'
+				);
 
 				getJSON('https://freegeoip.net/json/', function (data) {
-					getJSON('http://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
+					getJSON('https://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
 						information.innerHTML =
 							'The weather in <b>' + data.city + '</b> appears to be <b>' + nData.weather[0].description + '</b>.';
 					});
@@ -429,10 +454,14 @@ addEventListener('DOMContentLoaded', function () {
 		{
 			'text': /^(((what is|whats) the temperature)|(how (hot|cold) is it))( today)?$/,
 			'response': function () {
-				var information = makeConversation('fuchsia', 'Retrieving data&hellip;', 'p');
+				var information = makeConversation(
+				'fuchsia',
+					'Retrieving data&hellip;',
+				'p'
+				);
 
-				getJSON('http://freegeoip.net/json/', function (data) {
-					getJSON('http://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
+				getJSON('https://freegeoip.net/json/', function (data) {
+					getJSON('https://api.openweathermap.org/data/2.5/weather?units=metric&appid=54c09e3b86f7c45f6629c50b2257c22f&lat=' + data.latitude + '&lon=' + data.longitude, function (nData) {
 						information.innerHTML =
 							'The temperature in <b>' + data.city + '</b> appears to be <b>' + Math.round(nData.main.temp) + '&deg;C</b>.';
 					});
@@ -441,6 +470,32 @@ addEventListener('DOMContentLoaded', function () {
 				return information;
 			},
 			'type': 'equalTo'
+		},
+		*/
+
+		{
+			'text': [
+				'what is ',
+				'whats',
+				'what are ',
+				'whatre'
+			],
+			'response': function (parsed) {
+				parsed = parsed.replace(/^(what( i)?s( a)?)|(what( a)?re)/, '');
+				var url = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(parsed);
+
+				openPage(url, 1000);
+
+				return makeConversation(
+				'fuchsia',
+					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Wikipedia article.</p>' +
+					'<div class="sources">' +
+						'<a href="https://www.wikipedia.org" target="_blank" class="fa fa-wikipedia-w" aria-hidden="true"></a>' +
+					'</div>',
+				'div'
+				);
+			},
+			'type': 'startsWith'
 		},
 
 		{
@@ -458,11 +513,16 @@ addEventListener('DOMContentLoaded', function () {
 	Fuchsia.fallback = function (parsed) {
 		var url = 'https://www.google.ca/?q=' + encodeURIComponent(parsed);
 
-		setTimeout(function () {
-			w.open(url, '_blank');
-		}, 1000);
+		openPage(url, 1000);
 
-		return makeConversation('fuchsia', 'I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google Search.', 'div');
+		return makeConversation(
+		'fuchsia',
+			'<p>I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google search.</p>' +
+			'<div class="sources">' +
+				'<a href="https://www.google.com" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
+			'</div>',
+		'div'
+		);
 	};
 
 	// Leak Fuchsia into global scope

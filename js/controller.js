@@ -1,21 +1,23 @@
 addEventListener('DOMContentLoaded', function (d) {
+	'use strict';
+
 	d = document;
 
 	var elements = Fuchsia.elements,
 		$input = elements.$input,
 		$conversation = elements.$conversation,
-		$trueintro = Fuchsia.utilities.toElement('<div class="conversation-piece fuchsia intro true-intro" style="opacity: 1;">' +
+		$startup = Fuchsia.utilities.toElement('<div class="conversation-piece fuchsia intro true-intro" style="opacity: 1;">' +
 			'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
 			'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 		'</div>');
 
-	$conversation.appendChild($trueintro);
+	$conversation.appendChild($startup);
 
 	$input.style['display'] = 'block';
 	$input.addEventListener('focus', function onFocus() {
 		$input.removeEventListener('focus', onFocus);
-		Fuchsia.utilities.fadeOut($trueintro, 0, function () {
-			$trueintro.remove();
+		Fuchsia.utilities.fadeOut($startup, 0, function () {
+			$startup.remove();
 		}, 300);
 	});
 	$input.addEventListener('keypress', function (e) {
@@ -38,11 +40,11 @@ addEventListener('DOMContentLoaded', function (d) {
 				value += '.';
 			}
 
-			value = Fuchsia.makeConversation('self', value, 'p');
+			value = Fuchsia.utilities.makeConversation('self', value, 'p');
 			response = Fuchsia(this.value);
 
 			if (typeof response === 'string') {
-				response = Fuchsia.makeConversation('fuchsia', response, 'p');
+				response = Fuchsia.utilities.makeConversation('fuchsia', response, 'p');
 			}
 
 			$conversation.appendChild(value);
