@@ -20,6 +20,7 @@ input {
 	position: fixed;
 	transition: all 0.3s ease;
 	width: 30rem;
+	z-index: 10000;
 	-moz-transform: translateX(-50%);
 	-webkit-transform: translateX(-50%);
 	-o-transform: translateX(-50%);
@@ -47,11 +48,23 @@ input:focus {
 }
 
 p {
+	margin: 0;
+}
+
+p ~ p {
 	margin: 1rem 0 0;
 }
 
-p.artist {
+.intro p ~ p {
+	margin: 0.5rem 0 0;
+}
+
+p ~ p.artist {
 	margin: 0;
+}
+
+.intro {
+	text-align: center;
 }
 
 .title,
@@ -68,6 +81,18 @@ p.artist {
 	margin-top: 0.5rem;
 }
 
+.sources {
+	display: inline-block;
+	font-size: 1.5rem;
+	position: absolute;
+	top: 1rem;
+	right: 1.5rem;
+}
+
+.sources a {
+	text-decoration: none;
+}
+
 .conversation-piece.self {
 	border-left: 0.25rem solid #566473;
 }
@@ -82,4 +107,5 @@ p.conversation-piece.fuchsia {
 
 div.conversation-piece {
 	background-color: #f2f2f2;
+	position: relative;
 }

@@ -6,7 +6,7 @@ addEventListener('DOMContentLoaded', function () {
 
 	var span = d.createElement('span');
 
-	function toElement(str) {
+	var toElement = function (str) {
 		var el;
 
 		span.innerHTML = str;
@@ -14,16 +14,16 @@ addEventListener('DOMContentLoaded', function () {
 		el = span.getElementsByTagName('*')[0];
 
 		return el;
-	}
+	};
 
-	function makeConversation(speaker, content, type) {
+	var makeConversation = function (speaker, content, type) {
 		type = type || 'p';
 
 		return toElement('<' + type + ' class="conversation-piece ' + speaker + '">' + content + '</' + type + '>');
-	}
+	};
 
 	// https://mathiasbynens.be/notes/xhr-responsetype-json
-	function getJSON(url, successHandler, errorHandler) {
+	var getJSON = function (url, successHandler, errorHandler) {
 		var xhr = new XMLHttpRequest();
 		xhr.open('get', url, true);
 		xhr.responseType = 'json';
@@ -40,7 +40,23 @@ addEventListener('DOMContentLoaded', function () {
 			}
 		};
 		xhr.send();
-	}
+	};
+
+	var fadeOut = function (el, delay, callback, cbdelay) {
+		setTimeout(function () {
+			el.style['opacity'] = 0;
+			setTimeout(callback || function () {}, cbdelay || 0);
+		}, delay || 0);
+
+		return fadeOut;
+	};
+
+	var intro = toElement(
+		'<div class="conversation-piece fuchsia intro">' +
+		'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
+		'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
+		'</div>'
+	);
 
 	// Start of Fuchsia initiation
 	var Fuchsia = Cordial();
@@ -54,6 +70,7 @@ addEventListener('DOMContentLoaded', function () {
 			return sel.charAt(0).toUpperCase();
 		});
 	};
+	Fuchsia.utilities.fadeOut = fadeOut;
 
 	Fuchsia.memory = Cookies.get('memory') || {};
 
@@ -64,19 +81,13 @@ addEventListener('DOMContentLoaded', function () {
 
 	Fuchsia.modules.core.install([
 		{
-			'text': [
-				'clear',
-				'clear conversation'
-			],
+			'text': /clear( conversation|log(s)?)?/,
 			'response': function () {
 				var $conversation = Fuchsia.elements.$conversation;
-				setTimeout(function () {
-					$conversation.style.opacity = 0;
-					setTimeout(function () {
-						$conversation.innerHTML = '';
-						$conversation.style.opacity = 1;
-					}, 300);
-				}, 1500);
+				fadeOut($conversation, 1500, function () {
+					$conversation.innerHTML = '';
+					$conversation.style['opacity'] = 1;
+				}, 300);
 
 				return 'Clearing conversation &hellip;';
 			},
@@ -121,10 +132,12 @@ addEventListener('DOMContentLoaded', function () {
 
 				'what is your name',
 				'what can i call you',
+				'what should i cal you',
 				'what do i call you',
-				'what do you call yourself'
+				'what do you call yourself',
+				'how do you call yourself'
 			],
-			'response': 'I\'m Fuchsia: an open-source virtual personal assistant for the web made by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<br>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>.',
+			'response': intro,
 			'type': 'equalTo'
 		},
 
@@ -180,8 +193,7 @@ addEventListener('DOMContentLoaded', function () {
 		{
 			'text': [
 				'you ',
-				'your',
-				'you\''
+				'your'
 			],
 			'response': [
 				'Thank you',
@@ -362,7 +374,10 @@ addEventListener('DOMContentLoaded', function () {
 						information.innerHTML =
 							'<h1 class="artist title">' + data.artists.items[0].name + '</h1>' + genres +
 							'<p class="artist popularity"><b>Popularity on Spotify:</b> ' + data.artists.items[0].popularity + '</p>' +
-							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>';
+							'<p class="artist follows"><b>Followers on Spotify:</b> ' + data.artists.items[0].followers.total + '</p>' +
+							'<div class="sources">' +
+								'<a href="https://www.spotify.com" target="_blank" class="fa fa-spotify" aria-hidden="true"></a>' +
+							'</div>';
 					} else {
 						information.innerHTML = 'I could not find what you were looking for.';
 					}
@@ -372,6 +387,7 @@ addEventListener('DOMContentLoaded', function () {
 			}
 		},
 
+		/*
 		{
 			'text': 'define ',
 			'response': function (parsed) {
@@ -392,6 +408,7 @@ addEventListener('DOMContentLoaded', function () {
 				return information;
 			}
 		},
+		*/
 
 		{
 			'text': /^(what is|whats|how is|hows) the weather( like)?( today)?$/,

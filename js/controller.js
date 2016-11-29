@@ -3,9 +3,16 @@ addEventListener('DOMContentLoaded', function (d) {
 
 	var elements = Fuchsia.elements,
 		$input = elements.$input,
-		$conversation = elements.$conversation;
+		$conversation = elements.$conversation,
+		$trueintro = $conversation.getElementsByClassName('true-intro')[0];
 
 	$input.style['display'] = 'block';
+	$input.addEventListener('focus', function onFocus() {
+		$input.removeEventListener('focus', onFocus);
+		Fuchsia.utilities.fadeOut($trueintro, 0, function () {
+			$trueintro.remove();
+		}, 300);
+	});
 	$input.addEventListener('keypress', function (e) {
 		e = e || window.event;
 
