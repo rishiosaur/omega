@@ -6,7 +6,7 @@ addEventListener('DOMContentLoaded', function (d) {
 	var elements = Fuchsia.elements,
 		$input = elements.$input,
 		$conversation = elements.$conversation,
-		$startup = Fuchsia.utilities.toElement('<div class="conversation-piece fuchsia intro true-intro" style="opacity: 1;">' +
+		$startup = Fuchsia.utilities.toElement('<div class="conversation-piece fuchsia startup intro" style="opacity: 1;">' +
 			'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
 			'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 		'</div>');

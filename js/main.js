@@ -80,17 +80,10 @@ addEventListener('DOMContentLoaded', function () {
 		}, delay);
 	};
 
-	var intro = toElement(
-		'<div class="conversation-piece fuchsia intro">' +
-		'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
-		'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
-		'</div>'
-	);
-
 	Fuchsia.modules.core.install([
 		{
-			'text': /clear( conversation|log(s)?)?/,
-			'response': function () {
+			text: /clear( conversation|log(s)?)?/,
+			response: function () {
 				var $conversation = Fuchsia.elements.$conversation;
 				fadeOut($conversation, 1500, function () {
 					$conversation.innerHTML = '';
@@ -99,12 +92,12 @@ addEventListener('DOMContentLoaded', function () {
 
 				return 'Clearing conversation &hellip;';
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 
 		{
-			'text': /^hi|hello|hey|greetings ?/,
-			'response': function () {
+			text: /^hi|hello|hey|greetings ?/,
+			response: function () {
 				return [
 					'Hi',
 					'Hello',
@@ -112,29 +105,30 @@ addEventListener('DOMContentLoaded', function () {
 					'Greetings'
 				];
 			},
-			'type': 'equalTo',
-			'post': '.!'
+			type: 'equalTo',
+			post: '.!'
 		},
 
 		{
-			'text': [
+			text: [
 				'how are you',
 				'how are you doing',
 				'how do you do'
 			],
-			'response': [
+			response: [
 				'I\'m fine.',
 				'I\'m okay, thanks for asking.',
 				'I\'m great; thanks for asking!',
 				'I could be doing better.'
 			],
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 
 		{
-			'text': [
+			text: [
 				'who are you',
 				'who made you',
+				'who created you',
 				'what are you',
 				'what do you do',
 
@@ -145,25 +139,30 @@ addEventListener('DOMContentLoaded', function () {
 				'what do you call yourself',
 				'how do you call yourself'
 			],
-			'response': intro,
-			'type': 'equalTo'
+			response: toElement(
+				'<div class="conversation-piece fuchsia intro">' +
+				'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
+				'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
+				'</div>'
+			),
+			type: 'equalTo'
 		},
 
 		{
-			'text': [
+			text: [
 				'what is the time',
 				'what time is it',
 				'give me the time',
 				'tell me the time'
 			],
-			'response': function () {
+			response: function () {
 				return 'The time is <b>' + moment().format('h:mm a').toUpperCase() + '</b>.';
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 
 		{
-			'text': [
+			text: [
 				'what is the date',
 				'what date is it',
 				'give me the date',
@@ -174,82 +173,82 @@ addEventListener('DOMContentLoaded', function () {
 				'give me the day',
 				'tell me the day'
 			],
-			'response': function () {
+			response: function () {
 				return 'The date is <b>' + moment().format('dddd MMMM Do YYYY') + '</b>.';
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 
 		{
-			'text': 'when am i',
-			'response': function () {
+			text: 'when am i',
+			response: function () {
 				return 'It is currently <b>' + moment().format('dddd MMMM Do YYYY') + ', ' + moment().format('h:mm a').toUpperCase() + '</b>.';
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 
 		{
-			'text': 'sorry',
-			'response': [
+			text: 'sorry',
+			response: [
 				'It\'s fine.',
 				'You\'ve been forgiven.',
 				'&hellip;',
 				'What did you even do?'],
-			'type': 'startsWith'
+			type: 'startsWith'
 		},
 
 		{
-			'text': [
+			text: [
 				'you ',
 				'your'
 			],
-			'response': [
+			response: [
 				'Thank you',
 				'That\'s what I thought',
 				'We should be talking more about you'
 			],
-			'type': 'startsWith',
-			'post': '.!'
+			type: 'startsWith',
+			post: '.!'
 		},
 
 		{
-			'text': 'the cake',
-			'response': '&hellip; is a lie',
-			'type': 'equalTo',
-			'post': '.!'
+			text: 'the cake',
+			response: '&hellip; is a lie',
+			type: 'equalTo',
+			post: '.!'
 		},
 
 		{
-			'text': [
+			text: [
 				'call me ',
 				'my name is '
 			],
-			'response': function (parsed) {
+			response: function (parsed) {
 				parsed = Fuchsia.utilities.capitalize(parsed.replace(/(call me)|(my name is) /, ''));
 
 				Fuchsia.memory.name = parsed;
 
 				return 'Got it. From now on, your name is ' + parsed;
 			},
-			'type': 'startsWith',
-			'post': '.!'
+			type: 'startsWith',
+			post: '.!'
 		}
 	]);
 
 	Fuchsia.createModule('random').install([
 		{
-			'text': 'flip a coin',
-			'response': [
+			text: 'flip a coin',
+			response: [
 				'Heads',
 				'Tails'
 			],
-			'type': 'equalTo',
-			'post': '.!'
+			type: 'equalTo',
+			post: '.!'
 		},
 
 		{
-			'text': /^(roll a d-?)/,
-			'response': function (parsed) {
+			text: /^(roll a d-?)/,
+			response: function (parsed) {
 				var sides = parseInt(parsed.replace(/^(roll a d-?)/, ''));
 
 				if (isNaN(sides)) {
@@ -261,7 +260,7 @@ addEventListener('DOMContentLoaded', function () {
 		},
 
 		{
-			'text': [
+			text: [
 				'give me a password',
 				'give me a random password',
 				'give me a string',
@@ -272,7 +271,7 @@ addEventListener('DOMContentLoaded', function () {
 				'generate a string',
 				'generate a random string'
 			],
-			'response': function () {
+			response: function () {
 				var pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
 					output = '',
 					length,
@@ -294,18 +293,18 @@ addEventListener('DOMContentLoaded', function () {
 				'div'
 				);
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		}
 	]);
 
 	Fuchsia.createModule('web').install([
 		{
-			'text': [
+			text: [
 				'go to ',
 				'open '
 			],
-			'response': function (parsed) {
-				parsed = parsed.replace(/^(go to|open)| /, '');
+			response: function (parsed) {
+				parsed = parsed.replace(/^(go to|open) | /, '');
 
 				// Really long RegExp from https://gist.github.com/gruber/8891611
 				if (!parsed.match(/\.(com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj| Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/)) {
@@ -316,12 +315,12 @@ addEventListener('DOMContentLoaded', function () {
 
 				return 'Click <a href="https://' + parsed + '" target="_blank">here</a> if your page did not automatically open.';
 			},
-			'type': 'startsWith'
+			type: 'startsWith'
 		},
 
 		{
-			'text': 'should i watch ',
-			'response': function (parsed) {
+			text: 'should i watch ',
+			response: function (parsed) {
 				parsed = parsed.replace(/^should i watch /, '');
 
 				// Creation of element to be filled in later
@@ -367,12 +366,12 @@ addEventListener('DOMContentLoaded', function () {
 
 				return information;
 			},
-			'type': 'startsWith'
+			type: 'startsWith'
 		},
 
 		{
-			'text': 'should i listen to ',
-			'response': function (parsed) {
+			text: 'should i listen to ',
+			response: function (parsed) {
 				parsed = parsed.replace(/^should i listen to /, '');
 
 				var information = makeConversation(
@@ -407,8 +406,8 @@ addEventListener('DOMContentLoaded', function () {
 
 		/*
 		{
-			'text': 'define ',
-			'response': function (parsed) {
+			text: 'define ',
+			response: function (parsed) {
 				parsed = parsed.replace(/^define /, '');
 
 				var information = makeConversation(
@@ -432,8 +431,8 @@ addEventListener('DOMContentLoaded', function () {
 		},
 
 		{
-			'text': /^(what is|whats|how is|hows) the weather( like)?( today)?$/,
-			'response': function () {
+			text: /^(what is|whats|how is|hows) the weather( like)?( today)?$/,
+			response: function () {
 				var information = makeConversation(
 				'fuchsia',
 					'Retrieving data&hellip;',
@@ -452,8 +451,8 @@ addEventListener('DOMContentLoaded', function () {
 		},
 
 		{
-			'text': /^(((what is|whats) the temperature)|(how (hot|cold) is it))( today)?$/,
-			'response': function () {
+			text: /^(((what is|whats) the temperature)|(how (hot|cold) is it))( today)?$/,
+			response: function () {
 				var information = makeConversation(
 				'fuchsia',
 					'Retrieving data&hellip;',
@@ -469,19 +468,30 @@ addEventListener('DOMContentLoaded', function () {
 
 				return information;
 			},
-			'type': 'equalTo'
+			type: 'equalTo'
 		},
 		*/
 
 		{
-			'text': [
+			text: [
+				'whats up',
+				'sup'
+			],
+			response: function () {
+				return Fuchsia('should i watch up');
+			},
+			type: 'equalTo'
+		},
+
+		{
+			text: [
 				'what is ',
 				'whats',
 				'what are ',
 				'whatre'
 			],
-			'response': function (parsed) {
-				parsed = parsed.replace(/^(what( i)?s( a)?)|(what( a)?re)/, '');
+			response: function (parsed) {
+				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
 				var url = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(parsed);
 
 				openPage(url, 1000);
@@ -495,18 +505,7 @@ addEventListener('DOMContentLoaded', function () {
 				'div'
 				);
 			},
-			'type': 'startsWith'
-		},
-
-		{
-			'text': [
-				'whats up',
-				'sup'
-			],
-			'response': function () {
-				return Fuchsia('should i watch up');
-			},
-			'type': 'equalTo'
+			type: 'startsWith'
 		}
 	]);
 

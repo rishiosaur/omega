@@ -2,6 +2,7 @@
 
 html,
 body {
+	color: #566473;
 	font-family: "Open Sans";
 	font-weight: 400;
 }
@@ -33,7 +34,7 @@ input {
 	position: fixed;
 	transition: all 0.3s ease;
 	width: 30rem;
-	z-index: 10000;
+	z-index: 9999;
 	-moz-transform: translateX(-50%);
 	-webkit-transform: translateX(-50%);
 	-o-transform: translateX(-50%);
@@ -53,7 +54,6 @@ input:focus {
 }
 
 .conversation-piece {
-	color: #566473;
 	border-color: #566473;
 	border-width: 0.25rem;
 	opacity: 0;
@@ -85,6 +85,14 @@ p {
 
 p ~ p {
 	margin-top: 1rem;
+}
+
+p.artist {
+	margin-top: 1rem;
+}
+
+p.artist ~ p {
+	margin-top: 0;
 }
 
 .intro p ~ p {
