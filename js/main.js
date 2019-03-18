@@ -79,7 +79,7 @@ addEventListener('DOMContentLoaded', function () {
 		}, delay);
 	};
 
-	Fuchsia.modules.core.install([
+    Fuchsia.modules.core.install([
 		{
 			text: /clear( conversation|log(s)?)?/,
 			response: function () {
@@ -115,9 +115,10 @@ addEventListener('DOMContentLoaded', function () {
             ],
             response: [
                 'I can do a google search!',
-                "I can search wikipedia!",
-                "I can give you suggestions for the weather!"
-            ]
+                "I can look good",
+                "I can tell jokes!"
+            ],
+            type: 'equalTo'
         },
 
 		{
@@ -172,12 +173,25 @@ addEventListener('DOMContentLoaded', function () {
 			type: 'equalTo'
 		},
         {
-            text: 'change the theme to ',
+            text: [
+                'change the theme to ',
+                'change theme to ',
+                'set the theme to ',
+                'set theme to '
+            ],
             response: function (parsed) {
-                parsed = parsed.replace(/^change the theme to /, '');
+                parsed = parsed.replace(/^(change the theme to|change theme to|set the theme to|set theme to) | /, '');
                 console.log(parsed)
                 document.getElementById('styles').href="css/" + parsed + ".css";
                 return "Alright, I've changed the theme to " + parsed;
+            },
+            type: 'startsWith'
+        },
+        {
+            text: 'say ',
+            response: function (parsed) {
+                parsed = parsed.replace(/^say /, '');
+                return parsed
             },
             type: 'startsWith'
         },
@@ -253,7 +267,7 @@ addEventListener('DOMContentLoaded', function () {
 			type: 'startsWith',
 			post: '.!'
 		}
-	]);
+    ]);
 
 	Fuchsia.createModule('random').install([
 		{
@@ -514,10 +528,12 @@ addEventListener('DOMContentLoaded', function () {
 				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
 				var url = 'https://www.google.com/search?q=' + encodeURIComponent(parsed);
 
-				openPage(url, 1000);
+                openPage(url, 1000);
+
 
 				return makeConversation(
                 'fuchsia',
+                    '<p>ook</p><br/>'+
                     '<p>Alright, I\'ve searched Google for "'+parsed.substring(1,parsed.length) + '".'+
 					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Google Search.</p>' +
 					'<div class="sources">' +
@@ -527,7 +543,73 @@ addEventListener('DOMContentLoaded', function () {
 				);
 			},
 			type: 'startsWith'
-		}
+        },
+
+        {
+            text: "search ",
+            response: function (parsed) {
+                parsed = parsed.split(" ")
+                var search = parsed.slice(parsed.indexOf("for")+1,parsed.length)
+                var engine = parsed.slice(1,parsed.indexOf("for")).join(" ")
+                switch(engine) {
+                    case "google":
+                        var url = "https://www.google.com/search?q=" + search.join("+");
+                        return makeConversation(
+                        'fuchsia',
+                            '<p>Alright, I\'ve searched Google for "'+search.join(" ")+ '".'+
+                            '<p>Click <a href="' + url + '" target="_blank">here</a> to open the Google Search.</p>' +
+                            '<div class="sources">' +
+                                '<a href="https://www.google.com" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
+                            '</div>',
+                        'div'
+                        );
+
+                        break;
+                    case "soundcloud":
+                        var url = "https://www.soundcloud.com/search?q=" + search.join("%20");
+                        return makeConversation(
+                        'fuchsia',
+                            '<p>Alright, I\'ve searched SoundCloud for "'+search.join(" ")+ '".'+
+                            '<p>Click <a href="' + url + '" target="_blank">here</a> to open the SoundCloud Search.</p>' +
+                            '<div class="sources">' +
+                                '<a href="https://www.google.com" target="_blank" class="fa fa-soundcloud" aria-hidden="true"></a>' +
+                            '</div>',
+                        'div'
+                        );
+                        break;
+                    case "wolfram alpha":
+                        var url = "https://www.wolframalpha.com/input/?i=" + search.join("+");
+                        return makeConversation(
+                        'fuchsia',
+                            '<p>Alright, I\'ve searched Wolfram Alpha for "'+search.join(" ")+ '".'+
+                            '<p>Click <a href="' + url + '" target="_blank">here</a> to open the Wolfram Alpha Search.</p>' +
+                            '<div class="sources">' +
+                                '<a href="https://www.google.com" target="_blank" class="fa fa-search-plus" aria-hidden="true"></a>' +
+                            '</div>',
+                        'div'
+                        );
+                        break;
+                        //https://open.spotify.com/search/results/xxxtentacion%20skins
+                    case "spotify":
+                        var url =  "https://open.spotify.com/search/results/" + search.join("%20");
+                        return makeConversation(
+                        'fuchsia',
+                            '<p>Alright, I\'ve searched Spotify for "'+search.join(" ")+ '".'+
+                            '<p>Click <a href="' + url + '" target="_blank">here</a> to open the Spotify Search.</p>' +
+                            '<div class="sources">' +
+                                '<a href="https://www.google.com" target="_blank" class="fa fa-spotify" aria-hidden="true"></a>' +
+                            '</div>',
+                        'div'
+                        );
+                        break;
+
+                    default:
+                        return "I'm sorry, I couldn't search the web for that. Please try a different search engine or search term."
+
+                }
+            },
+            type: "startsWith"
+        }
 	]);
 
 	Fuchsia.fallback = function (parsed) {
