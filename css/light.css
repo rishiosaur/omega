@@ -2,8 +2,7 @@
 
 html,
 body {
-    background-color: #1a1a1a;
-	color: whitesmoke;
+	color: #566473;
 	font-family: "Roboto";
 	font-weight: 400;
 }
@@ -24,8 +23,7 @@ a {
 }
 
 input {
-    color: whitesmoke;
-	background-color: #2a2a2a;
+	background-color: #f2f2f2;
 	border: none;
 	border-radius: 0.25rem;
 	bottom: 3rem;
@@ -56,7 +54,7 @@ input:focus {
 }
 
 .conversation-piece {
-	border-color: whitesmoke;
+	border-color: #566473;
 	border-width: 0.25rem;
 	opacity: 0;
 	margin-bottom: 2rem;
@@ -71,7 +69,7 @@ input:focus {
 
 .conversation-piece.fuchsia {
 	border-left-style: solid;
-    background-color: #2a2a2a;
+    background-color: #f2f2f2;
 }
 
 div.conversation-piece {

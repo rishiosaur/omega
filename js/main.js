@@ -1,6 +1,5 @@
 addEventListener('DOMContentLoaded', function () {
 	'use strict';
-
 	var Fuchsia = Cordial();
 
 	var w = window,
@@ -107,7 +106,19 @@ addEventListener('DOMContentLoaded', function () {
 			},
 			type: 'equalTo',
 			post: '.!'
-		},
+        },
+        {
+            text: [
+                'what can you do',
+                'what can i do',
+                'what can i do with you'
+            ],
+            response: [
+                'I can do a google search!',
+                "I can search wikipedia!",
+                "I can give you suggestions for the weather!"
+            ]
+        },
 
 		{
 			text: [
@@ -141,8 +152,8 @@ addEventListener('DOMContentLoaded', function () {
 			],
 			response: toElement(
 				'<div class="conversation-piece fuchsia intro">' +
-				'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/Loquacious" target="_blank">Ryan Nguyen</a>.<p>' +
-				'<p>You can view my source <a href="https://github.com/Loquacious/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
+				'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+				'<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 				'</div>'
 			),
 			type: 'equalTo'
@@ -160,7 +171,16 @@ addEventListener('DOMContentLoaded', function () {
 			},
 			type: 'equalTo'
 		},
-
+        {
+            text: 'change the theme to ',
+            response: function (parsed) {
+                parsed = parsed.replace(/^change the theme to /, '');
+                console.log(parsed)
+                document.getElementById('styles').href="css/" + parsed + ".css";
+                return "Alright, I've changed the theme to " + parsed;
+            },
+            type: 'startsWith'
+        },
 		{
 			text: [
 				'what is the date',
@@ -402,7 +422,7 @@ addEventListener('DOMContentLoaded', function () {
 
 				return information;
 			}
-		},
+        },
 
 		/*
 		{
@@ -492,15 +512,16 @@ addEventListener('DOMContentLoaded', function () {
 			],
 			response: function (parsed) {
 				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
-				var url = 'https://en.wikipedia.org/wiki/' + encodeURIComponent(parsed);
+				var url = 'https://www.google.com/search?q=' + encodeURIComponent(parsed);
 
 				openPage(url, 1000);
 
 				return makeConversation(
-				'fuchsia',
-					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Wikipedia article.</p>' +
+                'fuchsia',
+                    '<p>Alright, I\'ve searched Google for "'+parsed.substring(1,parsed.length) + '".'+
+					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Google Search.</p>' +
 					'<div class="sources">' +
-						'<a href="https://www.wikipedia.org" target="_blank" class="fa fa-wikipedia-w" aria-hidden="true"></a>' +
+						'<a href="https://www.wikipedia.org" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
 					'</div>',
 				'div'
 				);

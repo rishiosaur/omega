@@ -1,9 +1,15 @@
 /* { outline: 1px dotted red; } */
+:root {
+  --main-bg-color: #2E4057;
+  --second-bg-color: #405978;
+  --main-fg-color: whitesmoke;
+}
 
 html,
 body {
-	color: #566473;
-	font-family: "Open Sans";
+    background-color: var(--main-bg-color);
+	color: whitesmoke;
+	font-family: "Roboto";
 	font-weight: 400;
 }
 
@@ -23,7 +29,8 @@ a {
 }
 
 input {
-	background-color: #f2f2f2;
+    color: whitesmoke;
+	background-color: var(--second-bg-color);
 	border: none;
 	border-radius: 0.25rem;
 	bottom: 3rem;
@@ -42,6 +49,10 @@ input {
 	transform: translateX(-50%);
 }
 
+::placeholder {
+    color: var(--main-fg-color)
+}
+
 input:focus {
 	outline: none;
 }
@@ -54,7 +65,7 @@ input:focus {
 }
 
 .conversation-piece {
-	border-color: #566473;
+	border-color: var(--main-fg-color);
 	border-width: 0.25rem;
 	opacity: 0;
 	margin-bottom: 2rem;
@@ -63,11 +74,13 @@ input:focus {
 }
 
 .conversation-piece.self {
-	border-left-style: solid;
+    text-align: right;
+	border-right-style: solid;
 }
 
 .conversation-piece.fuchsia {
-	border-right-style: solid;
+	border-left-style: solid;
+    background-color: var(--second-bg-color);
 }
 
 div.conversation-piece {
@@ -76,7 +89,7 @@ div.conversation-piece {
 }
 
 p.conversation-piece.fuchsia {
-	text-align: right;
+	text-align: left;
 }
 
 p {
