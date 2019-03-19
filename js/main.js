@@ -1,6 +1,6 @@
 addEventListener('DOMContentLoaded', function () {
     'use strict';
-	var Fuchsia = Cordial();
+	var Omega = Cordial();
 
 	var w = window,
 		d = document;
@@ -16,8 +16,6 @@ addEventListener('DOMContentLoaded', function () {
 		return el;
 	};
     var gae, gae2;
-    var wikititle = "";
-    var wikinail, wikisnip;
 	var makeConversation = function (speaker, content, type) {
 		type = type || 'p';
 
@@ -53,19 +51,19 @@ addEventListener('DOMContentLoaded', function () {
 		return fadeOut;
 	};
 
-	Fuchsia.utilities.makeConversation = makeConversation;
-	Fuchsia.utilities.toElement = toElement;
-	Fuchsia.utilities.getJSON = getJSON;
-	Fuchsia.utilities.capitalize = function (str) {
+	Omega.utilities.makeConversation = makeConversation;
+	Omega.utilities.toElement = toElement;
+	Omega.utilities.getJSON = getJSON;
+	Omega.utilities.capitalize = function (str) {
 		return str.replace(/\b\w/g, function (sel) {
 			return sel.charAt(0).toUpperCase();
 		});
 	};
-	Fuchsia.utilities.fadeOut = fadeOut;
+	Omega.utilities.fadeOut = fadeOut;
 
-	var memory = Fuchsia.memory = Cookies.get('memory') || {};
+	var memory = Omega.memory = Cookies.get('memory') || {};
 
-	Fuchsia.elements = {
+	Omega.elements = {
 		$input: d.getElementsByTagName('input')[0],
 		$conversation: d.getElementsByClassName('conversation')[0]
 	};
@@ -80,11 +78,11 @@ addEventListener('DOMContentLoaded', function () {
 		}, delay);
 	};
 
-    Fuchsia.modules.core.install([
+    Omega.modules.core.install([
 		{
 			text: /clear( conversation|log(s)?)?/,
 			response: function () {
-				var $conversation = Fuchsia.elements.$conversation;
+				var $conversation = Omega.elements.$conversation;
 				fadeOut($conversation, 1500, function () {
 					$conversation.innerHTML = '';
 					$conversation.style['opacity'] = 1;
@@ -169,7 +167,7 @@ addEventListener('DOMContentLoaded', function () {
 			],
 			response: toElement(
 				'<div class="conversation-piece fuchsia intro">' +
-				'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+				'<p>I\'m Omega: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
 				'<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 				'</div>'
 			),
@@ -275,9 +273,9 @@ addEventListener('DOMContentLoaded', function () {
 				'my name is '
 			],
 			response: function (parsed) {
-				parsed = Fuchsia.utilities.capitalize(parsed.replace(/(call me)|(my name is) /, ''));
+				parsed = Omega.utilities.capitalize(parsed.replace(/(call me)|(my name is) /, ''));
 
-				Fuchsia.memory.name = parsed;
+				Omega.memory.name = parsed;
 
 				return 'Got it. From now on, your name is ' + parsed;
 			},
@@ -307,7 +305,7 @@ addEventListener('DOMContentLoaded', function () {
         }
     ]);
 
-	Fuchsia.createModule('random').install([
+	Omega.createModule('random').install([
 		{
 			text: 'flip a coin',
 			response: [
@@ -369,7 +367,7 @@ addEventListener('DOMContentLoaded', function () {
 		}
 	]);
 
-	Fuchsia.createModule('web').install([
+	Omega.createModule('web').install([
 		{
 			text: [
 				'go to ',
@@ -457,7 +455,7 @@ addEventListener('DOMContentLoaded', function () {
 					if (data.artists.total) {
 						if (data.artists.items[0].genres) {
 							genres += '<p class="artist genres"><b>Genres:</b> ' +
-								Fuchsia.utilities.capitalize(data.artists.items[0].genres.join(', '))
+								Omega.utilities.capitalize(data.artists.items[0].genres.join(', '))
 								'</p>';
 						}
 						information.innerHTML =
@@ -550,7 +548,7 @@ addEventListener('DOMContentLoaded', function () {
 				'sup'
 			],
 			response: function () {
-				return Fuchsia('should i watch up');
+				return Omega('should i watch up');
 			},
 			type: 'equalTo'
 		},
@@ -561,7 +559,9 @@ addEventListener('DOMContentLoaded', function () {
 				'whats ',
 				'what are ',
                 'whatre ',
-                "what is a "
+                "what is a ",
+                'who is',
+                'who are'
 			],
 			response: function (parsed) {
 				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
@@ -653,7 +653,7 @@ addEventListener('DOMContentLoaded', function () {
         }
 	]);
 
-	Fuchsia.fallback = function (parsed) {
+	Omega.fallback = function (parsed) {
 		var url = 'https://www.google.com/?q=' + encodeURIComponent(parsed);
 
 		openPage(url, 1000);
@@ -668,6 +668,6 @@ addEventListener('DOMContentLoaded', function () {
 		);
 	};
 
-	// Leak Fuchsia into global scope
-	w.Fuchsia = Fuchsia;
+	// Leak Omega into global scope
+	w.Omega = Omega;
 });

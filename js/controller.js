@@ -3,11 +3,11 @@ addEventListener('DOMContentLoaded', function (d) {
 
 	d = document;
 
-	var elements = Fuchsia.elements,
+	var elements = Omega.elements,
 		$input = elements.$input,
 		$conversation = elements.$conversation,
-		$startup = Fuchsia.utilities.toElement('<div class="conversation-piece fuchsia startup intro" style="opacity: 1;">' +
-			'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+		$startup = Omega.utilities.toElement('<div class="conversation-piece fuchsia startup intro" style="opacity: 1;">' +
+			'<p>I\'m Omega: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
 			'<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 		'</div>');
 
@@ -16,7 +16,7 @@ addEventListener('DOMContentLoaded', function (d) {
 	$input.style['display'] = 'block';
 	$input.addEventListener('focus', function onFocus() {
 		$input.removeEventListener('focus', onFocus);
-		Fuchsia.utilities.fadeOut($startup, 0, function () {
+		Omega.utilities.fadeOut($startup, 0, function () {
 			$startup.remove();
 		}, 300);
 	});
@@ -40,11 +40,11 @@ addEventListener('DOMContentLoaded', function (d) {
 				value += '.';
 			}
 
-			value = Fuchsia.utilities.makeConversation('self', value, 'p');
-			response = Fuchsia(this.value);
+			value = Omega.utilities.makeConversation('self', value, 'p');
+			response = Omega(this.value);
 
 			if (typeof response === 'string') {
-				response = Fuchsia.utilities.makeConversation('fuchsia', response, 'p');
+				response = Omega.utilities.makeConversation('fuchsia', response, 'p');
 			}
 
 			$conversation.appendChild(value);
