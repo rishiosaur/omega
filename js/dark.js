@@ -1,9 +1,10 @@
 addEventListener('DOMContentLoaded', function () {
-    'use strict';
+	'use strict';
 	var Fuchsia = Cordial();
 
 	var w = window,
 		d = document;
+
 	var span = d.createElement('span');
 
 	var toElement = function (str) {
@@ -118,8 +119,7 @@ addEventListener('DOMContentLoaded', function () {
                 'I can do a google search!',
                 "I can look good",
                 "I can tell jokes!",
-                "I can give you information!",
-                "I can be customized!"
+                "I can give you information!"
             ],
             type: 'equalTo'
         },
@@ -156,7 +156,7 @@ addEventListener('DOMContentLoaded', function () {
 			],
 			response: toElement(
 				'<div class="conversation-piece fuchsia intro">' +
-				'<p>I\'m Fuchsia: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+				'<p>I\'m dickasscunt: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
 				'<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 				'</div>'
 			),
@@ -184,10 +184,9 @@ addEventListener('DOMContentLoaded', function () {
             ],
             response: function (parsed) {
                 parsed = parsed.replace(/^(change the theme to|change theme to|set the theme to|set theme to) | /, '');
-                parsed = parsed.split(" ").join("_")
                 console.log(parsed)
                 document.getElementById('styles').href="css/" + parsed + ".css";
-                return "Alright, I've changed the theme to " + parsed.split("_").join(" ");
+                return "Alright, I've changed the theme to " + parsed;
             },
             type: 'startsWith'
         },
@@ -487,7 +486,7 @@ addEventListener('DOMContentLoaded', function () {
 				return information;
 			}
 		},
-        */
+
 		{
 			text: /^(((what is|whats) the temperature)|(how (hot|cold) is it))( today)?$/,
 			response: function () {
@@ -508,7 +507,7 @@ addEventListener('DOMContentLoaded', function () {
 			},
 			type: 'equalTo'
 		},
-		
+		*/
 
 		{
 			text: [
@@ -531,30 +530,23 @@ addEventListener('DOMContentLoaded', function () {
 			],
 			response: function (parsed) {
 				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
-                var url = 'https://www.google.com/search?q=' + encodeURIComponent(parsed);
+                /*var url = 'https://www.google.com/search?q=' + encodeURIComponent(parsed);
 
                 openPage(url, 1000);
-                /*const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${parsed}`;
-                fetch(endpoint)
-                .then(response => response.json())
-                .then(data => {
-                    const gae = data.query.search;
-                    console.log(gae[0].title)
-                    console.log(typeof gae[0])
-                    return toString(gae[0].title);
-                })
-                    .catch(() => console.log('An error occurred'));*/
 
-                return makeConversation(
+
+				return makeConversation(
                 'fuchsia',
+                    '<p>ook</p><br/>'+
                     '<p>Alright, I\'ve searched Google for "'+parsed.substring(1,parsed.length) + '".'+
 					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Google Search.</p>' +
 					'<div class="sources">' +
 						'<a href="https://www.wikipedia.org" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
 					'</div>',
 				'div'
-                );
-                //return makeConversation('fuchsia',`<p>${gae}</p>`,'div')
+                );*/
+                var info = WIKIPEDIA.getData('http://en.wikipedia.org/wiki/Invasion_of_Normandy');
+                return info.summary.title
             },
 			type: 'startsWith'
         },

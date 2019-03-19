@@ -1,0 +1,145 @@
+/* { outline: 1px dotted red; } */
+:root {
+  --main-bg-color: #97d8b2;
+  --second-bg-color: #b0e1c4;
+  --main-fg-color: whitesmoke;
+}
+
+html,
+body {
+    background-color: var(--main-bg-color);
+	color: whitesmoke;
+	font-family: "Roboto";
+	font-weight: 400;
+}
+
+b,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
+}
+
+a {
+	color: inherit;
+}
+
+input {
+    color: whitesmoke;
+	background-color: var(--second-bg-color);
+	border: none;
+	border-radius: 0.25rem;
+	bottom: 3rem;
+	display: none;
+	left: 50%;
+	max-width: 60%;
+	padding: 0.75rem 1rem;
+	position: fixed;
+	transition: all 0.3s ease;
+	width: 30rem;
+	z-index: 9999;
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+::placeholder {
+    color: var(--main-fg-color)
+}
+
+input:focus {
+	outline: none;
+}
+
+.conversation {
+    color: var(--main-fg-color);
+	margin: 5rem auto 10rem;
+	max-width: 80%;
+	width: 50rem;
+	transition: opacity 0.3s;
+}
+
+.conversation-piece {
+    color: var(--main-fg-color);
+	border-color: var(--main-fg-color);
+	border-width: 0.25rem;
+	opacity: 0;
+	margin-bottom: 2rem;
+	padding: 1rem 1.5rem;
+	transition: opacity 0.3s;
+}
+
+.conversation-piece.self {
+    text-align: right;
+	border-right-style: solid;
+}
+
+.conversation-piece.fuchsia {
+	border-left-style: solid;
+    background-color: var(--second-bg-color);
+}
+
+div.conversation-piece {
+	background-color: #f2f2f2;
+	position: relative;
+}
+
+p.conversation-piece.fuchsia {
+	text-align: left;
+}
+
+p {
+	margin: 0;
+}
+
+p ~ p {
+	margin-top: 1rem;
+}
+
+p.artist {
+	margin-top: 1rem;
+}
+
+p.artist ~ p {
+	margin-top: 0;
+}
+
+.intro p ~ p {
+	margin-top: 0.5rem;
+}
+
+.intro {
+	text-align: center;
+}
+
+.title,
+.film.year {
+	padding: 0;
+	margin: 0;
+}
+
+.film.rating ~ .film.rating {
+	margin: 0;
+}
+
+.definition {
+	margin-top: 0.5rem;
+}
+
+.sources {
+	display: inline-block;
+	font-size: 1.5rem;
+	position: absolute;
+	top: 0.7rem;
+	right: 1.5rem;
+}
+
+.sources a {
+	text-decoration: none;
+}
