@@ -15,7 +15,9 @@ addEventListener('DOMContentLoaded', function () {
 
 		return el;
 	};
-
+    var gae, gae2;
+    var wikititle = "";
+    var wikinail, wikisnip;
 	var makeConversation = function (speaker, content, type) {
 		type = type || 'p';
 
@@ -94,7 +96,7 @@ addEventListener('DOMContentLoaded', function () {
 		},
 
 		{
-			text: /^hi|hello|hey|greetings ?/,
+			text: /^hi|hello|hey|greetings|yellow ?/,
 			response: function () {
 				return [
 					'Hi',
@@ -123,7 +125,18 @@ addEventListener('DOMContentLoaded', function () {
             ],
             type: 'equalTo'
         },
-
+        {
+            text: [
+                'Tell me a joke',
+                'Joke me'
+            ],
+            response: [
+                'RIP Boiled Water, you will be mist.',
+                "The first computer dates back to Adam ad Eve. It was an Apple with limited memory, just one byte. And then everything crashed.",
+                ''
+            ],
+            type: 'equalTo'
+        },
 		{
 			text: [
 				'how are you',
@@ -270,7 +283,28 @@ addEventListener('DOMContentLoaded', function () {
 			},
 			type: 'startsWith',
 			post: '.!'
-		}
+        },
+
+        {
+            text: [
+                'weather',
+                'forecast'
+            ],
+            response: function(){
+                return makeConversation('fuchsia','<p>Today, there will be a <em>low</em> of -4, and a <em>high</em> of +6. It is partly cloudy. Not too bad for Canada, eh?</p>'+'<div class="sources">' +'<a href="https://www.spotify.com" target="_blank" class="fa fa-cloud-sun" aria-hidden="true"></a>' +'</div>','div')      
+            },
+            type: 'equalTo'
+        },
+        {
+            text: [
+                'u gae',
+                'gae',
+                'u fat',
+                'suvidhi lol'
+            ],
+            response: ['no u','visage n\'est pas gentil.'],
+            type: 'startsWith'
+        }
     ]);
 
 	Fuchsia.createModule('random').install([
@@ -488,7 +522,7 @@ addEventListener('DOMContentLoaded', function () {
 			}
 		},
         */
-		{
+        /*{
 			text: /^(((what is|whats) the temperature)|(how (hot|cold) is it))( today)?$/,
 			response: function () {
 				var information = makeConversation(
@@ -507,7 +541,7 @@ addEventListener('DOMContentLoaded', function () {
 				return information;
 			},
 			type: 'equalTo'
-		},
+        },*/
 		
 
 		{
@@ -530,31 +564,24 @@ addEventListener('DOMContentLoaded', function () {
                 "what is a "
 			],
 			response: function (parsed) {
-				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
-                var url = 'https://www.google.com/search?q=' + encodeURIComponent(parsed);
-
-                openPage(url, 1000);
-                /*const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${parsed}`;
+                const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${parsed}`;
                 fetch(endpoint)
                 .then(response => response.json())
                 .then(data => {
-                    const gae = data.query.search;
-                    console.log(gae[0].title)
-                    console.log(typeof gae[0])
-                    return toString(gae[0].title);
+                    gae = data;
                 })
-                    .catch(() => console.log('An error occurred'));*/
-
-                return makeConversation(
-                'fuchsia',
-                    '<p>Alright, I\'ve searched Google for "'+parsed.substring(1,parsed.length) + '".'+
-					'<p>Click <a href="' + url + '" target="_blank">here</a> to open the Google Search.</p>' +
-					'<div class="sources">' +
-						'<a href="https://www.wikipedia.org" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
-					'</div>',
-				'div'
-                );
-                //return makeConversation('fuchsia',`<p>${gae}</p>`,'div')
+                .catch(() => console.log('An error occurred'));
+                return makeConversation('fuchsia',
+                    '<p style="margin: 0px 0px 20px 0px">I\'ve found an article for you. Here you go!</p><hr>'+
+                    `<h3>${gae.title}</h3>`+
+                    `<p>${gae.extract}<br></p>`+
+                    `<img style="margin:20px 0px 0px 0px;" src="${gae.thumbnail.source}"/>`+
+                   '<div class="sources">' +
+                                '<a href="https://www.google.com" target="_blank" class="fa fa-wikipedia-w" aria-hidden="true"></a>' +
+                            '</div>', 
+                    'div')
+                gae="lol sike"
+                parsed=""
             },
 			type: 'startsWith'
         },
