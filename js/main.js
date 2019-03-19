@@ -96,7 +96,7 @@ addEventListener('DOMContentLoaded', function () {
 		},
 
 		{
-			text: /^hi|hello|hey|greetings|yellow ?/,
+			text: /^hi|hello|hey|greetings ?/,
 			response: function () {
 				return [
 					'Hi',
@@ -654,7 +654,7 @@ addEventListener('DOMContentLoaded', function () {
 	]);
 
 	Fuchsia.fallback = function (parsed) {
-		var url = 'https://www.google.ca/?q=' + encodeURIComponent(parsed);
+		var url = 'https://www.google.com/?q=' + encodeURIComponent(parsed);
 
 		openPage(url, 1000);
 
@@ -663,7 +663,7 @@ addEventListener('DOMContentLoaded', function () {
 			'<p>I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google search.</p>' +
 			'<div class="sources">' +
 				'<a href="https://www.google.com" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
-			'</div>',
+            '</div>',
 		'div'
 		);
 	};
