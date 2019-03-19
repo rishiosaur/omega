@@ -564,6 +564,7 @@ addEventListener('DOMContentLoaded', function () {
                 "what is a "
 			],
 			response: function (parsed) {
+				parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the)) /, '');
                 const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${parsed}`;
                 fetch(endpoint)
                 .then(response => response.json())
