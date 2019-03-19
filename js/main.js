@@ -127,13 +127,13 @@ addEventListener('DOMContentLoaded', function () {
         },
         {
             text: [
-                'Tell me a joke',
-                'Joke me'
+                'tell me a joke',
+                'joke me'
             ],
             response: [
                 'RIP Boiled Water, you will be mist.',
                 "The first computer dates back to Adam ad Eve. It was an Apple with limited memory, just one byte. And then everything crashed.",
-                ''
+                'Agam does work.'
             ],
             type: 'equalTo'
         },
