@@ -651,7 +651,11 @@ addEventListener('DOMContentLoaded', function () {
             },
             type: "startsWith"
         }
-	]);
+    ]);
+    Omega.createModule('web').install([
+    
+    
+    ]);
 
 	Omega.fallback = function (parsed) {
 		var url = 'https://www.google.com/?q=' + encodeURIComponent(parsed);
