@@ -8,7 +8,7 @@
 html,
 body {
     background-color: var(--main-bg-color);
-	color: whitesmoke;
+	color: var(--main-fg-color);
 	font-family: "Roboto";
 	font-weight: 400;
 }

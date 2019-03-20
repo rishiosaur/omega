@@ -40,7 +40,8 @@ addEventListener('DOMContentLoaded', function (d) {
 				value += '.';
 			}
 
-			value = Omega.utilities.makeConversation('self', value, 'p');
+            value = Omega.utilities.makeConversation('self', value, 'p');
+            
 			response = Omega(this.value);
 
 			if (typeof response === 'string') {
