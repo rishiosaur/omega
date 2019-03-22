@@ -408,7 +408,7 @@ addEventListener('DOMContentLoaded', function() {
           count = 0;
 
         });*/
-        const endpoint = `http://www.omdbapi.com/?apikey=d6eb53cb&t=${parsed}`;
+        const endpoint = `https://www.omdbapi.com/?apikey=d6eb53cb&t=${parsed}`;
         fetch(endpoint)
           .then(response => response.json())
           .then(data => {
