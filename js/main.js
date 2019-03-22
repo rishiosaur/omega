@@ -198,8 +198,12 @@ addEventListener('DOMContentLoaded', function() {
       response: function(parsed) {
         parsed = parsed.replace(/^(change the theme to|change theme to|set the theme to|set theme to) | /, '');
         parsed = parsed.split(" ").join("_")
+        if (themes.includes(parsed)) {
           document.getElementById('styles').href = "css/" + parsed + ".css";
           return "Alright, I've changed the theme to " + parsed.split("_").join(" ");
+        } else {
+          return "Sorry, that's not a theme.<br>Our current theme is blue"
+        }
       },
       type: 'startsWith'
     },
@@ -409,6 +413,7 @@ addEventListener('DOMContentLoaded', function() {
           .then(response => response.json())
           .then(data => {
             gae2=data;
+            console.log(gae2)
           })
           .catch(() => console.log('An error occurred'));
         console.log(gae2.Plot);
