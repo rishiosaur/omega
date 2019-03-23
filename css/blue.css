@@ -59,9 +59,10 @@ input:focus {
 
 .conversation {
 	margin: 5rem auto 10rem;
-	max-width: 80%;
-	width: 50rem;
-	transition: opacity 0.3s;
+	max-width: 100%;
+	width: 90%;
+  transition: all 0.3s ease;
+
 }
 
 .conversation-piece {
@@ -81,6 +82,7 @@ input:focus {
 .conversation-piece.fuchsia {
 	border-left-style: solid;
     background-color: var(--second-bg-color);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 div.conversation-piece {

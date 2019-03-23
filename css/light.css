@@ -6,19 +6,19 @@ body {
 	font-family: "Roboto";
 	font-weight: 400;
 }
-html{
+/*html{
 	overflow: scroll;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
     width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just make scrollbar invisible */
-}
+    /*background: transparent;  /* optional: just make scrollbar invisible */
+/*}*/
 /* optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
+/*::-webkit-scrollbar-thumb {
     background: #FF0000;
-}
+}*/
 
 b,
 strong,
@@ -39,11 +39,11 @@ input {
 	background-color: #f2f2f2;
 	border: none;
 	border-radius: 0.25rem;
-	bottom: 0rem;
+	bottom: 1rem;
 	display: none;
 	left: 50%;
 	text-align: center;
-	/*max-width: 60%;*/
+	max-width: 90%;
 	padding: 0.75rem 1rem;
 	position: fixed;
 	transition: all 0.3s ease;

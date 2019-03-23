@@ -16,7 +16,7 @@ addEventListener('DOMContentLoaded', function() {
 
     return el;
   };
-  var gae, gae2;
+  var gae, gae2, gae3;
   var makeConversation = function(speaker, content, type) {
     type = type || 'p';
 
@@ -289,7 +289,7 @@ addEventListener('DOMContentLoaded', function() {
       post: '.!'
     },
 
-    {
+    /*{
       text: [
         'weather',
         'forecast'
@@ -298,15 +298,18 @@ addEventListener('DOMContentLoaded', function() {
         return makeConversation('fuchsia', '<p>Today, there will be a <em>low</em> of -4, and a <em>high</em> of +6. It is partly cloudy. Not too bad for Canada, eh?</p>' + '<div class="sources">' + '<a href="https://www.spotify.com" target="_blank" class="fa fa-cloud-sun" aria-hidden="true"></a>' + '</div>', 'div')
       },
       type: 'equalTo'
-    },
+    },*/
     {
       text: [
         'u gae',
         'gae',
         'u fat',
-        'suvidhi lol'
+        'suvidhi lol',
+        'fuck you',
+        "you're a bitch",
+
       ],
-      response: ['no u', 'visage n\'est pas gentil.'],
+      response: ['no u', 'visage n\'est pas gentil.', 'that \'s not nice.'],
       type: 'startsWith'
     }
   ]);
@@ -408,22 +411,21 @@ addEventListener('DOMContentLoaded', function() {
           count = 0;
 
         });*/
-        const endpoint = `https://www.omdbapi.com/?apikey=d6eb53cb&t=${parsed}`;
+        const endpoint = `http://www.omdbapi.com/?apikey=d6eb53cb&t=${parsed}`;
         fetch(endpoint)
           .then(response => response.json())
           .then(data => {
             gae2=data;
-            console.log(gae2)
           })
           .catch(() => console.log('An error occurred'));
         console.log(gae2.Plot);
         if((gae2.Ratings[1].Value).slice(0,-1)>=80){
           return makeConversation(
             'fuchsia',
-            `<p style="margin: 0px 0px 20px 0px">Yeah, I would. Here's a brief synopsis, the ratings, and cover art of <em>${gae2.Title}</em><hr></p>` +
+            `<p style="margin: 0px 0px 20px 0px">Yeah, I would.<br> Here's a brief synopsis, the ratings, and cover art of <em>${gae2.Title}.</em><hr></p>` +
             `<p><b>${gae2.Title}</b></p>` +
             `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${gae2.Plot} </p>` +
-            `<img style="margin: 0px 0px 10px 0px" src=${gae2.Poster}/>` +
+            `<img style="margin: 0px 0px 10px 0px;display: block;margin-left: auto;margin-right: auto;width: 50%;" src=${gae2.Poster}/>` +
             `<p>Rotten Tomatoes: ${gae2.Ratings[1].Value}</p>` +
             `<p>Internet Movie Database: ${gae2.Ratings[0].Value}</p>` +
             `<p>Metacritic: ${gae2.Ratings[2].Value}</p>`
@@ -457,6 +459,13 @@ addEventListener('DOMContentLoaded', function() {
       },
       type: 'startsWith'
     },
+    /*{
+      text: 'define ',
+      response: function(parsed){
+        return 'stuf'
+      },
+      type: 'startsWith'
+    }*/
 
     {
       text: 'should i listen to ',
@@ -669,8 +678,42 @@ addEventListener('DOMContentLoaded', function() {
         }
       },
       type: "startsWith"
+    },
+    {//3ce14c83a72b75821d3994a1f70e5ceb
+      text: [
+        'what will the weather be in',
+        'what is the forecast in'
+      ],
+      response: function(parsed){
+        parsed = parsed.replace(/^ /, '');
+        parsed = parsed.split(' ').join('+')
+        const endpoint = `http://www.omdbapi.com/?apikey=d6eb53cb&t=${parsed}`;
+        fetch(endpoint)
+          .then(response => response.json())
+          .then(data => {
+            gae2=data;
+          })
+          .catch(() => console.log('An error occurred'));
+        console.log(gae2.Plot);
+
+      },
+      type: 'equalTo'
     }
   ]);
+  Omega.createModule('selfinformation').install([
+    {
+      text: 'theres a problem',
+      response: 'u fat',
+      type:'equalTo'
+    },
+    {
+      text: 'show me some code',
+      response: ()=>{
+
+      },
+      type:'equalTo'
+    }
+  ])
   /*Omega.createModule('utilities').install([
         {
             text: [
@@ -720,18 +763,17 @@ addEventListener('DOMContentLoaded', function() {
 ]);*/
 
   Omega.fallback = function(parsed) {
-    var url = 'https://www.google.com/?q=' + encodeURIComponent(parsed);
+      var url = 'https://www.google.com/?q=' + encodeURIComponent(parsed);
+      openPage(url, 1000);
+      return makeConversation(
+        'fuchsia',
+        '<p>I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google search.</p>' +
+        '<div class="sources">' +
+        '<a href="https://www.google.com" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
+        '</div>',
+        'div'
+      );
 
-    openPage(url, 1000);
-
-    return makeConversation(
-      'fuchsia',
-      '<p>I\'m not sure what you meant. Click <a href="' + url + '" target="_blank">here</a> to perform a Google search.</p>' +
-      '<div class="sources">' +
-      '<a href="https://www.google.com" target="_blank" class="fa fa-google" aria-hidden="true"></a>' +
-      '</div>',
-      'div'
-    );
   };
 
   // Leak Omega into global scope

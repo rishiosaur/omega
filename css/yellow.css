@@ -61,8 +61,8 @@ input:focus {
     color: var(--main-fg-color);
 	margin: 5rem auto 10rem;
 	max-width: 80%;
-	width: 50rem;
-	transition: opacity 0.3s;
+  transition: all opacity 0.3s;
+
 }
 
 .conversation-piece {
