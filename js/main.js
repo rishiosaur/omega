@@ -205,7 +205,7 @@ addEventListener('DOMContentLoaded', function() {
           document.getElementById('styles').href = "css/" + parsed + ".css";
           return "Alright, I've changed the theme to " + parsed.split("_").join(" ");
         } else {
-          return "Sorry, that's not a theme.<br>Our current theme is blue"
+          return makeConversation('fuchsia',`<p>That's not a theme, sorry. Please try again.</p>`,'div')
         }
       },
       type: 'startsWith'
