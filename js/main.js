@@ -6,7 +6,7 @@ addEventListener('DOMContentLoaded', function() {
     d = document;
   var span = d.createElement('span');
 
-  var themes = ['jade', 'royal blue', 'blue', 'red', 'pink', 'yellow', 'green', 'dark', 'light']
+  var themes = ['jade', 'royal_blue', 'blue', 'red', 'pink', 'yellow', 'green', 'dark', 'light']
   var toElement = function(str) {
     var el;
 
@@ -16,7 +16,7 @@ addEventListener('DOMContentLoaded', function() {
 
     return el;
   };
-  var gae, gae2, gae3;
+  var apidata, apidata2, apidata3;
   var makeConversation = function(speaker, content, type) {
     type = type || 'p';
 
@@ -79,6 +79,7 @@ addEventListener('DOMContentLoaded', function() {
     }, delay);
   };
 
+//Core Module install
   Omega.modules.core.install([
     {
       text: /clear( conversation|log(s)?)?/,
@@ -110,11 +111,14 @@ addEventListener('DOMContentLoaded', function() {
       post: '.!'
     },
     {
+      // Demonstration: JSON TRIO
+      // text: Can be an array, or a simple string. This is the thing that the systtem matches the response for, when a certain string is inputted.
       text: [
         'what can you do',
         'what can i do',
         'what can i do with you'
       ],
+      // response: Can be a string, array, or function. This is what is executed when the trigger string is put into the input
       response: [
         'I can do a google search!',
         "I can look good",
@@ -132,7 +136,6 @@ addEventListener('DOMContentLoaded', function() {
       response: [
         'RIP Boiled Water, you will be mist.',
         "The first computer dates back to Adam and Eve. It was an Apple with limited memory, just one byte. And then everything crashed.",
-        'Agam does work.'
       ],
       type: 'equalTo'
     },
@@ -168,7 +171,7 @@ addEventListener('DOMContentLoaded', function() {
       ],
       response: toElement(
         '<div class="conversation-piece fuchsia intro">' +
-        '<p>I\'m Omega: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+        '<p>I\'m Omega: an open-source virtual personal assistant for the web.<p>' +
         '<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
         '</div>'
       ),
@@ -307,6 +310,8 @@ addEventListener('DOMContentLoaded', function() {
         'suvidhi lol',
         'fuck you',
         "you're a bitch",
+        'play despacito',
+        'play minecraftcito'
 
       ],
       response: ['no u', 'visage n\'est pas gentil.', 'that \'s not nice.'],
@@ -394,7 +399,28 @@ addEventListener('DOMContentLoaded', function() {
       },
       type: 'startsWith'
     },
-
+    {
+      text: 'how is ',
+      response: function(parsed){
+        parsed = parsed.replace(/^how is /,'')
+        const endpoint = `https://cloud.iexapis.com/beta/stock/${parsed.toLowerCase()}/quote?token=pk_7d791648454a4c9ea1407271f381324c`;
+        fetch(endpoint)
+          .then(response => response.json())
+          .then(data => {
+            apidata3=data;
+          })
+          .catch(() => console.log('An error occurred'));
+        console.log(`Here is the stock quote for ${apidata3.symbol}`);
+        return makeConversation('fuchsia',
+          `<p style="margin: 0px 0px 20px 0px">Here is the stock quote for ${apidata3.symbol} on ${apidata3.latestTime}. Good luck!</p><hr>`+
+          `<p>Today's market start price: ${apidata3.open}, which was at ${apidata3.openTime}.</p>`+
+          `<p>Today's market close price: ${apidata3.close}, which was at ${apidata3.closeTime}.</p>`+
+          `<p>Today's market high for ${apidata3.symbol} is ${apidata3.high}.</p>` +
+          `<p>Today's market low for ${apidata3.symbol} is ${apidata3.low}.</p>`
+          ,'div')
+      },
+      type: 'startsWith'
+    },
     {
       text: 'should i watch ',
       response: function(parsed) {
@@ -415,44 +441,44 @@ addEventListener('DOMContentLoaded', function() {
         fetch(endpoint)
           .then(response => response.json())
           .then(data => {
-            gae2=data;
+            apidata2=data;
           })
           .catch(() => console.log('An error occurred'));
-        console.log(gae2.Plot);
-        if((gae2.Ratings[1].Value).slice(0,-1)>=80){
+        console.log(apidata2.Plot);
+        if((apidata2.Ratings[1].Value).slice(0,-1)>=80){
           return makeConversation(
             'fuchsia',
-            `<p style="margin: 0px 0px 20px 0px">Yeah, I would.<br> Here's a brief synopsis, the ratings, and cover art of <em>${gae2.Title}.</em><hr></p>` +
-            `<p><b>${gae2.Title}</b></p>` +
-            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${gae2.Plot} </p>` +
-            `<img style="margin: 0px 0px 10px 0px;display: block;margin-left: auto;margin-right: auto;width: 50%;" src=${gae2.Poster}/>` +
-            `<p>Rotten Tomatoes: ${gae2.Ratings[1].Value}</p>` +
-            `<p>Internet Movie Database: ${gae2.Ratings[0].Value}</p>` +
-            `<p>Metacritic: ${gae2.Ratings[2].Value}</p>`
+            `<p style="margin: 0px 0px 20px 0px">Yeah, I would.<br> Here's a brief synopsis, the ratings, and cover art of <em>${apidata2.Title}.</em><hr></p>` +
+            `<p><b>${apidata2.Title}</b></p>` +
+            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${apidata2.Plot} </p>` +
+            `<img style="margin: 0px 0px 10px 0px;display: block;margin-left: auto;margin-right: auto;width: 50%;" src=${apidata2.Poster}/>` +
+            `<p>Rotten Tomatoes: ${apidata2.Ratings[1].Value}</p>` +
+            `<p>Internet Movie Database: ${apidata2.Ratings[0].Value}</p>` +
+            `<p>Metacritic: ${apidata2.Ratings[2].Value}</p>`
             ,'div'
           );
-        } else if ((gae2.Ratings[1].Value).slice(0,-1)>=60) {
+        } else if ((apidata2.Ratings[1].Value).slice(0,-1)>=60) {
           return makeConversation(
             'fuchsia',
-            `<p style="margin: 0px 0px 20px 0px">I mean... it doesn't seem too good, but it isn't bad, either. Here's a brief synopsis, the ratings, and cover art of <em>${gae2.Title}<em><hr></p>` +
-            `<p><b>${gae2.Title}</b></p>` +
-            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${gae2.Plot} </p>` +
-            `<img style="margin: 0px 0px 10px 0px" src=${gae2.Poster}/>` +
-            `<p>Rotten Tomatoes: ${gae2.Ratings[1].Value}</p>` +
-            `<p>Internet Movie Database: ${gae2.Ratings[0].Value}</p>` +
-            `<p>Metacritic: ${gae2.Ratings[2].Value}</p>`
+            `<p style="margin: 0px 0px 20px 0px">I mean... it doesn't seem too good, but it isn't bad, either. Here's a brief synopsis, the ratings, and cover art of <em>${apidata2.Title}<em><hr></p>` +
+            `<p><b>${apidata2.Title}</b></p>` +
+            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${apidata2.Plot} </p>` +
+            `<img style="margin: 0px 0px 10px 0px" src=${apidata2.Poster}/>` +
+            `<p>Rotten Tomatoes: ${apidata2.Ratings[1].Value}</p>` +
+            `<p>Internet Movie Database: ${apidata2.Ratings[0].Value}</p>` +
+            `<p>Metacritic: ${apidata2.Ratings[2].Value}</p>`
             ,'div'
           );
         } else {
           return makeConversation(
             'fuchsia',
-            `<p style="margin: 0px 0px 20px 0px">Absolutely not. However, if you are intent on watching <em>${gae2.Title}</em>, here's a brief synopsis, the ratings, and cover art of <em>${gae2.Title}</em><hr></p>` +
-            `<p><b>${gae2.Title}</b></p>` +
-            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${gae2.Plot} </p>` +
-            `<img style="margin: 0px 0px 10px 0px;display: block; margin-left: auto; margin-right: auto; width: 50%;" src=${gae2.Poster}/>` +
-            `<p>Rotten Tomatoes: ${gae2.Ratings[1].Value}</p>` +
-            `<p>Internet Movie Database: ${gae2.Ratings[0].Value}</p>` +
-            `<p>Metacritic: ${gae2.Ratings[2].Value}</p>`
+            `<p style="margin: 0px 0px 20px 0px">Absolutely not. However, if you are intent on watching <em>${apidata2.Title}</em>, here's a brief synopsis, the ratings, and cover art of <em>${apidata2.Title}</em><hr></p>` +
+            `<p><b>${apidata2.Title}</b></p>` +
+            `<p style="margin: 0px 0px 20px 0px"><em>Synopsis</em>: ${apidata2.Plot} </p>` +
+            `<img style="margin: 0px 0px 10px 0px;display: block; margin-left: auto; margin-right: auto; width: 50%;" src=${apidata2.Poster}/>` +
+            `<p>Rotten Tomatoes: ${apidata2.Ratings[1].Value}</p>` +
+            `<p>Internet Movie Database: ${apidata2.Ratings[0].Value}</p>` +
+            `<p>Metacritic: ${apidata2.Ratings[2].Value}</p>`
             ,'div'
           );
         }
@@ -592,27 +618,54 @@ addEventListener('DOMContentLoaded', function() {
         'who are '
       ],
       response: function(parsed) {
-        parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?)|(what( a)?re( the))| /, '');
-        const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${parsed}`;
-        fetch(endpoint)
-          .then(response => response.json())
-          .then(data => {
-            gae = data;
-          })
-          .catch(() => console.log('An error occurred'));
-        return makeConversation('fuchsia',
-          '<p style="margin: 0px 0px 20px 0px">I\'ve found an article for you. Here you go!</p><hr>' +
-          `<h3>${gae.title}</h3>` +
-          `<p>${gae.extract}<br></p>` +
-          `<img style="margin:20px 0px 0px 0px;" src="${gae.thumbnail.source}"/>` +
-          '<div class="sources">' +
-          '<a href="https://www.google.com" target="_blank" class="fa fa-wikipedia-w" aria-hidden="true"></a>' +
-          '</div>',
-          'div')
-        gae = "lol sike"
-        parsed = ""
+        var psplit = parsed.split(' ')
+        //parsed = parsed.replace(/^(what( i)?s( a(n)?| the)?) |(what( a)?re( the)) | /, '');
+        parsed = parsed.replace(/^what is |whats |what are |whatre |what is a|/,'')
+        console.log(parsed)
+        if(!isNaN(parsed.charAt(0))){
+          var endpoint = `http://api.wolframalpha.com/v2/query?input=${encodeURIComponent(parsed)}&appid=5PWTGW-3V69RYG28U&output=json`
+          console.log(endpoint)
+          fetch('https://cors-anywhere.herokuapp.com/'+endpoint)
+            .then(response => response.json())
+            .then(data => {
+              apidata = data;
+              console.log(apidata)
+            })
+            .catch(() => console.log('An error occurred'));
+          console.log(apidata.queryresult.pods[0].subpods[0].plaintext)
+          console.log(apidata.queryresult.pods[1].subpods[0].plaintext)
+          return makeConversation('fuchsia',
+          `<p>I've interpreted your question as: ${apidata.queryresult.pods[0].subpods[0].plaintext}.</p>`+
+          `<p style="margin: 0px 0px 20px 0px">Here's your result: ${apidata.queryresult.pods[1].subpods[0].plaintext}</p><hr>`+
+          `<p><b>Here's some extra information:</b></p>` +
+          `<p>Number line: <img style="vertical-align: middle;" src=${apidata.queryresult.pods[2].subpods[0].img.src}/></p>`+
+          `<p>Illustration: <img style="vertical-align: middle;" src=${apidata.queryresult.pods[4].subpods[0].img.src}/></p>`
+          ,'div')
+        } else {
+          const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(parsed)}`;
+          fetch(endpoint)
+            .then(response => response.json())
+            .then(data => {
+              apidata = data;
+            })
+            .catch(() => console.log('An error occurred'));
+          return makeConversation('fuchsia',
+            '<p style="margin: 0px 0px 20px 0px">I\'ve found an article for you. Here you go!</p><hr>' +
+            `<h3>${apidata.title}</h3>` +
+            `<p>${apidata.extract}<br></p>` +
+            `<img style="margin:20px 0px 0px 0px;" src="${apidata.thumbnail.source}"/>` +
+            '<div class="sources">' +
+            '<a href="https://www.google.com" target="_blank" class="fa fa-wikipedia-w" aria-hidden="true"></a>' +
+            '</div>',
+            'div')
+          apidata = "lol sike"
+          parsed = ""
+        }
       },
       type: 'startsWith'
+    },
+    {
+
     },
     {
       text: "search ",
@@ -691,10 +744,10 @@ addEventListener('DOMContentLoaded', function() {
         fetch(endpoint)
           .then(response => response.json())
           .then(data => {
-            gae2=data;
+            apidata2=data;
           })
           .catch(() => console.log('An error occurred'));
-        console.log(gae2.Plot);
+        console.log(apidata2.Plot);
 
       },
       type: 'equalTo'
@@ -712,6 +765,11 @@ addEventListener('DOMContentLoaded', function() {
 
       },
       type:'equalTo'
+    }
+  ]);
+  Omega.createModule('humanity').install([
+    {
+
     }
   ])
   /*Omega.createModule('utilities').install([

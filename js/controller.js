@@ -7,7 +7,7 @@ addEventListener('DOMContentLoaded', function (d) {
 		$input = elements.$input,
 		$conversation = elements.$conversation,
 		$startup = Omega.utilities.toElement('<div class="conversation-piece fuchsia startup intro" style="opacity: 1;">' +
-			'<p>I\'m Omega: an open-source virtual personal assistant for the web by <a href="https://github.com/rishiosaur" target="_blank">Rishi Kothari</a>.<p>' +
+			'<p>👋 I\'m Omega: an open-source virtual personal assistant for the web!<p>' +
 			'<p>You can view my source <a href="https://github.com/rishiosaur/fuchsia" target="_blank">here</a>. Talk to me!</p>' +
 		'</div>');
 
@@ -41,7 +41,7 @@ addEventListener('DOMContentLoaded', function (d) {
 			}
 
             value = Omega.utilities.makeConversation('self', value, 'p');
-            
+
 			response = Omega(this.value);
 
 			if (typeof response === 'string') {

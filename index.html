@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- WALPHA api: 5PWTGW-3V69RYG28U -->
 <html>
 	<head lang="en">
 		<meta charset="utf-8">
@@ -14,6 +15,8 @@
 		<script src="js/main.js" id="personality"></script>
 		<script src="js/controller.js"></script>
 		<script src="js/preferences.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="js/Chart.bundle.js"></script>
 	</head>
 	<body style="font-family:sans-serif;">
 		<input style="width:100%;border-top:solid;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" type="text" placeholder="Say something to Omega..." style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" id="the-input">
@@ -22,5 +25,47 @@
 				<p class="conversation-piece fuchsia" style="opacity: 1;">Your JavaScript is off. Please turn it on to use Omega.</p>
 			</noscript>
 		</div>
+		<canvas id="line-chart" width="800" height="200"></canvas>
+		<!--<script>
+				new Chart(document.getElementById("line-chart"), {
+		  type: 'line',
+		  data: {
+		    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+		    datasets: [{
+		        data: [86,114,106,106,107,111,133,221,783,2478],
+		        label: "Africa",
+		        borderColor: "#3e95cd",
+		        fill: false
+		      }, {
+		        data: [282,350,411,502,635,809,947,1402,3700,5267],
+		        label: "Asia",
+		        borderColor: "#8e5ea2",
+		        fill: false
+		      }, {
+		        data: [168,170,178,190,203,276,408,547,675,734],
+		        label: "Europe",
+		        borderColor: "#3cba9f",
+		        fill: false
+		      }, {
+		        data: [40,20,10,16,24,38,74,167,508,784],
+		        label: "Latin America",
+		        borderColor: "#e8c3b9",
+		        fill: false
+		      }, {
+		        data: [6,3,2,2,7,26,82,172,312,433],
+		        label: "North America",
+		        borderColor: "#c45850",
+		        fill: false
+		      }
+		    ]
+		  },
+		  options: {
+		    title: {
+		      display: true,
+		      text: 'World population per region (in millions)'
+		    }
+		  }
+		});
+	</script>-->
 	</body>
 </html>
