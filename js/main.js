@@ -146,6 +146,8 @@ addEventListener('DOMContentLoaded', function() {
       response: [
         'RIP Boiled Water, you will be mist.',
         "The first computer dates back to Adam and Eve. It was an Apple with limited memory, just one byte. And then everything crashed.",
+        'Q: Why did the PowerPoint Presentation cross the road? A: To get to the other slide.',
+        'Have you heard of that new band “1023 Megabytes”? They’re pretty good, but they don’t have a gig just yet.'
       ],
       type: 'equalTo'
     },
