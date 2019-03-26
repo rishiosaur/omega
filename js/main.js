@@ -130,6 +130,16 @@ addEventListener('DOMContentLoaded', function() {
     },
     {
       text: [
+        'alexa ',
+        'siri ',
+        'google assistant '
+      ],
+      response: 'Hey, I\'m Omega, not something else!',
+      type: 'startsWith'
+    },
+
+    {
+      text: [
         'tell me a joke',
         'joke me'
       ],
